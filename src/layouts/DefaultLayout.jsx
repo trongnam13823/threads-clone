@@ -10,7 +10,7 @@ export const DefaultLayout = () => {
       {/* HEADER SHOW ON MOBILE */}
       <Header />
 
-      {/* BORDER FOR MAIN */}
+      {/* BORDER & BACKGROUND && SHADOW FOR MAIN */}
       <div
         className={cn(
           "pointer-events-none fixed left-1/2 h-svh -translate-x-1/2 rounded-t-3xl border",
@@ -18,7 +18,6 @@ export const DefaultLayout = () => {
           "max-md:hidden"
         )}
       />
-      {/* BACKGROUND & SHADOW FOR MAIN */}
       <div
         className={cn(
           "pointer-events-none fixed left-1/2 z-10 h-svh -translate-x-1/2 rounded-t-3xl",
