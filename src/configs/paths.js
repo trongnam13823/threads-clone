@@ -5,11 +5,11 @@ const paths = {
   following: "/following",
   ghostPosts: "/ghost-posts",
 
-  profile: (username = ":username") => `/user/${username}`,
-  profileReplies: (username = ":username") => `/user/${username}/replies`,
-  profileMedia: (username = ":username") => `/user/${username}/media`,
-  profileReposts: (username = ":username") => `/user/${username}/reposts`,
-  postDetail: (username = ":username", id = ":id") => `/user/${username}/post/${id}`,
+  profile: (username = ":username") => `/@/${username}`,
+  profileReplies: (username = ":username") => `/@/${username}/replies`,
+  profileMedia: (username = ":username") => `/@/${username}/media`,
+  profileReposts: (username = ":username") => `/@/${username}/reposts`,
+  postDetail: (username = ":username", id = ":id") => `/@/${username}/post/${id}`,
 };
 
 export default paths;
