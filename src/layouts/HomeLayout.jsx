@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import paths from "@/configs/paths";
-import { usePreserveScroll } from "@/hooks/usePreserveScroll";
 import { cn } from "@/lib/utils";
 import { EllipsisIcon } from "lucide-react";
 import { Outlet } from "react-router";
@@ -12,8 +11,6 @@ export const HomeLayout = () => {
     { path: paths.following, name: "Following" },
     { path: paths.ghostPosts, name: "Ghost posts" },
   ];
-
-  usePreserveScroll();
 
   return (
     <div className="flex size-full min-h-svh flex-col">

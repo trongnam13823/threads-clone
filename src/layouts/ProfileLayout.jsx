@@ -1,7 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import paths from "@/configs/paths";
-import { usePreserveScroll } from "@/hooks/usePreserveScroll";
 import { cn } from "@/lib/utils";
 import { userInfo } from "@/mocksAPI";
 import { EllipsisIcon, InstagramIcon, SquareKanbanIcon } from "lucide-react";
@@ -14,8 +13,6 @@ export const ProfileLayout = () => {
     { path: paths.profileMedia(userInfo.username), name: "Media" },
     { path: paths.profileReposts(userInfo.username), name: "Reposts" },
   ];
-
-  usePreserveScroll();
 
   return (
     <div className="flex size-full min-h-svh flex-col">
