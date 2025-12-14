@@ -5,18 +5,18 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-    plugins: [
-        react({
-            babel: {
-                plugins: [["babel-plugin-react-compiler"]],
-            },
-        }),
-        tailwindcss(),
-    ],
-    resolve: {
-        alias: {
-            // eslint-disable-next-line no-undef
-            "@": path.resolve(__dirname, "./src"),
-        },
+  plugins: [
+    react({
+      babel: {
+        plugins: [["babel-plugin-react-compiler"]],
+      },
+    }),
+    tailwindcss(),
+  ],
+  resolve: {
+    alias: {
+      // eslint-disable-next-line no-undef
+      "@": path.resolve(__dirname, "./src"),
     },
+  },
 });

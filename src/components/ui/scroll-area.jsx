@@ -24,7 +24,7 @@ function ScrollBar({ className, orientation = "vertical", ...props }) {
       data-slot="scroll-area-scrollbar"
       orientation={orientation}
       className={cn(
-        "z-999 flex touch-none p-1 transition-colors select-none hover:bg-(--divider)",
+        "z-40 flex touch-none p-1 transition-colors select-none hover:bg-(--divider)",
         orientation === "vertical" && "h-full w-4",
         orientation === "horizontal" && "h-4 flex-col",
         className

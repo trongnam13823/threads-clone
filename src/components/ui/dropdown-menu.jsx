@@ -14,7 +14,12 @@ function DropdownMenuPortal({ ...props }) {
 
 function DropdownMenuTrigger({ ...props }) {
   return (
-    <DropdownMenuPrimitive.Trigger data-slot="dropdown-menu-trigger" className="focus-visible:ring-0" {...props} />
+    <DropdownMenuPrimitive.Trigger
+      data-slot="dropdown-menu-trigger"
+      className="focus-visible:ring-0"
+      style={{ outline: "none" }}
+      {...props}
+    />
   );
 }
 

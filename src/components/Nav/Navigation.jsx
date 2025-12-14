@@ -6,8 +6,9 @@ import { userInfo } from "@/mocksAPI";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { Logo } from "../Logo";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { CreatePostDialog } from "../Post/CreatePostDialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { CreatePostPanel } from "../Post/CreatePostPanel";
+import { useState } from "react";
 
 export const Navigation = () => {
   const navItems = [
@@ -17,6 +18,8 @@ export const Navigation = () => {
     { path: paths.activity, Icon: HeartIcon },
     { path: paths.profile(userInfo.username), Icon: UserIcon },
   ];
+
+  const [open, setOpen] = useState(false);
 
   return (
     <div
@@ -35,7 +38,7 @@ export const Navigation = () => {
           // CREATE POST BTN
           if (item.isButton) {
             return (
-              <Dialog key={item.name}>
+              <Dialog key={item.name} open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
                   <Button
                     variant="secondary"
@@ -51,7 +54,11 @@ export const Navigation = () => {
                   </Button>
                 </DialogTrigger>
 
-                <CreatePostDialog />
+                <DialogContent>
+                  <DialogTitle className="hidden" />
+                  <DialogDescription className="hidden" />
+                  <CreatePostPanel onClose={() => setOpen(false)} />
+                </DialogContent>
               </Dialog>
             );
           }
