@@ -1,12 +1,13 @@
 import paths from "@/configs/paths";
-import { Link, NavLink } from "react-router";
+import { NavLink } from "react-router";
 import { Menu } from "./Menu";
 import { HeartIcon, HomeIcon, PlusIcon, SearchIcon, UserIcon } from "lucide-react";
-import { ThreadsIcon } from "@/icons/ThreadsIcon";
 import { userInfo } from "@/mocksAPI";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
-import { Logo } from "./Logo";
+import { Logo } from "../Logo";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { CreatePostDialog } from "../Post/CreatePostDialog";
 
 export const Navigation = () => {
   const navItems = [
@@ -34,19 +35,24 @@ export const Navigation = () => {
           // CREATE POST BTN
           if (item.isButton) {
             return (
-              <Button
-                key={item.name}
-                variant="secondary"
-                className={cn(
-                  "group h-12 w-[60px] rounded-[12px]",
-                  "bg-(--navigation-item-hover-background)",
-                  "max-md:h-full max-md:w-auto max-md:flex-1"
-                )}
-              >
-                <PlusIcon
-                  className={cn("size-6 stroke-3", "text-(--navigation-icon)", "group-hover:text-(--primary-icon)")}
-                />
-              </Button>
+              <Dialog key={item.name}>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="secondary"
+                    className={cn(
+                      "group h-12 w-[60px] rounded-[12px]",
+                      "bg-(--navigation-item-hover-background)",
+                      "max-md:h-full max-md:w-auto max-md:flex-1"
+                    )}
+                  >
+                    <PlusIcon
+                      className={cn("size-6 stroke-3", "text-(--navigation-icon)", "group-hover:text-(--primary-icon)")}
+                    />
+                  </Button>
+                </DialogTrigger>
+
+                <CreatePostDialog />
+              </Dialog>
             );
           }
           // NAV LINKS

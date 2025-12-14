@@ -1,5 +1,5 @@
-import { CreatePostBox } from "@/components/CreatePostBox";
-import { PostCard } from "@/components/PostCard";
+import { CreatePostBox } from "@/components/Post/CreatePostBox";
+import { PostCard } from "@/components/Post/PostCard";
 import { followingPosts } from "@/mocksAPI";
 
 export const FollowingPage = () => {

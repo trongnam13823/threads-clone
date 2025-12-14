@@ -1,12 +1,14 @@
-import { Navigation } from "@/components/Navigation";
+import { Navigation } from "@/components/Nav/Navigation";
 import { Outlet } from "react-router";
-import { Header } from "@/components/Header";
-import { CreatePostButton } from "@/components/CreatePostButton";
+import { Header } from "@/components/Nav/Header";
 import { cn } from "@/lib/utils";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
+import { PlusIcon } from "lucide-react";
 
 export const DefaultLayout = () => {
   return (
-    <>
+    <ScrollArea className="h-svh" type="always">
       {/* HEADER SHOW ON MOBILE */}
       <Header />
 
@@ -41,7 +43,12 @@ export const DefaultLayout = () => {
       <Navigation />
 
       {/* CREATE POST BTN FLOAT */}
-      <CreatePostButton />
-    </>
+      <Button
+        variant="outline"
+        className={cn("fixed right-6 bottom-6 z-20 h-[68px] w-[82px] rounded-2xl", "hover:scale-105 max-md:hidden")}
+      >
+        <PlusIcon className="size-6 stroke-3" />
+      </Button>
+    </ScrollArea>
   );
 };

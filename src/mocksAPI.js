@@ -622,3 +622,302 @@ export const followingPosts = [
     stats: { likes: 275, comments: 30, reposts: 12, shares: 18 },
   },
 ];
+
+export const postDetail = {
+  post: {
+    id: "7",
+    author: {
+      username: "devnam",
+      avatar: "https://i.pravatar.cc/36?img=12",
+      fullname: "Nam Tran",
+    },
+    createdAt: "2025-11-09T13:22:45Z",
+    content:
+      "<p>Làm cái social app clone Threads xong ngồi ngắm UI thấy mê thật 😆</p><p>Không ngờ <b>HTMX + Tailwind</b> lại mượt như vậy 💨🔥</p><p>Mọi thứ rất instant, cảm giác như native.</p>",
+    stats: {
+      likes: 132,
+      comments: 4,
+      reposts: 12,
+      shares: 3,
+    },
+  },
+  replies: [
+    {
+      id: "r1",
+      author: {
+        username: "coderjoe",
+        fullname: "Coder Joe",
+        avatar: "https://i.pravatar.cc/36?img=15",
+      },
+      createdAt: "2025-11-09T13:30:00Z",
+      content: "<p>Đúng luôn 🔥🔥 Binding DOM nhanh kinh khủng!</p>",
+      stats: {
+        likes: 10,
+        comments: 0,
+        reposts: 0,
+        shares: 0,
+      },
+    },
+    {
+      id: "r2",
+      author: {
+        username: "uxgal",
+        fullname: "UX Gal",
+        avatar: "https://i.pravatar.cc/36?img=24",
+      },
+      createdAt: "2025-11-09T13:35:00Z",
+      content: "<p>UI đẹp á, nhìn smooth thật 😍</p>",
+      stats: {
+        likes: 21,
+        comments: 0,
+        reposts: 0,
+        shares: 0,
+      },
+    },
+    {
+      id: "r3",
+      author: {
+        username: "randomuser",
+        fullname: "Random User",
+        avatar: "https://i.pravatar.cc/36?img=28",
+      },
+      createdAt: "2025-11-09T13:37:15Z",
+      content: "<p>Cho xin repo source với bạn 😁</p>",
+      stats: {
+        likes: 5,
+        comments: 0,
+        reposts: 0,
+        shares: 0,
+      },
+    },
+  ],
+};
+
+export const users = [
+  {
+    id: "u1",
+    username: "devnam",
+    fullname: "Nam Tran",
+    avatar: "https://i.pravatar.cc/31?img=12",
+    bio: "Không nói nhìu, chúng tui bán matcha, trà sữa và houjicha ngon siêu khùng 🧚‍♀️ Vinhomes Smartcity/ Mỹ Đình, Hà Nội",
+    followers: 3379,
+  },
+  {
+    id: "u2",
+    username: "shorty",
+    fullname: "Shorty Name",
+    avatar: "https://i.pravatar.cc/31?img=1",
+    bio: "Chém gió công nghệ, thỉnh thoảng lên mood là code 🤓",
+    followers: 984,
+  },
+  {
+    id: "u3",
+    username: "coffeelover",
+    fullname: "Cà Phê Nghiện",
+    avatar: "https://i.pravatar.cc/31?img=11",
+    bio: "Mỗi ngày một ly espresso ☕ và một cái drama",
+    followers: 15220,
+  },
+  {
+    id: "u4",
+    username: "wanderlust",
+    fullname: "Đi Cho Biết",
+    avatar: "https://i.pravatar.cc/31?img=15",
+    bio: "Review du lịch không quảng cáo, tự đi tự sướng ✈️",
+    followers: 2305,
+  },
+  {
+    id: "u5",
+    username: "coding_cat",
+    fullname: "Meo Code",
+    avatar: "https://i.pravatar.cc/31?img=22",
+    bio: "Meow meow nhưng code rất căng 🐾",
+    followers: 4520,
+  },
+  {
+    id: "u6",
+    username: "foodielife",
+    fullname: "Ăn Chơi Xả Láng",
+    avatar: "https://i.pravatar.cc/31?img=14",
+    bio: "Ăn hết Hà Nội, bụng vẫn chưa no 🍜",
+    followers: 10023,
+  },
+  {
+    id: "u7",
+    username: "js_master",
+    fullname: "JavaScript Master",
+    avatar: "https://i.pravatar.cc/31?img=7",
+    bio: "Chuyên fix bug bằng console.log 🔧",
+    followers: 7211,
+  },
+  {
+    id: "u8",
+    username: "animefan",
+    fullname: "Otaku Chính Hiệu",
+    avatar: "https://i.pravatar.cc/31?img=19",
+    bio: "Yêu anime, ghét deadline 😭",
+    followers: 15890,
+  },
+  {
+    id: "u9",
+    username: "runner",
+    fullname: "Chạy Bộ Mỗi Ngày",
+    avatar: "https://i.pravatar.cc/31?img=27",
+    bio: "Chạy là đam mê, thở là hobby 🏃",
+    followers: 2893,
+  },
+  {
+    id: "u10",
+    username: "petlover",
+    fullname: "Yêu Thú Cưng",
+    avatar: "https://i.pravatar.cc/31?img=30",
+    bio: "Nuôi 3 chó 2 mèo và 1 bạn người yêu 🐶🐱❤️",
+    followers: 7120,
+  },
+];
+
+export const activitys = [
+  {
+    id: "2",
+    author: {
+      username: "luna",
+      avatar: "https://i.pravatar.cc/36?img=2",
+      fullname: "Luna Bright",
+    },
+    createdAt: "2025-11-09T13:15:00Z",
+    content: `<p><b>Buổi chiều đầy năng lượng</b> 🌞</p>`,
+    stats: { likes: 8, comments: 1, reposts: 0, shares: 0 },
+  },
+  {
+    id: "3",
+    author: {
+      username: "mike",
+      avatar: "https://i.pravatar.cc/36?img=3",
+      fullname: "Michael Trent",
+    },
+    createdAt: "2025-11-08T09:42:00Z",
+    content: `<p>Hôm nay uống cà phê hơi nhiều ☕️😂</p>`,
+    stats: { likes: 21, comments: 3, reposts: 1, shares: 0 },
+  },
+  {
+    id: "4",
+    author: {
+      username: "flora",
+      avatar: "https://i.pravatar.cc/36?img=4",
+      fullname: "Flora Leaf",
+    },
+    createdAt: "2025-11-07T20:10:00Z",
+    content: `<p><i>Cố gắng từng chút một</i> 🌱</p>`,
+    stats: { likes: 15, comments: 0, reposts: 2, shares: 1 },
+  },
+  {
+    id: "5",
+    author: {
+      username: "neo",
+      avatar: "https://i.pravatar.cc/36?img=5",
+      fullname: "Neo Matrix",
+    },
+    createdAt: "2025-11-07T08:33:00Z",
+    content: `<p>Code xong 3 giờ sáng 😵‍💫</p>`,
+    stats: { likes: 27, comments: 4, reposts: 1, shares: 0 },
+  },
+  {
+    id: "6",
+    author: {
+      username: "hana",
+      avatar: "https://i.pravatar.cc/36?img=6",
+      fullname: "Hana M.",
+    },
+    createdAt: "2025-11-06T17:50:00Z",
+    content: `<p><b>Trời đẹp muốn đi chơi quá</b> 🌤️</p>`,
+    stats: { likes: 19, comments: 2, reposts: 0, shares: 1 },
+  },
+  {
+    id: "7",
+    author: {
+      username: "jack",
+      avatar: "https://i.pravatar.cc/36?img=7",
+      fullname: "Jack Ryder",
+    },
+    createdAt: "2025-11-06T10:05:00Z",
+    content: `<p>Hôm nay tập gym hơi bị cháy 🔥💪</p>`,
+    stats: { likes: 30, comments: 5, reposts: 1, shares: 2 },
+  },
+  {
+    id: "8",
+    author: {
+      username: "mei",
+      avatar: "https://i.pravatar.cc/36?img=8",
+      fullname: "Mei Sakura",
+    },
+    createdAt: "2025-11-05T22:40:00Z",
+    content: `<p><i>Đêm nay gió lạnh nhưng dễ chịu</i> 🍃</p>`,
+    stats: { likes: 13, comments: 1, reposts: 0, shares: 0 },
+  },
+  {
+    id: "9",
+    author: {
+      username: "leo",
+      avatar: "https://i.pravatar.cc/36?img=9",
+      fullname: "Leo Star",
+    },
+    createdAt: "2025-11-05T14:22:00Z",
+    content: `<p>Một ngày dài nhưng vui 😌</p>`,
+    stats: { likes: 11, comments: 0, reposts: 0, shares: 1 },
+  },
+  {
+    id: "10",
+    author: {
+      username: "ivy",
+      avatar: "https://i.pravatar.cc/36?img=10",
+      fullname: "Ivy Bloom",
+    },
+    createdAt: "2025-11-04T09:30:00Z",
+    content: `<p><b>Thử món mới ngon bất ngờ!</b> 😋</p>`,
+    stats: { likes: 32, comments: 6, reposts: 2, shares: 0 },
+  },
+  {
+    id: "11",
+    author: {
+      username: "ryu",
+      avatar: "https://i.pravatar.cc/36?img=11",
+      fullname: "Ryu Ken",
+    },
+    createdAt: "2025-11-04T00:15:00Z",
+    content: `<p>Một ngày tràn đầy cảm hứng ⭐️</p>`,
+    stats: { likes: 17, comments: 2, reposts: 0, shares: 0 },
+  },
+  {
+    id: "12",
+    author: {
+      username: "elsa",
+      avatar: "https://i.pravatar.cc/36?img=12",
+      fullname: "Elsa Frost",
+    },
+    createdAt: "2025-11-03T16:55:00Z",
+    content: `<p><i>Lạnh quá nhưng vẫn phải đi làm</i> ❄️🥶</p>`,
+    stats: { likes: 14, comments: 1, reposts: 0, shares: 0 },
+  },
+  {
+    id: "13",
+    author: {
+      username: "tom",
+      avatar: "https://i.pravatar.cc/36?img=13",
+      fullname: "Tom Walker",
+    },
+    createdAt: "2025-11-03T11:11:00Z",
+    content: `<p>May mắn ghé thăm mình hôm nay 🍀</p>`,
+    stats: { likes: 25, comments: 3, reposts: 1, shares: 0 },
+  },
+  {
+    id: "14",
+    author: {
+      username: "nina",
+      avatar: "https://i.pravatar.cc/36?img=14",
+      fullname: "Nina Gold",
+    },
+    createdAt: "2025-11-02T19:20:00Z",
+    content: `<p><b>Hoàn thành công việc sớm</b> 🎉</p>`,
+    stats: { likes: 20, comments: 2, reposts: 0, shares: 1 },
+  },
+];

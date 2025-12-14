@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { EllipsisIcon, HeartIcon, MessageCircleIcon, Repeat2Icon, SendIcon } from "lucide-react";
-import { ReplyBox } from "@/components/ReplyBox";
+import { ReplyBox } from "@/components/Post/ReplyBox";
 import { Link, useNavigate } from "react-router";
 import paths from "@/configs/paths";
 import { cn } from "@/lib/utils";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { timeAgo } from "@/lib/timeAgo";
 
 export const PostCard = ({ id, author, createdAt, content, stats }) => {

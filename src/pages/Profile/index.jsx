@@ -1,4 +1,4 @@
-import { CreatePostBox } from "@/components/CreatePostBox";
+import { CreatePostBox } from "@/components/Post/CreatePostBox";
 
 export const ProfilePage = () => {
   return (

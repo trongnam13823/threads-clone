@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Maximize2Icon, MoveUpIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { userInfo } from "@/mocksAPI";
 
 export function ReplyBox({ author }) {
