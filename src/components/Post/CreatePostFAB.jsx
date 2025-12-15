@@ -22,7 +22,7 @@ export const CreatePostFAB = () => {
         align="end"
         sideOffset={0}
         className="translate-y-20"
-        onPointerDownOutside={(event) => {
+        onInteractOutside={(event) => {
           event.preventDefault();
         }}
       >
