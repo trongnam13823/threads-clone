@@ -1,13 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&: is(.dark *));
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -39,13 +35,10 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-
-  --font-system: system-ui, -apple-system, BlinkMacSystemFont, ".SFNSText-Regular", sans-serif;
 }
 
 :root {
-  /* shadcn */
-  --radius: 0.625rem;
+  /* Shadcn */
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -78,36 +71,33 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  /* app */
-  --hovered-background: rgba(0, 0, 0, 0.04);
+  /* App */
+  --column-max-w: 640px;
+  --column-min-w: 420px;
+  --nav-desktop-w: 76px;
+  --nav-mobile-h: 50px;
+  --header-h: 60px;
+
+  --box-shadow-04: rgba(0, 0, 0, 0.04);
+  --primary-column-outline: rgb(213, 213, 213);
   --divider: rgba(206, 208, 212, 0.3);
   --scroll-thumb: #bcc0c4;
-  --header-height: 60px;
-  --column-layout-max-width: 640px;
-  --primary-icon: rgb(0, 0, 0);
-  --primary-text: rgb(0, 0, 0);
-  --primary-button-background: rgb(0, 0, 0);
-  --liked-text: rgb(255, 48, 64);
-  --primary-button-text: rgb(255, 255, 255);
-  --secondary-text: rgb(153, 153, 153);
-  --secondary-icon: rgb(153, 153, 153);
-  --primary-outline: rgba(0, 0, 0, 0.15);
-  --tertiary-background: rgb(245, 245, 245);
-  --secondary-background: rgb(250, 250, 250);
-  --lines-primary: rgba(0, 0, 0, 0.15);
+  --text-primary: rgb(0, 0, 0);
   --elevated-background: rgb(255, 255, 255);
-  --header-background: rgba(255, 255, 255, 0.85);
-  --primary-column-outline: rgb(213, 213, 213);
   --box-shadow-08: rgba(0, 0, 0, 0.08);
-  --box-shadow-04: rgba(0, 0, 0, 0.04);
-  --dark-backdrop-background: rgba(0, 0, 0, 0.7);
+  --lines-primary: rgba(0, 0, 0, 0.15);
+  --side-navigation-background: rgba(250, 250, 250, 0.85);
+  --header-background: rgba(255, 255, 255, 0.85);
+  --icon-primary: rgb(0, 0, 0);
+  --background-secondary: rgb(250, 250, 250);
+  --hovered-background: rgba(0, 0, 0, 0.04);
   --charcoal-text: rgb(66, 66, 66);
-
-  --navigation-icon: rgb(184, 184, 184);
   --navigation-item-hover-background: rgba(0, 0, 0, 0.035);
+  --navigation-icon: rgb(184, 184, 184);
 }
 
 .dark {
+  /* Shadcn */
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -139,21 +129,25 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* App */
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
   body {
-    @apply font-system bg-(--elevated-background) text-[15px] text-(--primary-text) md:bg-(--secondary-background);
+    @apply bg-(--background-secondary);
   }
+
   button {
     @apply cursor-pointer;
   }
-  button,
-  input,
-  textarea {
-    @apply font-system;
+}
+
+@layer components {
+  .layer {
+    @apply pointer-events-auto absolute inset-0 overflow-auto overflow-y-scroll opacity-100;
+  }
+  .layer--hide {
+    @apply pointer-events-none opacity-0;
   }
 }

@@ -1,25 +1,17 @@
-const paths = {
+const activity = "/activity";
+const profile = "/@";
+
+export default {
   home: "/",
+
+  forYou: "/for-you",
   following: "/following",
-  ghostPosts: "/ghost-posts",
 
   search: "/search",
 
-  // Profile
-  profile: (username = ":username") => `/@/${username}`,
-  profileReplies: (username = ":username") => `/@/${username}/replies`,
-  profileMedia: (username = ":username") => `/@/${username}/media`,
-  profileReposts: (username = ":username") => `/@/${username}/reposts`,
-  postDetail: (username = ":username", id = ":id") => `/@/${username}/post/${id}`,
+  activity,
+  activityFollows: activity + "/follows",
 
-  // Activity filters
-  activity: "/activity",
-  activityFollows: "/activity/follows",
-  activityReplies: "/activity/replies",
-  activityMentions: "/activity/mentions",
-  activityQuotes: "/activity/quotes",
-  activityReposts: "/activity/reposts",
-  activityVerified: "/activity/verified",
+  profile: (username) => profile + `/${username}`,
+  profileReplies: (username) => profile + `/${username}/replies`,
 };
-
-export default paths;

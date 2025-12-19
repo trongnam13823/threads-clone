@@ -1,48 +1,24 @@
-import { Navigation } from "@/components/Nav/Navigation";
-import { Outlet } from "react-router";
-import { Header } from "@/components/Nav/Header";
-import { cn } from "@/lib/utils";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { CreatePostFAB } from "@/components/Post/CreatePostFAB";
+import paths from "@/configs/paths";
+import { Outlet, useLocation } from "react-router";
+import NavDesktop from "@/components/NavBar/NavDesktop";
+import NavMobile from "@/components/NavBar/NavMobile";
+import CreatePostFAB from "@/components/Post/CreatePostFAB";
+import Home from "@/pages/Home";
 
-export const DefaultLayout = () => {
+const DefaultLayout = () => {
+  const { pathname } = useLocation();
+
   return (
-    <ScrollArea className="h-svh">
-      {/* HEADER SHOW ON MOBILE */}
-      <Header />
+    <div className="relative h-svh w-svw">
+      <Home className={pathname !== paths.home && "layer--hide"} />
 
-      {/* BORDER & BACKGROUND && SHADOW FOR MAIN */}
-      <div
-        className={cn(
-          "pointer-events-none fixed left-1/2 h-svh -translate-x-1/2 rounded-t-3xl border",
-          "top-(--header-height) w-(--column-layout-max-width) border-(--primary-column-outline) bg-(--elevated-background)",
-          "max-md:hidden"
-        )}
-      />
-      <div
-        className={cn(
-          "pointer-events-none fixed left-1/2 z-10 h-svh -translate-x-1/2 rounded-t-3xl",
-          "top-(--header-height) w-(--column-layout-max-width) shadow-[0_0_12px_0_var(--box-shadow-04)]",
-          "max-md:hidden"
-        )}
-      />
+      <Outlet />
 
-      {/* MAIN */}
-      <main
-        className={cn(
-          "relative mx-auto flex min-h-svh items-center justify-center",
-          "w-(--column-layout-max-width)",
-          "max-md:w-full max-md:py-(--header-height)"
-        )}
-      >
-        <Outlet />
-      </main>
-
-      {/* NAVIGATION BAR */}
-      <Navigation />
-
-      {/* CREATE POST BTN FLOAT */}
+      <NavDesktop />
+      <NavMobile />
       <CreatePostFAB />
-    </ScrollArea>
+    </div>
   );
 };
+
+export default DefaultLayout;

@@ -1,12 +1,17 @@
-import router from "./router";
-import { RouterProvider } from "react-router/dom";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import routes from "./configs/routes";
+import { Provider as ReduxProvider } from "react-redux";
+import { store } from "./store";
+import { HistoryProvider } from "./contexts/history";
 
-function App() {
+const App = () => {
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <HistoryProvider>
+      <ReduxProvider store={store}>
+        <RouterProvider router={createBrowserRouter(routes)} />
+      </ReduxProvider>
+    </HistoryProvider>
   );
-}
+};
 
 export default App;
