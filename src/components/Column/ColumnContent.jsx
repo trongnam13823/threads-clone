@@ -1,8 +1,9 @@
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useSortable } from "@/contexts/sortable";
 
-const ColumnContent = ({ content, sortableData = {} }) => {
-  const { isDraggable } = sortableData;
+const ColumnContent = ({ content }) => {
+  const { isDraggable } = useSortable();
 
   const ContentWrapper = isDraggable ? ScrollArea : "div";
 
@@ -13,7 +14,7 @@ const ColumnContent = ({ content, sortableData = {} }) => {
           className={cn(
             "h-full bg-(--elevated-background)",
             isDraggable &&
-              "overflow-hidden rounded-t-3xl border border-(--primary-column-outline) shadow-[0_0_12px_0_var(--box-shadow-04)]",
+              "overflow-hidden rounded-t-3xl border border-(--primary-column-outline) shadow-[0_0_12px_0_var(--box-shadow-04)]"
           )}
         >
           {content}

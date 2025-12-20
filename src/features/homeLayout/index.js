@@ -1,5 +1,6 @@
 import paths from "@/configs/paths";
 import { createSlice } from "@reduxjs/toolkit";
+import { arrayMove } from "@dnd-kit/sortable";
 
 export const DEFAULT_COLUMN_ID = "default";
 
@@ -9,29 +10,7 @@ const DEFAULT_COLUMN = {
 };
 
 const initialState = {
-  columns: [
-    DEFAULT_COLUMN,
-    {
-      id: "1",
-      path: paths.activity,
-      start: 1,
-    },
-    {
-      id: "2",
-      path: paths.search,
-      start: 1,
-    },
-    // {
-    //   id: "3",
-    //   path: paths.activity,
-    //   start: 1,
-    // },
-    // {
-    //   id: "4",
-    //   path: paths.activity,
-    //   start: 1,
-    // },
-  ],
+  columns: [DEFAULT_COLUMN, { id: "1", path: paths.activity, start: 1 }, { id: "2", path: paths.search, start: 1 }],
 };
 
 export const homeLayoutSlice = createSlice({
@@ -40,19 +19,24 @@ export const homeLayoutSlice = createSlice({
   reducers: {
     setColumns(state, action) {
       const nextColumns = action.payload ?? [];
-      const hasDefault = nextColumns.some(
-        (col) => col.id === DEFAULT_COLUMN_ID,
-      );
-      state.columns = hasDefault
-        ? nextColumns
-        : [DEFAULT_COLUMN, ...nextColumns];
+      const hasDefault = nextColumns.some((col) => col.id === DEFAULT_COLUMN_ID);
+
+      state.columns = hasDefault ? nextColumns : [DEFAULT_COLUMN, ...nextColumns];
+    },
+
+    reorderColumns(state, action) {
+      const { activeId, overId } = action.payload;
+      if (!overId || activeId === overId) return;
+
+      const oldIndex = state.columns.findIndex((c) => c.id === activeId);
+      const newIndex = state.columns.findIndex((c) => c.id === overId);
+
+      state.columns = arrayMove(state.columns, oldIndex, newIndex);
     },
 
     addColumn(state, action) {
-      const maxId = state.columns.reduce(
-        (max, col) => Math.max(max, Number(col.id)),
-        0,
-      );
+      const maxId = state.columns.reduce((max, col) => Math.max(max, Number(col.id)), 0);
+
       state.columns.push({
         id: String(maxId + 1),
         path: paths.home,
@@ -65,11 +49,11 @@ export const homeLayoutSlice = createSlice({
     removeColumn(state, action) {
       const id = action.payload;
       if (id === DEFAULT_COLUMN_ID) return;
-      state.columns = state.columns.filter((col) => col.id !== id);
+      state.columns = state.columns.filter((c) => c.id !== id);
     },
   },
 });
 
-export const { setColumns, addColumn, removeColumn } = homeLayoutSlice.actions;
+export const { setColumns, reorderColumns, addColumn, removeColumn } = homeLayoutSlice.actions;
 
 export default homeLayoutSlice.reducer;

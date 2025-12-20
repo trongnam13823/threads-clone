@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 
 const Back = ({ children, asChild = false }) => {
   const { popPath, history } = useHistory();
-  const { columnData } = useColumn();
+  const columnData = useColumn();
   const navigate = useNavigate();
 
   const handleBack = (e) => {

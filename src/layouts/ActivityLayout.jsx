@@ -2,12 +2,12 @@ import { Outlet } from "react-router";
 import ColumnLayout from "../components/Column/ColumnLayout";
 import Back from "@/contexts/history/components/Back";
 
-const ActivityLayout = ({ children, sortableData, ...props }) => {
+const ActivityLayout = ({ children }) => {
   return (
-    <ColumnLayout sortableData={sortableData} {...props}>
-      <div>
+    <ColumnLayout>
+      <header>
         <Back>Quay lại</Back> ActivityLayout header
-      </div>
+      </header>
       {children ? children : <Outlet />}
     </ColumnLayout>
   );

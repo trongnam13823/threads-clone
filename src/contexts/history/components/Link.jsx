@@ -3,7 +3,7 @@ import { useHistory } from "@/contexts/history";
 import { useColumn } from "@/contexts/column";
 
 const Link = ({ to, children, replace, ...props }) => {
-  const { columnData } = useColumn();
+  const columnData = useColumn();
   const { pushPath, replacePath, currentPath } = useHistory();
 
   const handleClick = (e) => {

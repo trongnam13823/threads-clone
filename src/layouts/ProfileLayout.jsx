@@ -1,10 +1,10 @@
 import { Outlet } from "react-router";
 import ColumnLayout from "../components/Column/ColumnLayout";
 
-const ProfileLayout = ({ children, sortableData, ...props }) => {
+const ProfileLayout = ({ children }) => {
   return (
-    <ColumnLayout sortableData={sortableData} {...props}>
-      <div>ProfileLayout header</div>
+    <ColumnLayout>
+      <header>ProfileLayout header</header>
       {children ? children : <Outlet />}
     </ColumnLayout>
   );
