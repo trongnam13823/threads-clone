@@ -43,7 +43,10 @@ export default function Home({ className }) {
                 <SortableItem
                   key={col.id}
                   id={col.id}
-                  className={cn("w-full max-w-(--column-max-w) min-w-(--column-min-w)", isDraggable && "relative")}
+                  className={cn(
+                    isDraggable && "md:relative md:w-full md:max-w-(--column-max-w) md:min-w-(--column-min-w)",
+                    col.id === DEFAULT_COLUMN_ID ? "max-md:block" : "max-md:hidden"
+                  )}
                 >
                   {(data) => (
                     <SortableProvider value={{ ...data, isDraggable }}>

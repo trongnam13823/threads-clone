@@ -10,8 +10,8 @@ const HeaderWrapper = ({ header }) => {
   const headerProps = {
     ...dragHandleProps,
     className: cn(
-      "sticky top-0 z-10 mx-auto flex h-(--header-h) w-full max-w-(--column-max-w) min-w-(--column-min-w) items-center justify-center max-md:mt-(--header-h)",
-      isDraggable ? "cursor-grab" : "bg-(--background-secondary)",
+      "sticky top-0 z-10 mx-auto flex h-(--header-h) w-full max-w-(--column-max-w) items-center justify-center max-md:mt-(--header-h) bg-(--background-secondary) max-md:bg-(--elevated-background)",
+      isDraggable ? "md:cursor-grab md:min-w-(--column-min-w) md:bg-transparent" : "",
       isDragging && "pointer-events-none",
       header?.props?.className
     ),

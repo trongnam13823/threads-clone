@@ -30,9 +30,9 @@ function ScrollBar({ className, orientation = "vertical", ...props }) {
       orientation={orientation}
       className={cn(
         "z-40 flex touch-none p-1 transition-colors select-none hover:bg-(--divider)",
-        orientation === "vertical" && "h-full w-4",
-        orientation === "horizontal" && "h-4 flex-col",
-        className,
+        orientation === "vertical" && "h-full w-(--scroll-size)",
+        orientation === "horizontal" && "h-(--scroll-size) flex-col",
+        className
       )}
       {...props}
     >
