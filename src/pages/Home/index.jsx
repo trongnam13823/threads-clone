@@ -1,7 +1,7 @@
 import { DndContext, closestCenter, useSensors, useSensor, MouseSensor } from "@dnd-kit/core";
 import { SortableContext, horizontalListSortingStrategy } from "@dnd-kit/sortable";
 import { useDispatch, useSelector } from "react-redux";
-import { DEFAULT_COLUMN_ID, reorderColumns } from "@/features/homeLayout";
+import { DEFAULT_COLUMN_ID, reorderColumns } from "@/features/homeLayout/homeLayoutSlice";
 import SortableItem from "@/components/Dnd/SortableItem";
 import { cn } from "@/lib/utils";
 import HomeColumn from "./HomeColumn";
@@ -55,7 +55,7 @@ export default function Home({ className }) {
 
               return isDraggable ? (
                 <ColumnProvider value={col} key={col.id}>
-                  <HistoryProvider>{content}</HistoryProvider>
+                  <HistoryProvider isNavBlocked={true}>{content}</HistoryProvider>
                 </ColumnProvider>
               ) : (
                 content

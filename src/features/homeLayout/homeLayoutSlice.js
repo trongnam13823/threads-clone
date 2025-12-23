@@ -10,7 +10,7 @@ const DEFAULT_COLUMN = {
 };
 
 const initialState = {
-  columns: [DEFAULT_COLUMN, { id: "1", path: paths.activity, start: 1 }, { id: "2", path: paths.search, start: 1 }],
+  columns: [DEFAULT_COLUMN],
 };
 
 export const homeLayoutSlice = createSlice({
@@ -56,4 +56,4 @@ export const homeLayoutSlice = createSlice({
 
 export const { setColumns, reorderColumns, addColumn, removeColumn } = homeLayoutSlice.actions;
 
-export default homeLayoutSlice.reducer;
+export default homeLayoutSlice;

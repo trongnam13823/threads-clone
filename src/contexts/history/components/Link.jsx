@@ -1,13 +1,12 @@
 import { Link as LinkRouter } from "react-router";
 import { useHistory } from "@/contexts/history";
-import { useColumn } from "@/contexts/column";
 
 const Link = ({ to, children, replace, ...props }) => {
-  const columnData = useColumn();
+  const { isNavBlocked } = useHistory();
   const { pushPath, replacePath, currentPath } = useHistory();
 
   const handleClick = (e) => {
-    if (columnData) {
+    if (isNavBlocked) {
       e.preventDefault();
     }
 

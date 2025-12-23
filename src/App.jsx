@@ -1,14 +1,19 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
 import routes from "./configs/routes";
 import { Provider as ReduxProvider } from "react-redux";
-import { store } from "./store";
+import { persistor, store } from "./store";
 import { HistoryProvider } from "./contexts/history";
+import { PersistGate } from "redux-persist/integration/react";
+import { Toaster } from "@/components/ui/sonner";
 
 const App = () => {
   return (
     <HistoryProvider>
       <ReduxProvider store={store}>
-        <RouterProvider router={createBrowserRouter(routes)} />
+        <PersistGate persistor={persistor}>
+          <RouterProvider router={createBrowserRouter(routes)} />
+          <Toaster richColors position="bottom-center" />
+        </PersistGate>
       </ReduxProvider>
     </HistoryProvider>
   );

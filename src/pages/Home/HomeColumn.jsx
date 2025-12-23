@@ -1,11 +1,30 @@
 import paths from "@/configs/paths";
 import Link from "@/contexts/history/components/Link";
 import HomeLayout from "@/layouts/HomeLayout";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function HomeColumn() {
   return (
     <HomeLayout>
       <div>
+        <DropdownMenu>
+          <DropdownMenuTrigger>Open</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem>Billing</DropdownMenuItem>
+            <DropdownMenuItem>Team</DropdownMenuItem>
+            <DropdownMenuItem>Subscription</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         HomeColumn content Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem sit at velit pariatur quia porro
         harum amet, quibusdam eius ea omnis ipsum accusamus magnam. Soluta itaque libero sed? Dicta ipsum facere
         explicabo, accusamus vitae aut voluptate voluptates, eligendi quibusdam illo tempora possimus magni! A, soluta.

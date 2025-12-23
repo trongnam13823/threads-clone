@@ -72,28 +72,36 @@
   --sidebar-ring: oklch(0.708 0 0);
 
   /* App */
+  --font-family-system: system-ui, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
   --column-max-w: 640px;
   --column-min-w: 420px;
   --nav-desktop-w: 76px;
   --nav-mobile-h: 50px;
   --header-h: 60px;
-
-  --box-shadow-04: rgba(0, 0, 0, 0.04);
   --primary-column-outline: rgb(213, 213, 213);
+  --text-secondary: rgb(153, 153, 153);
+  --success-text: #20c584;
   --divider: rgba(206, 208, 212, 0.3);
-  --scroll-thumb: #bcc0c4;
-  --text-primary: rgb(0, 0, 0);
-  --elevated-background: rgb(255, 255, 255);
-  --box-shadow-08: rgba(0, 0, 0, 0.08);
   --lines-primary: rgba(0, 0, 0, 0.15);
-  --side-navigation-background: rgba(250, 250, 250, 0.85);
-  --header-background: rgba(255, 255, 255, 0.85);
-  --icon-primary: rgb(0, 0, 0);
-  --background-secondary: rgb(250, 250, 250);
-  --hovered-background: rgba(0, 0, 0, 0.04);
+  --primary-button: rgb(0, 0, 0);
+  --scroll-thumb: #bcc0c4;
+  --secondary-button: rgb(255, 255, 255);
+  --text-primary: rgb(0, 0, 0);
+  --error-text: rgb(255, 48, 64);
   --charcoal-text: rgb(66, 66, 66);
-  --navigation-item-hover-background: rgba(0, 0, 0, 0.035);
+  --placeholder-text: #65676b;
+  --box-shadow-04: rgba(0, 0, 0, 0.04);
+  --box-shadow-08: rgba(0, 0, 0, 0.08);
+  --icon-primary: rgb(0, 0, 0);
   --navigation-icon: rgb(184, 184, 184);
+  --background-primary: rgb(255, 255, 255);
+  --background-secondary: rgb(250, 250, 250);
+  --background-tertiary: rgb(245, 245, 245);
+  --elevated-background: rgb(255, 255, 255);
+  --hovered-background: rgba(0, 0, 0, 0.04);
+  --header-background: rgba(255, 255, 255, 0.85);
+  --navigation-item-hover-background: rgba(0, 0, 0, 0.035);
+  --side-navigation-background: rgba(250, 250, 250, 0.85);
 }
 
 .dark {
@@ -135,7 +143,14 @@
 
 @layer base {
   body {
-    @apply bg-(--background-secondary);
+    @apply bg-(--background-primary) font-(family-name:--font-family-system) text-[15px] text-(--text-primary);
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font-family: inherit;
   }
 
   button {
@@ -143,11 +158,43 @@
   }
 }
 
-@layer components {
+@layer utilities {
+  @keyframes splash-in {
+    0% {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes splash-out {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.5);
+    }
+  }
+}
+
+@layer utilities {
   .layer {
-    @apply pointer-events-auto absolute inset-0 overflow-auto overflow-y-scroll opacity-100;
+    @apply pointer-events-auto absolute inset-0 overflow-auto bg-(--background-secondary) opacity-100;
   }
   .layer--hide {
     @apply pointer-events-none opacity-0;
+  }
+
+  .auth__input {
+    @apply h-13.75 rounded-xl border border-transparent bg-(--background-tertiary) px-4 py-2 placeholder:text-(--placeholder-text) focus:border-(--lines-primary) focus-visible:ring-0;
+  }
+
+  .auth__btn-submit {
+    @apply h-14 w-full rounded-xl bg-(--primary-button) font-bold text-(--secondary-button) hover:bg-(--primary-button);
   }
 }

@@ -1,0 +1,90 @@
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useForgotPasswordMutation } from "@/services/auth/authApi";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import { Spinner } from "@/components/ui/spinner";
+import forgotPasswordSchema from "@/schemas/auth/forgotPasswordSchema";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { CheckCircle2Icon, ChevronLeftIcon } from "lucide-react";
+import paths from "@/configs/paths";
+import Link from "@/contexts/history/components/Link";
+
+export default function ResetPasswordPage() {
+  const form = useForm({
+    resolver: zodResolver(forgotPasswordSchema),
+    mode: "onSubmit",
+    defaultValues: {
+      email: "",
+    },
+  });
+
+  const { control, handleSubmit, formState } = form;
+
+  const [forgotPassword, { isLoading, isSuccess }] = useForgotPasswordMutation();
+
+  const onSubmit = async (values) => {
+    if (isLoading) return;
+
+    try {
+      await forgotPassword(values).unwrap();
+    } catch (error) {
+      toast.error(error?.data?.message || "Có lỗi xảy ra, vui lòng thử lại");
+    }
+  };
+
+  const handleInvalid = (errors) => {
+    toast.error(errors[Object.keys(errors)[0]].message);
+  };
+
+  return (
+    <div className="flex w-full max-w-92.5 flex-col gap-4">
+      <div className="text-center">
+        <h1 className="text-base font-bold">Quên mật khẩu</h1>
+        <p className="text-sm text-(--text-secondary)">Nhập email của bạn để nhận liên kết đặt lại mật khẩu</p>
+      </div>
+
+      {!isLoading && isSuccess && (
+        <Alert className="text-(--success-text)">
+          <CheckCircle2Icon className="h-5 w-5" />
+          <AlertTitle className="font-bold">Email đã được gửi</AlertTitle>
+          <AlertDescription className="text-inherit">
+            Liên kết đặt lại mật khẩu đã được gửi tới email của bạn.
+          </AlertDescription>
+        </Alert>
+      )}
+
+      <Form {...form}>
+        <form onSubmit={handleSubmit(onSubmit, handleInvalid)} className="flex flex-col gap-2" autoComplete="off">
+          <FormField
+            control={control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input autoFocus {...field} className="auth__input" placeholder="Email" />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit" className={cn("auth__btn-submit", !formState.isValid && "cursor-not-allowed")}>
+            <span className={cn(!formState.isValid && "opacity-50")}>
+              {isLoading ? <Spinner className="size-6" /> : "Đặt lại mật khẩu"}
+            </span>
+          </Button>
+        </form>
+      </Form>
+
+      <p className="text-center text-(--text-secondary)">
+        Đi tới trang{" "}
+        <Link to={paths.login} className="text-(--text-primary) underline">
+          đăng nhập
+        </Link>
+      </p>
+    </div>
+  );
+}

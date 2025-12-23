@@ -4,7 +4,7 @@ import { findMatchingRoute } from "./helper/findMatchingRoute";
 import { buildComponentTree } from "./helper/buildComponentTree";
 
 const RouteRenderer = (props) => {
-  const { path, start = 1, ...contextValue } = props;
+  const { path, start = 2, ...contextValue } = props;
 
   const matchResult = findMatchingRoute(path, routes);
   if (!matchResult) return null;

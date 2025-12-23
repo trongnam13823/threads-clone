@@ -22,7 +22,7 @@ const ColumnLayout = ({ children, className }) => {
       <div
         className={cn(
           "flex size-full flex-1 flex-col",
-          isDraggable ? "relative" : "layer",
+          isDraggable ? "relative" : "layer overflow-y-scroll!",
           isDragging && "cursor-grabbing",
           isRouteRender ? "opacity-0" : "absolute inset-0",
           className

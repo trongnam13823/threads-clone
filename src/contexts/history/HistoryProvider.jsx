@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import HistoryContext from "./HistoryContext";
 
-const HistoryProvider = ({ children }) => {
+const HistoryProvider = ({ children, isNavBlocked = false }) => {
   const [history, setHistory] = useState([window.location.pathname]);
 
   const replacePath = (path) => {
@@ -27,9 +27,7 @@ const HistoryProvider = ({ children }) => {
   }, [history]);
 
   return (
-    <HistoryContext.Provider
-      value={{ history, currentPath, pushPath, popPath, replacePath }}
-    >
+    <HistoryContext.Provider value={{ history, currentPath, isNavBlocked, pushPath, popPath, replacePath }}>
       {children}
     </HistoryContext.Provider>
   );
