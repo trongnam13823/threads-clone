@@ -1,7 +1,6 @@
 import { Logo } from "@/components/Logo";
-import { Outlet } from "react-router";
 
-const AuthLayout = () => {
+const AuthLayout = ({ children }) => {
   return (
     <div className="bg-( --background-primary) relative min-h-svh min-w-svw">
       <img
@@ -12,7 +11,7 @@ const AuthLayout = () => {
 
       <div className="absolute inset-0 mt-20 flex flex-col items-center justify-center gap-6 p-6">
         <Logo size={60} className="pointer-events-none md:hidden" />
-        <Outlet />
+        {children}
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "./features/auth/authSlice";
 import authApi from "./services/auth/authApi";
-import homeLayoutSlice from "./features/homeLayout/homeLayoutSlice";
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import splashSlice from "./features/splash/splashSlice";
@@ -16,7 +15,6 @@ const persistedAuthReducer = persistReducer(persistConfig, authSlice.reducer);
 
 export const store = configureStore({
   reducer: {
-    homeLayout: homeLayoutSlice.reducer,
     splash: splashSlice.reducer,
     auth: persistedAuthReducer,
     [authApi.reducerPath]: authApi.reducer,

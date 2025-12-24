@@ -7,7 +7,6 @@ import { useRegisterMutation, useValidateEmailMutation, useValidateUsernameMutat
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import paths from "@/configs/paths";
-import Link from "@/contexts/history/components/Link";
 import { Spinner } from "@/components/ui/spinner";
 import { CheckCircle2Icon, CheckIcon, XIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -16,6 +15,7 @@ import registerSchema from "@/schemas/auth/registerSchema";
 import { useState } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import Link from "@/contexts/PageStack/components/Link";
 
 export default function RegisterPage() {
   const form = useForm({

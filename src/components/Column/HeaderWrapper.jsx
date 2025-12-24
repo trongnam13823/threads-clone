@@ -1,7 +1,7 @@
-import { useSortable } from "@/contexts/sortable";
 import { cn } from "@/lib/utils";
 import { cloneElement, isValidElement } from "react";
 import BackButton from "./BackButton";
+import useSortable from "@/contexts/sortable/hooks/useSortable";
 
 const HeaderWrapper = ({ header }) => {
   const { isDraggable, isDragging, attributes, listeners } = useSortable();

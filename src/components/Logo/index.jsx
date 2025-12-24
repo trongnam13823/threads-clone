@@ -1,5 +1,5 @@
 import paths from "@/configs/paths";
-import Link from "@/contexts/history/components/Link";
+import Link from "@/contexts/PageStack/components/Link";
 import { cn } from "@/lib/utils";
 
 export const Logo = ({ size = 34, className, ...props }) => {

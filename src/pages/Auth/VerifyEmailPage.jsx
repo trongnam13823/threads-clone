@@ -3,9 +3,9 @@ import { useNavigate, useSearchParams } from "react-router";
 import { useVerifyEmailMutation } from "@/services/auth/authApi";
 import paths from "@/configs/paths";
 import { Button } from "@/components/ui/button";
-import Link from "@/contexts/history/components/Link";
 import { useDispatch } from "react-redux";
 import { logoutThunk } from "@/features/auth/authThunks";
+import Link from "@/contexts/PageStack/components/Link";
 
 const VerifyEmailPage = () => {
   const navigate = useNavigate();

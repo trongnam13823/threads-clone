@@ -13,12 +13,16 @@ import ForYouPage from "@/pages/Home/ForYouPage";
 import AuthLayout from "@/layouts/AuthLayout";
 import LoginPage from "@/pages/Auth/LoginPage";
 import RegisterPage from "@/pages/Auth/RegisterPage";
-import ProtectedRoute from "@/components/Auth/ProtectedRoute";
-import GuestRoute from "@/components/Auth/GuestRoute";
 import ForgotPasswordPage from "@/pages/Auth/ForgotPasswordPage";
 import ResetPasswordPage from "@/pages/Auth/ResetPasswordPage";
 import VerifyEmailPage from "@/pages/Auth/VerifyEmailPage";
 import SendVerifyEmailPage from "@/pages/Auth/SendVerifyEmailPage";
+import GuestLayout from "@/layouts/GuestLayout";
+import ProtectedLayout from "@/layouts/ProtectedLayout";
+import HomePage from "@/pages/Home";
+import HomeColsLayout from "@/layouts/HomeColsLayout";
+import SearchLayout from "@/layouts/SearchLayout";
+import ColumnPageStackLayout from "@/layouts/ColumnPageStackLayout";
 
 export default [
   {
@@ -36,7 +40,7 @@ export default [
   },
 
   {
-    Component: GuestRoute,
+    Component: GuestLayout,
     children: [
       {
         Component: AuthLayout,
@@ -60,7 +64,7 @@ export default [
   },
 
   {
-    Component: ProtectedRoute,
+    Component: ProtectedLayout,
     children: [
       {
         Component: AuthLayout,
@@ -72,49 +76,79 @@ export default [
         ],
       },
       {
-        path: paths.home,
         Component: DefaultLayout,
         children: [
           {
-            Component: HomeLayout,
+            Component: HomeColsLayout,
             children: [
               {
-                path: paths.forYou,
-                Component: ForYouPage,
-              },
-              {
-                path: paths.following,
-                Component: FollowingPage,
+                Component: ColumnPageStackLayout,
+                children: [
+                  {
+                    Component: HomeLayout,
+                    children: [
+                      {
+                        path: paths.home,
+                        Component: HomePage,
+                      },
+                    ],
+                  },
+                ],
               },
             ],
           },
+
           {
-            path: paths.search,
-            Component: SearchPage,
-          },
-          {
-            Component: ActivityLayout,
+            Component: ColumnPageStackLayout,
             children: [
               {
-                path: paths.activity,
-                Component: ActivityPage,
+                Component: HomeLayout,
+                children: [
+                  {
+                    path: paths.forYou,
+                    Component: ForYouPage,
+                  },
+                  {
+                    path: paths.following,
+                    Component: FollowingPage,
+                  },
+                ],
               },
               {
-                path: paths.activityFollows,
-                Component: ActivityFollowsPage,
+                Component: SearchLayout,
+                children: [
+                  {
+                    path: paths.search,
+                    Component: SearchPage,
+                  },
+                ],
               },
-            ],
-          },
-          {
-            Component: ProfileLayout,
-            children: [
+
               {
-                path: paths.profile(":username"),
-                Component: ProfilePage,
+                Component: ActivityLayout,
+                children: [
+                  {
+                    path: paths.activity,
+                    Component: ActivityPage,
+                  },
+                  {
+                    path: paths.activityFollows,
+                    Component: ActivityFollowsPage,
+                  },
+                ],
               },
               {
-                path: paths.profileReplies(":username"),
-                Component: ProfileRepliesPage,
+                Component: ProfileLayout,
+                children: [
+                  {
+                    path: paths.profile(":username"),
+                    Component: ProfilePage,
+                  },
+                  {
+                    path: paths.profileReplies(":username"),
+                    Component: ProfileRepliesPage,
+                  },
+                ],
               },
             ],
           },

@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useSortable } from "@/contexts/sortable";
+import useSortable from "@/contexts/sortable/hooks/useSortable";
 
 const ColumnContent = ({ content }) => {
   const { isDraggable } = useSortable();

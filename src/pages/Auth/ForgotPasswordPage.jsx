@@ -11,7 +11,7 @@ import forgotPasswordSchema from "@/schemas/auth/forgotPasswordSchema";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { CheckCircle2Icon, ChevronLeftIcon } from "lucide-react";
 import paths from "@/configs/paths";
-import Link from "@/contexts/history/components/Link";
+import Link from "@/contexts/PageStack/components/Link";
 
 export default function ResetPasswordPage() {
   const form = useForm({

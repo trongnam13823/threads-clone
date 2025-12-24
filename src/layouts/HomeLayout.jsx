@@ -1,16 +1,12 @@
-import { Outlet } from "react-router";
-import ColumnLayout from "../components/Column/ColumnLayout";
-import Back from "@/contexts/history/components/Back";
+import ColumnLayout from "./ColumnLayout";
 
-const HomeLayout = ({ children }) => {
+const HomeLayout = ({ children, className }) => {
   return (
-    <ColumnLayout>
-      <header className="flex gap-4">
-        <Back>back</Back>
-        <span>Dành cho bạn</span>
-      </header>
-      {children ? children : <Outlet />}
+    <ColumnLayout className={className}>
+      <ColumnLayout.Header>Home Layout</ColumnLayout.Header>
+      <ColumnLayout.Content>{children}</ColumnLayout.Content>
     </ColumnLayout>
   );
 };
+
 export default HomeLayout;

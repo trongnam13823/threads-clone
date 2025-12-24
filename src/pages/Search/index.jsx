@@ -1,31 +1,32 @@
-import ColumnLayout from "@/components/Column/ColumnLayout";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import paths from "@/configs/paths";
+import Link from "@/contexts/PageStack/components/Link";
+import { useSelector } from "react-redux";
 
-const SearchPage = ({ sortableData, ...props }) => {
+const SearchPage = () => {
+  const userInfo = useSelector((s) => s.auth.userInfo);
+
   return (
-    <ColumnLayout sortableData={sortableData} {...props}>
-      <div>SearchPage header</div>
-      <div>
-        <DropdownMenu>
-          <DropdownMenuTrigger>Open</DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Billing</DropdownMenuItem>
-            <DropdownMenuItem>Team</DropdownMenuItem>
-            <DropdownMenuItem>Subscription</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+    <>
+      <div className="h-80 w-full shrink-0 bg-gray-200">
+        SearchPage SearchPage SearchPage ipsum dolor sit amet consectetur adipisicing elit. Inventore modi quod totam
+        ipsam, error suscipit illo unde accusamus aperiam vel iure ex minima repudiandae amet rerum! Incidunt
+        voluptatibus reiciendis maiores.
       </div>
-    </ColumnLayout>
+      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
+      <div className="h-80 w-full shrink-0 bg-gray-200">
+        SearchPage SearchPage SearchPage ipsum dolor sit amet consectetur adipisicing elit. Inventore modi quod totam
+        ipsam, error suscipit
+        <Link to={paths.profile(userInfo.username)} className="text-pink-400">
+          To Profile
+        </Link>
+        illo unde accusamus aperiam vel iure ex minima repudiandae amet rerum! Incidunt voluptatibus reiciendis maiores.
+      </div>
+      <div className="h-80 w-full shrink-0 bg-gray-200">
+        SearchPage SearchPage SearchPage ipsum dolor sit amet consectetur adipisicing elit. Inventore modi quod totam
+        ipsam, error suscipit illo unde accusamus aperiam vel iure ex minima repudiandae amet rerum! Incidunt
+        voluptatibus reiciendis maiores.
+      </div>
+    </>
   );
 };
 export default SearchPage;

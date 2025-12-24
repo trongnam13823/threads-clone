@@ -4,10 +4,10 @@ import { useUserInfoQuery } from "@/services/auth/authApi";
 import { SplashStatus, setSplashFadingOut } from "@/features/splash/splashSlice";
 import { useEffect } from "react";
 import { setUserInfo } from "@/features/auth/authSlice";
-import Splash from "../Splash";
+import Splash from "../components/Splash";
 import paths from "@/configs/paths";
 
-function ProtectedRoute() {
+function ProtectedLayout({ children }) {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
@@ -25,12 +25,14 @@ function ProtectedRoute() {
   }, [splashState, isLoading]);
 
   if (splashState !== SplashStatus.FADING_OUT_DONE) return <Splash />;
+
   // ---------- Splash ----------
+
   if (userInfo && !userInfo.verified && pathname !== paths.sendVerifyEmail) {
     return <Navigate to={paths.sendVerifyEmail} replace />;
   }
 
-  return userInfo ? <Outlet /> : <Navigate to={paths.login} replace />;
+  return userInfo ? children : <Navigate to={paths.login} replace />;
 }
 
-export default ProtectedRoute;
+export default ProtectedLayout;

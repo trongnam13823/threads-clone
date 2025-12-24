@@ -4,10 +4,10 @@ import { useUserInfoQuery } from "@/services/auth/authApi";
 import { SplashStatus, setSplashFadingOut } from "@/features/splash/splashSlice";
 import { setUserInfo } from "@/features/auth/authSlice";
 import { useEffect } from "react";
-import Splash from "../Splash";
+import Splash from "../components/Splash";
 import paths from "@/configs/paths";
 
-function GuestRoute() {
+function GuestLayout({ children }) {
   const dispatch = useDispatch();
 
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -27,7 +27,9 @@ function GuestRoute() {
   if (splashState !== SplashStatus.FADING_OUT_DONE) return <Splash />;
   // ---------- Splash ----------
 
-  return userInfo ? <Navigate to={paths.home} replace /> : <Outlet />;
+  console.log(1234);
+
+  return userInfo ? <Navigate to={paths.home} replace /> : children;
 }
 
-export default GuestRoute;
+export default GuestLayout;

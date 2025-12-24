@@ -79,6 +79,7 @@
   --nav-mobile-h: 50px;
   --scroll-size: 16px;
   --header-h: 60px;
+  --floating-button-background: rgba(0, 0, 0, 0.03);
   --primary-column-outline: rgb(213, 213, 213);
   --text-secondary: rgb(153, 153, 153);
   --success-text: #20c584;

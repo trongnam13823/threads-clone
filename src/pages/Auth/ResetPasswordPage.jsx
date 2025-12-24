@@ -12,9 +12,9 @@ import resetPasswordSchema from "@/schemas/auth/resetPasswordSchema";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Spinner } from "@/components/ui/spinner";
-import Link from "@/contexts/history/components/Link";
 import { logoutThunk } from "@/features/auth/authThunks";
 import { useDispatch } from "react-redux";
+import Link from "@/contexts/PageStack/components/Link";
 
 const ResetPasswordPage = () => {
   const dispatch = useDispatch();

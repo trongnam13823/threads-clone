@@ -1,11 +1,11 @@
 import ColumnLayout from "./ColumnLayout";
 
-const ActivityLayout = ({ children }) => {
+const SearchLayout = ({ children }) => {
   return (
     <ColumnLayout>
-      <ColumnLayout.Header>Activity Layout</ColumnLayout.Header>
+      <ColumnLayout.Header>Search Layout</ColumnLayout.Header>
       <ColumnLayout.Content>{children}</ColumnLayout.Content>
     </ColumnLayout>
   );
 };
-export default ActivityLayout;
+export default SearchLayout;

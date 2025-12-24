@@ -2,14 +2,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
 
 export default function SortableItem({ id, children, className }) {
-  const {
-    setNodeRef,
-    attributes,
-    listeners,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id });
+  const { setNodeRef, transform, transition, isDragging } = useSortable({ id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -18,8 +11,8 @@ export default function SortableItem({ id, children, className }) {
   };
 
   return (
-    <div ref={setNodeRef} style={style} className={className}>
-      {children({ attributes, listeners, isDragging })}
-    </div>
+    <li ref={setNodeRef} style={style} className={className}>
+      {children}
+    </li>
   );
 }

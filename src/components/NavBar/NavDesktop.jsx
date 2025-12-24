@@ -3,14 +3,14 @@ import { Button } from "../ui/button";
 import { HeartIcon, HomeIcon, PlusIcon, SearchIcon, UserIcon } from "lucide-react";
 import paths from "@/configs/paths";
 import Menu from "./Menu";
-import NavLink from "@/contexts/history/components/NavLink";
 import { useSelector } from "react-redux";
+import NavLink from "@/contexts/PageStack/components/NavLink";
 
 const NavDesktop = () => {
   const userInfo = useSelector((s) => s.auth.userInfo);
 
   return (
-    <div className="absolute z-20 flex h-svh w-(--nav-desktop-w) flex-col items-center justify-between bg-(--side-navigation-background) py-4 backdrop-blur-lg max-md:hidden">
+    <div className="absolute top-0 left-0 z-20 flex h-svh w-(--nav-desktop-w) flex-col items-center justify-between bg-(--side-navigation-background) py-4 backdrop-blur-lg max-md:hidden">
       <Logo />
 
       <nav className="flex flex-col gap-4">
