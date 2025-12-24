@@ -13,7 +13,7 @@ export default function Back({ children, ...props }) {
     });
   };
 
-  return history.length > 1 ? (
+  return history.length > 0 ? (
     <div {...props} onClick={handleClick}>
       {children}
     </div>

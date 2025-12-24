@@ -9,13 +9,12 @@ import { setToken, setUserInfo } from "@/features/auth/authSlice";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Spinner } from "@/components/ui/spinner";
-import { useLocation, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import paths from "@/configs/paths";
 import loginSchema from "@/schemas/auth/loginSchema";
 import { useState } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { Alert, AlertTitle } from "@/components/ui/alert";
-import Link from "@/contexts/PageStack/components/Link";
 
 /* ================== Page ================== */
 export default function LoginPage() {

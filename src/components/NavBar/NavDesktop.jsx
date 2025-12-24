@@ -4,7 +4,7 @@ import { HeartIcon, HomeIcon, PlusIcon, SearchIcon, UserIcon } from "lucide-reac
 import paths from "@/configs/paths";
 import Menu from "./Menu";
 import { useSelector } from "react-redux";
-import NavLink from "@/contexts/PageStack/components/NavLink";
+import { NavLink } from "react-router";
 
 const NavDesktop = () => {
   const userInfo = useSelector((s) => s.auth.userInfo);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -14,7 +14,6 @@ import { cn } from "@/lib/utils";
 import { Spinner } from "@/components/ui/spinner";
 import { logoutThunk } from "@/features/auth/authThunks";
 import { useDispatch } from "react-redux";
-import Link from "@/contexts/PageStack/components/Link";
 
 const ResetPasswordPage = () => {
   const dispatch = useDispatch();

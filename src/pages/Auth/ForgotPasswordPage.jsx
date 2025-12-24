@@ -9,9 +9,9 @@ import { cn } from "@/lib/utils";
 import { Spinner } from "@/components/ui/spinner";
 import forgotPasswordSchema from "@/schemas/auth/forgotPasswordSchema";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { CheckCircle2Icon, ChevronLeftIcon } from "lucide-react";
+import { CheckCircle2Icon } from "lucide-react";
 import paths from "@/configs/paths";
-import Link from "@/contexts/PageStack/components/Link";
+import { Link } from "react-router";
 
 export default function ResetPasswordPage() {
   const form = useForm({

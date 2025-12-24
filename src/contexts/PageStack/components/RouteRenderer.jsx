@@ -1,6 +1,7 @@
+import { memo } from "react";
 import { matchRoutes } from "react-router";
 
-export default function RouteRenderer({ routes, layout, path }) {
+const RouteRenderer = memo(({ routes, layout, path }) => {
   const matches = matchRoutes(routes, path);
   if (!matches) return null;
 
@@ -15,11 +16,13 @@ export default function RouteRenderer({ routes, layout, path }) {
 
     if (layoutIndex === -1) return null;
 
-    layoutTree = matchedComponents.slice(layoutIndex);
+    layoutTree = matchedComponents.slice(layoutIndex + 1);
   }
 
   // 1 Tạo bản sao của layoutTree để không mutate mảng gốc
   const treeCopy = [...layoutTree];
+
+  console.log(treeCopy);
 
   // 2 Đảo ngược mảng để render từ trong ra ngoài (nested)
   const reversedTree = treeCopy.reverse();
@@ -32,4 +35,6 @@ export default function RouteRenderer({ routes, layout, path }) {
 
   // 4 Trả về cây component hoàn chỉnh
   return nestedTree;
-}
+});
+
+export default RouteRenderer;

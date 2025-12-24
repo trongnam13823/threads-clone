@@ -1,4 +1,5 @@
 import { Logo } from "@/components/Logo";
+import { Outlet } from "react-router";
 
 const AuthLayout = ({ children }) => {
   return (
@@ -11,7 +12,7 @@ const AuthLayout = ({ children }) => {
 
       <div className="absolute inset-0 mt-20 flex flex-col items-center justify-center gap-6 p-6">
         <Logo size={60} className="pointer-events-none md:hidden" />
-        {children}
+        {children ? children : <Outlet />}
       </div>
     </div>
   );

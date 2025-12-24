@@ -7,7 +7,7 @@ import { setUserInfo } from "@/features/auth/authSlice";
 import Splash from "../components/Splash";
 import paths from "@/configs/paths";
 
-function ProtectedLayout({ children }) {
+function ProtectedLayout() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
@@ -32,7 +32,7 @@ function ProtectedLayout({ children }) {
     return <Navigate to={paths.sendVerifyEmail} replace />;
   }
 
-  return userInfo ? children : <Navigate to={paths.login} replace />;
+  return userInfo ? <Outlet /> : <Navigate to={paths.login} replace />;
 }
 
 export default ProtectedLayout;

@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import Splash from "../components/Splash";
 import paths from "@/configs/paths";
 
-function GuestLayout({ children }) {
+function GuestLayout() {
   const dispatch = useDispatch();
 
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -27,9 +27,7 @@ function GuestLayout({ children }) {
   if (splashState !== SplashStatus.FADING_OUT_DONE) return <Splash />;
   // ---------- Splash ----------
 
-  console.log(1234);
-
-  return userInfo ? <Navigate to={paths.home} replace /> : children;
+  return userInfo ? <Navigate to={paths.home} replace /> : <Outlet />;
 }
 
 export default GuestLayout;

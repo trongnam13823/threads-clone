@@ -22,7 +22,6 @@ import ProtectedLayout from "@/layouts/ProtectedLayout";
 import HomePage from "@/pages/Home";
 import HomeColsLayout from "@/layouts/HomeColsLayout";
 import SearchLayout from "@/layouts/SearchLayout";
-import ColumnPageStackLayout from "@/layouts/ColumnPageStackLayout";
 
 export default [
   {
@@ -82,16 +81,11 @@ export default [
             Component: HomeColsLayout,
             children: [
               {
-                Component: ColumnPageStackLayout,
+                Component: HomeLayout,
                 children: [
                   {
-                    Component: HomeLayout,
-                    children: [
-                      {
-                        path: paths.home,
-                        Component: HomePage,
-                      },
-                    ],
+                    path: paths.home,
+                    Component: HomePage,
                   },
                 ],
               },
@@ -99,56 +93,51 @@ export default [
           },
 
           {
-            Component: ColumnPageStackLayout,
+            Component: HomeLayout,
             children: [
               {
-                Component: HomeLayout,
-                children: [
-                  {
-                    path: paths.forYou,
-                    Component: ForYouPage,
-                  },
-                  {
-                    path: paths.following,
-                    Component: FollowingPage,
-                  },
-                ],
+                path: paths.forYou,
+                Component: ForYouPage,
               },
               {
-                Component: SearchLayout,
-                children: [
-                  {
-                    path: paths.search,
-                    Component: SearchPage,
-                  },
-                ],
+                path: paths.following,
+                Component: FollowingPage,
               },
+            ],
+          },
+          {
+            Component: SearchLayout,
+            children: [
+              {
+                path: paths.search,
+                Component: SearchPage,
+              },
+            ],
+          },
 
+          {
+            Component: ActivityLayout,
+            children: [
               {
-                Component: ActivityLayout,
-                children: [
-                  {
-                    path: paths.activity,
-                    Component: ActivityPage,
-                  },
-                  {
-                    path: paths.activityFollows,
-                    Component: ActivityFollowsPage,
-                  },
-                ],
+                path: paths.activity,
+                Component: ActivityPage,
               },
               {
-                Component: ProfileLayout,
-                children: [
-                  {
-                    path: paths.profile(":username"),
-                    Component: ProfilePage,
-                  },
-                  {
-                    path: paths.profileReplies(":username"),
-                    Component: ProfileRepliesPage,
-                  },
-                ],
+                path: paths.activityFollows,
+                Component: ActivityFollowsPage,
+              },
+            ],
+          },
+          {
+            Component: ProfileLayout,
+            children: [
+              {
+                path: paths.profile(":username"),
+                Component: ProfilePage,
+              },
+              {
+                path: paths.profileReplies(":username"),
+                Component: ProfileRepliesPage,
               },
             ],
           },

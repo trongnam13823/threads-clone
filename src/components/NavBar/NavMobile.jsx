@@ -4,8 +4,7 @@ import { ArrowLeftIcon, HeartIcon, HomeIcon, PlusIcon, SearchIcon, UserIcon } fr
 import paths from "@/configs/paths";
 import Menu from "./Menu";
 import { useSelector } from "react-redux";
-import Back from "@/contexts/PageStack/components/Back";
-import NavLink from "@/contexts/PageStack/components/NavLink";
+import { NavLink } from "react-router";
 
 const NavMobile = () => {
   const userInfo = useSelector((s) => s.auth.userInfo);
@@ -13,11 +12,9 @@ const NavMobile = () => {
   return (
     <>
       <header className="absolute top-0 right-0 left-0 z-20 flex h-(--header-h) items-center justify-center bg-(--header-background) backdrop-blur-xl md:hidden">
-        <Back>
-          <Button className="group absolute top-1/2 left-4 size-12 -translate-y-1/2" variant="none">
-            <ArrowLeftIcon size={24} className="transition-transform group-hover:scale-105" />
-          </Button>
-        </Back>
+        <Button className="group absolute top-1/2 left-4 size-12 -translate-y-1/2" variant="none">
+          <ArrowLeftIcon size={24} className="transition-transform group-hover:scale-105" />
+        </Button>
 
         <Logo size={32} />
 

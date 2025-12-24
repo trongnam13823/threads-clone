@@ -15,7 +15,7 @@ import registerSchema from "@/schemas/auth/registerSchema";
 import { useState } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import Link from "@/contexts/PageStack/components/Link";
+import { Link } from "react-router";
 
 export default function RegisterPage() {
   const form = useForm({

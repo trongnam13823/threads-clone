@@ -1,5 +1,5 @@
 import paths from "@/configs/paths";
-import Link from "@/contexts/PageStack/components/Link";
+import { Link } from "react-router";
 
 const ActivityPage = () => {
   return (

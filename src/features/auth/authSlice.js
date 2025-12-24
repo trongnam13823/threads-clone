@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { logoutThunk } from "./authThunks";
 import paths from "@/configs/paths";
-import { arrayMove } from "@dnd-kit/sortable";
 
 const initialState = {
   accessToken: null,
@@ -29,13 +28,7 @@ const authSlice = createSlice({
       state.userInfo = action.payload;
     },
     reorderColumns(state, action) {
-      const { activeId, overId } = action.payload;
-      if (overId == null || activeId === overId) return;
-
-      const oldIndex = state.columns.findIndex((c) => c.id === activeId);
-      const newIndex = state.columns.findIndex((c) => c.id === overId);
-
-      state.columns = arrayMove(state.columns, oldIndex, newIndex);
+      //
     },
   },
   extraReducers: (builder) => {

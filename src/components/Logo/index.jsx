@@ -1,6 +1,6 @@
 import paths from "@/configs/paths";
-import Link from "@/contexts/PageStack/components/Link";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router";
 
 export const Logo = ({ size = 34, className, ...props }) => {
   return (

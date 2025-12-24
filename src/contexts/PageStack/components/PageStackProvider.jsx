@@ -1,30 +1,18 @@
-import { useState, useRef, useMemo } from "react";
-import { useLocation } from "react-router";
+import { useState, useRef, useMemo, useEffect } from "react";
 import PageStackContext from "../context/PageStackContext";
 
-const PageStackProvider = ({
-  children,
-  routes,
-  layout,
-  pathname,
-  neverUnmount = [],
-  isPreventDefault = false,
-  data,
-}) => {
-  if (!Array.isArray(routes) || routes.length === 0) {
-    throw new Error("PageStackProvider: `routes` prop must be a non-empty array!");
-  }
-
+const PageStackProvider = ({ children, layout, neverUnmount = [], isPreventDefault = false, data }) => {
   const maxId = useRef(1);
 
-  const { pathname: url } = useLocation();
-  const initialPath = isPreventDefault && pathname ? pathname : url;
-
-  const [history, setHistory] = useState([initialPath]);
-  const [pages, setPages] = useState([{ id: 1, path: initialPath }]);
+  const [history, setHistory] = useState([]);
+  const [pages, setPages] = useState([]);
 
   const pushPath = (path) => {
-    if (path === history.at(-1)) return;
+    if (history.length > 0 && path === history.at(-1)) return;
+
+    if (!isPreventDefault) {
+      window.history.pushState({}, "", path);
+    }
 
     setHistory((prev) => [...prev, path]);
 
@@ -45,8 +33,7 @@ const PageStackProvider = ({
   };
 
   const popPath = (callback) => {
-    if (history.length === 1) {
-      callback?.(history[0]);
+    if (history.length === 0) {
       return;
     }
 
@@ -82,6 +69,20 @@ const PageStackProvider = ({
     });
   };
 
+  useEffect(() => {
+    const handle = () => popPath();
+    window.addEventListener("popstate", handle);
+    return () => window.removeEventListener("popstate", handle);
+  }, [history]);
+
+  useEffect(() => {
+    return () => {
+      console.log(123);
+      setHistory([]);
+      setPages([]);
+    };
+  }, []);
+
   const currentPath = useMemo(() => history.at(-1), [history]);
 
   const currentPage = useMemo(
@@ -100,12 +101,11 @@ const PageStackProvider = ({
         popPath,
         replacePath,
         layout,
-        routes,
         data,
         isPreventDefault,
       }}
     >
-      <div className="relative size-full">{children}</div>
+      {children}
     </PageStackContext.Provider>
   );
 };
