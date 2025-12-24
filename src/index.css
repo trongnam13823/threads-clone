@@ -91,6 +91,8 @@
   --error-text: rgb(255, 48, 64);
   --charcoal-text: rgb(66, 66, 66);
   --placeholder-text: #65676b;
+  --threadline: rgb(229, 229, 229);
+  --elevated-tertiary-background: rgb(255, 255, 255);
   --box-shadow-04: rgba(0, 0, 0, 0.04);
   --box-shadow-08: rgba(0, 0, 0, 0.08);
   --icon-primary: rgb(0, 0, 0);

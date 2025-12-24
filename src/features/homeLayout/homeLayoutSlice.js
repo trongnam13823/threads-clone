@@ -6,15 +6,15 @@ export const DEFAULT_COLUMN_ID = "default";
 
 const DEFAULT_COLUMN = {
   id: DEFAULT_COLUMN_ID,
-  start: 1,
+  path: paths.home,
 };
 
 const initialState = {
   columns: [
     DEFAULT_COLUMN,
-    // { id: "1", path: paths.activity },
-    // { id: "2", path: paths.search },
-    // { id: "3", path: paths.search },
+    { id: "1", path: paths.activity },
+    { id: "2", path: paths.search },
+    { id: "3", path: paths.search },
   ],
 };
 

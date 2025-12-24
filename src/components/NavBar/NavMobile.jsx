@@ -1,10 +1,11 @@
 import { Logo } from "../Logo";
 import { Button } from "../ui/button";
-import { HeartIcon, HomeIcon, PlusIcon, SearchIcon, UserIcon } from "lucide-react";
+import { ArrowLeftIcon, HeartIcon, HomeIcon, PlusIcon, SearchIcon, UserIcon } from "lucide-react";
 import paths from "@/configs/paths";
 import Menu from "./Menu";
 import NavLink from "@/contexts/history/components/NavLink";
 import { useSelector } from "react-redux";
+import Back from "@/contexts/history/components/Back";
 
 const NavMobile = () => {
   const userInfo = useSelector((s) => s.auth.userInfo);
@@ -12,6 +13,12 @@ const NavMobile = () => {
   return (
     <>
       <header className="absolute top-0 right-0 left-0 z-20 flex h-(--header-h) items-center justify-center bg-(--header-background) backdrop-blur-xl md:hidden">
+        <Back asChild>
+          <Button className="group absolute top-1/2 left-4 size-12 -translate-y-1/2" variant="none">
+            <ArrowLeftIcon size={24} className="transition-transform group-hover:scale-105" />
+          </Button>
+        </Back>
+
         <Logo size={32} />
 
         <Menu className="absolute top-1/2 right-4 -translate-y-1/2" />
