@@ -1,8 +1,7 @@
 import { useLocation, Outlet } from "react-router";
 import { useState, useMemo } from "react";
 import paths from "@/configs/paths";
-import HomeLayout from "./HomeLayout";
-import HomePage from "@/pages/Home";
+import HomeColsLayout from "./HomeColsLayout";
 
 const NeverUnmountLayout = () => {
   const location = useLocation();
@@ -12,14 +11,7 @@ const NeverUnmountLayout = () => {
   const [isHomeMount, setIsHomeMount] = useState(false);
 
   // Memoize the home element to prevent recreation
-  const homeElement = useMemo(
-    () => (
-      <HomeLayout>
-        <HomePage />
-      </HomeLayout>
-    ),
-    []
-  );
+  const homeElement = useMemo(() => <HomeColsLayout />, []);
 
   // Mount HOME exactly once when first visited
   if (isHome && !isHomeMount) {

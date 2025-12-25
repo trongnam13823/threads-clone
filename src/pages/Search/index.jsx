@@ -1,5 +1,5 @@
 import paths from "@/configs/paths";
-import Link from "@/contexts/PageStack/components/Link";
+import Link from "@/contexts/pageStack/components/Link";
 import { useSelector } from "react-redux";
 
 const SearchPage = () => {
@@ -7,13 +7,13 @@ const SearchPage = () => {
 
   return (
     <>
-      <div className="h-80 w-full shrink-0 bg-gray-200">
+      <div className="h-80 w-full shrink-0">
         SearchPage SearchPage SearchPage ipsum dolor sit amet consectetur adipisicing elit. Inventore modi quod totam
         ipsam, error suscipit illo unde accusamus aperiam vel iure ex minima repudiandae amet rerum! Incidunt
         voluptatibus reiciendis maiores.
       </div>
-      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
-      <div className="h-80 w-full shrink-0 bg-gray-200">
+      <div className="h-80 w-full shrink-0"></div>
+      <div className="h-80 w-full shrink-0">
         SearchPage SearchPage SearchPage ipsum dolor sit amet consectetur adipisicing elit. Inventore modi quod totam
         ipsam, error suscipit
         <Link to={paths.profile(userInfo.username)} className="text-pink-400">
@@ -21,7 +21,7 @@ const SearchPage = () => {
         </Link>
         illo unde accusamus aperiam vel iure ex minima repudiandae amet rerum! Incidunt voluptatibus reiciendis maiores.
       </div>
-      <div className="h-80 w-full shrink-0 bg-gray-200">
+      <div className="h-80 w-full shrink-0">
         SearchPage SearchPage SearchPage ipsum dolor sit amet consectetur adipisicing elit. Inventore modi quod totam
         ipsam, error suscipit illo unde accusamus aperiam vel iure ex minima repudiandae amet rerum! Incidunt
         voluptatibus reiciendis maiores.

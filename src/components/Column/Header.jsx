@@ -1,11 +1,14 @@
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { ArrowLeftIcon, ChevronLeftIcon } from "lucide-react";
-import Back from "@/contexts/PageStack/components/Back";
+import Back from "@/contexts/pageStack/components/Back";
 import { Logo } from "../Logo";
 import Menu from "../NavBar/Menu";
+import { useDraggable } from "@/contexts/draggable/hooks/usePageStack";
 
 const Header = ({ children, className }) => {
+  const { setIsCanDrag, isDraggable } = useDraggable();
+
   return (
     <>
       {/* header mobile */}
@@ -23,8 +26,10 @@ const Header = ({ children, className }) => {
 
       {/* header column */}
       <header
+        onMouseDown={() => setIsCanDrag(true)}
         className={cn(
-          "top-0 mx-auto flex h-(--header-h) w-full shrink-0 items-center justify-center bg-(--background-secondary) focus-visible:outline-0 md:sticky md:max-w-(--column-max-w)",
+          "max-md: top-0 mx-auto flex h-(--header-h) w-full shrink-0 items-center justify-center bg-(--background-secondary) focus-visible:outline-0 max-md:bg-(--elevated-background) md:sticky md:max-w-(--column-max-w)",
+          isDraggable && "cursor-grab bg-transparent",
           className
         )}
       >

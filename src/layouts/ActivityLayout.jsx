@@ -1,23 +1,7 @@
-import { Outlet } from "react-router";
-import ColumnLayout from "./ColumnLayout";
-import PageStackProvider from "@/contexts/PageStack/components/PageStackProvider";
+import ColumnLayout from "@/components/Column/ColumnLayout";
 import paths from "@/configs/paths";
+import createColumnLayout from "@/components/Column/helper/createColumnLayout";
 
-const ActivityLayout = ({ children, className, fromRouteRenderer }) => {
-  const content = (
-    <ColumnLayout className={className}>
-      <ColumnLayout.Header>Activity Layout</ColumnLayout.Header>
-      <ColumnLayout.Content>{children ? children : <Outlet />}</ColumnLayout.Content>
-    </ColumnLayout>
-  );
-
-  if (fromRouteRenderer) return content;
-
-  return (
-    <PageStackProvider url={paths.activity} neverUnmount={paths.following}>
-      {content}
-    </PageStackProvider>
-  );
-};
+const ActivityLayout = createColumnLayout(<ColumnLayout.Header>Activity Layout</ColumnLayout.Header>, paths.home);
 
 export default ActivityLayout;

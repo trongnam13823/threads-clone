@@ -1,19 +1,18 @@
 import paths from "@/configs/paths";
-import Link from "@/contexts/PageStack/components/Link";
+import Link from "@/contexts/pageStack/components/Link";
 
 const ActivityPage = () => {
-  console.log("ActivityPage");
   return (
     <>
-      <div className="h-80 w-full shrink-0 bg-gray-200">
+      <div className="h-80 w-full shrink-0">
         ActivityPage ActivityPage ActivityPage ipsum dolor sit amet consectetur adipisicing elit. Inventore modi quod
         totam ipsam, error suscipit illo unde accusamus aperiam vel iure ex minima repudiandae amet rerum! Incidunt
         voluptatibus reiciendis maiores.
       </div>
-      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
-      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
-      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
-      <div className="h-80 w-full shrink-0 bg-gray-200">
+      <div className="h-80 w-full shrink-0"></div>
+      <div className="h-80 w-full shrink-0"></div>
+      <div className="h-80 w-full shrink-0"></div>
+      <div className="h-80 w-full shrink-0">
         Lorem ipsum dolor sit amet consecteLorem ipsum dolor sit amet consectetur adipisicing elit. Eaque asperi
         <Link to={paths.activityFollows} className="text-pink-400">
           To Activity Follows
@@ -23,9 +22,9 @@ const ActivityPage = () => {
         error suscipit illo unde accusamus aperiam vel iure ex minima repudiandae amet rerum! Incidunt voluptatibus
         reiciendis maiores.
       </div>
-      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
-      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
-      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
+      <div className="h-80 w-full shrink-0"></div>
+      <div className="h-80 w-full shrink-0"></div>
+      <div className="h-80 w-full shrink-0"></div>
     </>
   );
 };

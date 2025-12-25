@@ -2,7 +2,7 @@ import routes from "@/configs/routes";
 import { memo } from "react";
 import { matchRoutes } from "react-router";
 
-const RouteRenderer = memo(({ path, skip = 3, className }) => {
+const RouteRenderer = memo(({ path, className, autoUpdateUrl, skip = 3, fromRouteRenderer = true }) => {
   const matches = matchRoutes(routes, path);
   if (!matches) return null;
 
@@ -15,12 +15,17 @@ const RouteRenderer = memo(({ path, skip = 3, className }) => {
     // Component ngoài cùng sẽ nhận style/className
     if (index === 0) {
       return (
-        <Comp fromRouteRenderer className={className}>
+        <Comp
+          fromRouteRenderer={fromRouteRenderer}
+          routeRendererPath={path}
+          autoUpdateUrl={autoUpdateUrl}
+          className={className}
+        >
           {children}
         </Comp>
       );
     }
-    return <Comp fromRouteRenderer>{children}</Comp>;
+    return <Comp fromRouteRenderer={fromRouteRenderer}>{children}</Comp>;
   }, null);
 
   return nestedTree;

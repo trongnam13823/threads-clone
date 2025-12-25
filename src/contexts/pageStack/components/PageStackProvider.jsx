@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import PageStackContext from "../context/PageStackContext";
 import RouteRenderer from "./RouteRenderer";
+import { cn } from "@/lib/utils";
 
 const PageStackProvider = ({ children, url, neverUnmount = [], autoUpdateUrl = true }) => {
   const maxId = useRef(1);
@@ -73,10 +74,14 @@ const PageStackProvider = ({ children, url, neverUnmount = [], autoUpdateUrl = t
         replacePath,
       }}
     >
-      {children}
+      <div className={cn("size-full", history.length > 0 ? "hidden opacity-0" : "")}>{children}</div>
 
       {pages.map(({ id, path }) => (
-        <RouteRenderer key={id} path={path} className={history.at(-1) !== path ? "hidden" : ""} />
+        <RouteRenderer
+          key={id}
+          path={path}
+          className={cn("size-full", history.at(-1) !== path ? "hidden opacity-0" : "")}
+        />
       ))}
     </PageStackContext.Provider>
   );
