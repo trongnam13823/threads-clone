@@ -13,7 +13,11 @@ const HomeLayout = ({ children, className, fromRouteRenderer }) => {
 
   if (fromRouteRenderer) return content;
 
-  return <PageStackProvider page={paths.home}>{content}</PageStackProvider>;
+  return (
+    <PageStackProvider url={paths.home} neverUnmount={paths.following}>
+      {content}
+    </PageStackProvider>
+  );
 };
 
 export default HomeLayout;

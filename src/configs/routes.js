@@ -19,7 +19,9 @@ import SendVerifyEmailPage from "@/pages/Auth/SendVerifyEmailPage";
 import GuestLayout from "@/layouts/GuestLayout";
 import ProtectedLayout from "@/layouts/ProtectedLayout";
 import SearchLayout from "@/layouts/SearchLayout";
-import KeepMountedRoutes from "@/layouts/KeepMountedLayout";
+import NeverUnmountLayout from "@/layouts/NeverUnmountLayout";
+import FollowingPage from "@/pages/Home/FollowingPage";
+import HomePage from "@/pages/Home";
 
 export default [
   {
@@ -76,17 +78,19 @@ export default [
         Component: DefaultLayout,
         children: [
           {
-            Component: KeepMountedRoutes,
+            Component: NeverUnmountLayout,
             children: [
-              {
-                path: paths.home,
-              },
-              {
-                path: paths.following,
-              },
               {
                 Component: HomeLayout,
                 children: [
+                  {
+                    path: paths.home,
+                    Component: HomePage,
+                  },
+                  {
+                    path: paths.following,
+                    Component: FollowingPage,
+                  },
                   {
                     path: paths.forYou,
                     Component: ForYouPage,

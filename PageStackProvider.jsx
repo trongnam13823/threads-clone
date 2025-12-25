@@ -1,17 +1,33 @@
-import { useEffect, useRef, useState } from "react";
+import { useState, useRef, useMemo } from "react";
+import { useLocation } from "react-router";
 import PageStackContext from "../context/PageStackContext";
-import RouteRenderer from "./RouteRenderer";
 
-const PageStackProvider = ({ children, url, neverUnmount = [], autoUpdateUrl = true }) => {
+const PageStackProvider = ({
+  children,
+  routes,
+  layout,
+  pathname,
+  neverUnmount = [],
+  isPreventDefault = false,
+  data,
+}) => {
+  if (!Array.isArray(routes) || routes.length === 0) {
+    throw new Error("PageStackProvider: `routes` prop must be a non-empty array!");
+  }
+
   const maxId = useRef(1);
-  const [history, setHistory] = useState([]);
-  const [pages, setPages] = useState([]);
+
+  const { pathname: url } = useLocation();
+  const initialPath = isPreventDefault && pathname ? pathname : url;
+
+  const [history, setHistory] = useState([initialPath]);
+  const [pages, setPages] = useState([{ id: 1, path: initialPath }]);
 
   const pushPath = (path) => {
-    if (history.length > 0 && path === history.at(-1)) return;
-    if (!history.length && path === url) return;
+    if (path === history.at(-1)) return;
 
     setHistory((prev) => [...prev, path]);
+
     setPages((prev) => {
       const isNeverUnmount = neverUnmount.includes(path);
       const isNewPath = prev.every((p) => p.path !== path);
@@ -28,11 +44,16 @@ const PageStackProvider = ({ children, url, neverUnmount = [], autoUpdateUrl = t
     });
   };
 
-  const popPath = () => {
-    if (history.length === 0) return;
+  const popPath = (callback) => {
+    if (history.length === 1) {
+      callback?.(history[0]);
+      return;
+    }
 
     const currentPath = history.at(-1);
+
     const newHistory = history.slice(0, -1);
+    const nextPath = newHistory.at(-1);
 
     setHistory(newHistory);
 
@@ -42,6 +63,8 @@ const PageStackProvider = ({ children, url, neverUnmount = [], autoUpdateUrl = t
       if (isNeverUnmount) return [...prev];
       else return prev.slice(0, -1);
     });
+
+    callback?.(nextPath);
   };
 
   const replacePath = (path) => {
@@ -59,25 +82,30 @@ const PageStackProvider = ({ children, url, neverUnmount = [], autoUpdateUrl = t
     });
   };
 
-  useEffect(() => {
-    if (autoUpdateUrl) window.history.replaceState({}, "", history.at(-1) ?? url);
-  }, [history]);
+  const currentPath = useMemo(() => history.at(-1), [history]);
+
+  const currentPage = useMemo(
+    () => (neverUnmount.includes(currentPath) ? pages.find((p) => p.path === currentPath) : pages.at(-1)),
+    [pages, currentPath, neverUnmount]
+  );
 
   return (
     <PageStackContext.Provider
       value={{
-        history,
         pages,
+        history,
+        currentPage,
+        currentPath,
         pushPath,
         popPath,
         replacePath,
+        layout,
+        routes,
+        data,
+        isPreventDefault,
       }}
     >
-      {children}
-
-      {pages.map(({ id, path }) => (
-        <RouteRenderer key={id} path={path} className={history.at(-1) !== path ? "hidden" : ""} />
-      ))}
+      <div className="relative size-full">{children}</div>
     </PageStackContext.Provider>
   );
 };

@@ -1,13 +1,13 @@
 import usePageStack from "../hooks/usePageStack";
 
 export default function Back({ children, ...props }) {
-  const { pages, popPage } = usePageStack();
+  const { history, popPath } = usePageStack();
 
   const handleClick = () => {
-    popPage();
+    popPath();
   };
 
-  return pages && pages.length > 0 ? (
+  return history && history.length > 0 ? (
     <div className="cursor-pointer" {...props} onClick={handleClick}>
       {children}
     </div>

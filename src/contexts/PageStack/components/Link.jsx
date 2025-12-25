@@ -1,15 +1,15 @@
 import usePageStack from "../hooks/usePageStack";
 
 export default function Link({ children, to, replace }) {
-  const { pushPage, replacePage } = usePageStack();
+  const { pushPath, replacePath } = usePageStack();
 
   const handleClick = () => {
     if (replace) {
-      replacePage(to);
+      replacePath(to);
       return;
     }
 
-    pushPage(to);
+    pushPath(to);
   };
 
   return (
