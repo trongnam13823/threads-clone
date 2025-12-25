@@ -1,5 +1,5 @@
 import paths from "@/configs/paths";
-import { Link } from "react-router";
+import Link from "@/contexts/PageStack/components/Link";
 
 export default function HomePage() {
   return (
@@ -13,8 +13,12 @@ export default function HomePage() {
       <div className="h-80 w-full shrink-0 bg-gray-200"></div>
       <div className="h-80 w-full shrink-0 bg-gray-200"></div>
       <div className="h-80 w-full shrink-0 bg-gray-200">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore modi quod totam ipsam, error suscipit illo
-        unde accusamus aperiam vel iure ex minima repudiandae amet rerum! Incidunt voluptatibus reiciendis maiores.
+        Lorem ipsum dolor sit amet consectetur adipisicing
+        <Link to={paths.home} className="text-pink-400">
+          To Home
+        </Link>
+        elit. Inventore modi quod totam ipsam, error suscipit illo unde accusamus aperiam vel iure ex minima repudiandae
+        amet rerum! Incidunt voluptatibus reiciendis maiores.
       </div>
       <div className="h-80 w-full shrink-0 bg-gray-200"></div>
       <div className="h-80 w-full shrink-0 bg-gray-200">

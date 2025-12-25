@@ -1,7 +1,6 @@
 import DefaultLayout from "@/layouts/DefaultLayout";
 import HomeLayout from "@/layouts/HomeLayout";
 import paths from "./paths";
-import FollowingPage from "@/pages/Home/FollowingPage";
 import ActivityLayout from "@/layouts/ActivityLayout";
 import ActivityPage from "@/pages/Activity";
 import ActivityFollowsPage from "@/pages/Activity/ActivityFollowsPage";
@@ -19,9 +18,8 @@ import VerifyEmailPage from "@/pages/Auth/VerifyEmailPage";
 import SendVerifyEmailPage from "@/pages/Auth/SendVerifyEmailPage";
 import GuestLayout from "@/layouts/GuestLayout";
 import ProtectedLayout from "@/layouts/ProtectedLayout";
-import HomePage from "@/pages/Home";
-import HomeColsLayout from "@/layouts/HomeColsLayout";
 import SearchLayout from "@/layouts/SearchLayout";
+import KeepMountedRoutes from "@/layouts/KeepMountedLayout";
 
 export default [
   {
@@ -78,66 +76,58 @@ export default [
         Component: DefaultLayout,
         children: [
           {
-            Component: HomeColsLayout,
+            Component: KeepMountedRoutes,
             children: [
+              {
+                path: paths.home,
+              },
+              {
+                path: paths.following,
+              },
               {
                 Component: HomeLayout,
                 children: [
                   {
-                    path: paths.home,
-                    Component: HomePage,
+                    path: paths.forYou,
+                    Component: ForYouPage,
                   },
                 ],
               },
-            ],
-          },
+              {
+                Component: SearchLayout,
+                children: [
+                  {
+                    path: paths.search,
+                    Component: SearchPage,
+                  },
+                ],
+              },
 
-          {
-            Component: HomeLayout,
-            children: [
               {
-                path: paths.forYou,
-                Component: ForYouPage,
+                Component: ActivityLayout,
+                children: [
+                  {
+                    path: paths.activity,
+                    Component: ActivityPage,
+                  },
+                  {
+                    path: paths.activityFollows,
+                    Component: ActivityFollowsPage,
+                  },
+                ],
               },
               {
-                path: paths.following,
-                Component: FollowingPage,
-              },
-            ],
-          },
-          {
-            Component: SearchLayout,
-            children: [
-              {
-                path: paths.search,
-                Component: SearchPage,
-              },
-            ],
-          },
-
-          {
-            Component: ActivityLayout,
-            children: [
-              {
-                path: paths.activity,
-                Component: ActivityPage,
-              },
-              {
-                path: paths.activityFollows,
-                Component: ActivityFollowsPage,
-              },
-            ],
-          },
-          {
-            Component: ProfileLayout,
-            children: [
-              {
-                path: paths.profile(":username"),
-                Component: ProfilePage,
-              },
-              {
-                path: paths.profileReplies(":username"),
-                Component: ProfileRepliesPage,
+                Component: ProfileLayout,
+                children: [
+                  {
+                    path: paths.profile(":username"),
+                    Component: ProfilePage,
+                  },
+                  {
+                    path: paths.profileReplies(":username"),
+                    Component: ProfileRepliesPage,
+                  },
+                ],
               },
             ],
           },

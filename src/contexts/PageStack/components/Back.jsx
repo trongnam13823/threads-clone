@@ -1,20 +1,14 @@
 import usePageStack from "../hooks/usePageStack";
-import { useNavigate } from "react-router";
 
 export default function Back({ children, ...props }) {
-  const { popPath, history, isPreventDefault } = usePageStack();
-  const navigate = useNavigate();
+  const { pages, popPage } = usePageStack();
 
   const handleClick = () => {
-    popPath((next) => {
-      if (!isPreventDefault) {
-        navigate(next);
-      }
-    });
+    popPage();
   };
 
-  return history.length > 0 ? (
-    <div {...props} onClick={handleClick}>
+  return pages && pages.length > 0 ? (
+    <div className="cursor-pointer" {...props} onClick={handleClick}>
       {children}
     </div>
   ) : null;

@@ -1,7 +1,7 @@
 import { useMatch } from "react-router";
 import Link from "./Link";
 
-export default function NavLink({ to, children, end = true, ...props }) {
+export default function NavLink({ children, to, end = true, ...props }) {
   const isActive = !!useMatch({ path: to, end });
 
   return (

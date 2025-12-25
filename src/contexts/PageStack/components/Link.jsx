@@ -1,19 +1,19 @@
 import usePageStack from "../hooks/usePageStack";
 
-export default function Link({ children, to, replace, ...props }) {
-  const { pushPath, replacePath } = usePageStack();
+export default function Link({ children, to, replace }) {
+  const { pushPage, replacePage } = usePageStack();
 
   const handleClick = () => {
     if (replace) {
-      replacePath(to);
+      replacePage(to);
       return;
     }
 
-    pushPath(to);
+    pushPage(to);
   };
 
   return (
-    <div to={to} {...props} onClick={handleClick}>
+    <div className="cursor-pointer text-pink-400" onClick={handleClick}>
       {children}
     </div>
   );

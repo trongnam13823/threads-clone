@@ -1,39 +1,23 @@
+/* eslint-disable no-unused-vars */
+import routes from "@/configs/routes";
 import { memo } from "react";
 import { matchRoutes } from "react-router";
 
-const RouteRenderer = memo(({ routes, layout, path }) => {
+const RouteRenderer = memo(({ path, skip = 3 }) => {
   const matches = matchRoutes(routes, path);
   if (!matches) return null;
 
   // Lấy danh sách component đã match
   const matchedComponents = matches.map((m) => m.route.Component).filter(Boolean);
 
-  let layoutTree = matchedComponents;
+  // Bỏ qua `skip` layout đầu tiên
+  const layoutTree = matchedComponents.slice(skip);
 
-  // 👉 CHỈ xử lý findIndex khi có truyền layout
-  if (layout) {
-    const layoutIndex = matchedComponents.findIndex((Comp) => Comp === layout);
+  if (layoutTree.length === 0) return null;
 
-    if (layoutIndex === -1) return null;
+  // Dùng reduceRight dựng cây component lồng nhau từ trong ra ngoài
+  const nestedTree = layoutTree.reduceRight((children, Comp) => <Comp fromRouteRenderer={true}>{children}</Comp>, null);
 
-    layoutTree = matchedComponents.slice(layoutIndex + 1);
-  }
-
-  // 1 Tạo bản sao của layoutTree để không mutate mảng gốc
-  const treeCopy = [...layoutTree];
-
-  console.log(treeCopy);
-
-  // 2 Đảo ngược mảng để render từ trong ra ngoài (nested)
-  const reversedTree = treeCopy.reverse();
-
-  // 3 Dùng reduce để dựng cây component lồng nhau
-  let nestedTree = null;
-  for (const Comp of reversedTree) {
-    nestedTree = nestedTree ? <Comp>{nestedTree}</Comp> : <Comp />;
-  }
-
-  // 4 Trả về cây component hoàn chỉnh
   return nestedTree;
 });
 

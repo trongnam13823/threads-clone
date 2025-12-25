@@ -1,7 +1,8 @@
 import paths from "@/configs/paths";
-import { Link } from "react-router";
+import Link from "@/contexts/PageStack/components/Link";
 
 const ActivityPage = () => {
+  console.log("ActivityPage");
   return (
     <>
       <div className="h-80 w-full shrink-0 bg-gray-200">
