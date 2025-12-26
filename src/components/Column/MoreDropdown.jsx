@@ -8,7 +8,7 @@ export default function MoreDropdown({ children }) {
       <DropdownMenuTrigger asChild className="max-md:hidden">
         <div className="group absolute top-1/2 right-3 z-20 flex size-12 -translate-y-1/2 cursor-pointer items-center justify-center">
           <Button
-            className="size-6 shadow-[0_2px_8px_0_var(--box-shadow-08)] group-hover:scale-105 group-active:scale-95"
+            className="size-6 p-0 shadow-[0_2px_8px_0_var(--box-shadow-08)] group-hover:scale-105 group-active:scale-95"
             variant="outline"
             size="icon"
           >

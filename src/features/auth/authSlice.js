@@ -7,15 +7,9 @@ const initialState = {
   refreshToken: null,
   userInfo: null,
   columns: [
-    { id: 1, path: paths.home },
-    { id: 2, path: paths.search },
-    { id: 3, path: paths.activity },
-    { id: 4, path: paths.home },
-    { id: 5, path: paths.search },
-    { id: 6, path: paths.activity },
-    { id: 7, path: paths.home },
-    { id: 8, path: paths.search },
-    { id: 9, path: paths.activity },
+    // { id: 1, path: paths.home },
+    // { id: 2, path: paths.search },
+    // { id: 3, path: paths.activity },
   ],
 };
 

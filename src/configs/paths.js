@@ -15,6 +15,7 @@ export default {
 
   forYou: "/for-you",
   following: "/following",
+  ghostPosts: "/ghost-posts",
 
   search: "/search",
 

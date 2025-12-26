@@ -1,38 +1,20 @@
-import paths from "@/configs/paths";
-import Link from "@/contexts/pageStack/components/Link";
+import ColumnContent from "@/components/Column/ColumnContent";
+import { CreatePostBox } from "@/components/Post/CreatePostBox";
+import { PostCard } from "@/components/Post/PostCard";
 
 export default function HomePage() {
   return (
-    <>
-      <div className="h-80 w-full shrink-0">
-        HomePage HomePage HomePage ipsum dolor sit amet consectetur adipisicing elit. Inventore modi quod totam ipsam,
-        error suscipit illo unde accusamus aperiam vel iure ex minima repudiandae amet rerum! Incidunt voluptatibus
-        reiciendis maiores.
-      </div>
-      <div className="h-80 w-full shrink-0"></div>
-      <div className="h-80 w-full shrink-0"></div>
-      <div className="h-80 w-full shrink-0"></div>
-      <div className="h-80 w-full shrink-0">
-        Lorem ipsum dolor sit amet consectetur adipisicing
-        <Link to={paths.home} className="text-pink-400">
-          To Home
-        </Link>
-        elit. Inventore modi quod totam ipsam, error suscipit illo unde accusam
-        <Link to={paths.following} className="text-pink-400">
-          To Following
-        </Link>
-        us aperiam vel iure ex minima repudiandae amet rerum! Incidunt voluptatibus reiciendis maiores.
-      </div>
-      <div className="h-80 w-full shrink-0"></div>
-      <div className="h-80 w-full shrink-0">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque asperi
-        <Link to={paths.activity} className="text-pink-400">
-          To Activity
-        </Link>
-        ores expedita voluptatibus! Voluptatem quos doloremque, facere animi, amet voluptatibus iure laudantium ipsam
-        culpa itaque nemo tempora excepturi minima saepe! Id?
-      </div>
-      <div className="h-80 w-full shrink-0"></div>
-    </>
+    <ColumnContent className="flex-1 *:border-b *:border-(--primary-column-outline) [&>*:last-child]:border-none">
+      <CreatePostBox className="pt-6 max-md:hidden" />
+      <PostCard />
+      <PostCard />
+      <PostCard />
+      <PostCard />
+      <PostCard />
+      <PostCard />
+      <PostCard />
+      <PostCard />
+      <PostCard />
+    </ColumnContent>
   );
 }

@@ -7,7 +7,7 @@ export default function Back({ children, ...props }) {
     popPath();
   };
 
-  return history && history.length > 0 ? (
+  return history && history.length > 1 ? (
     <div className="cursor-pointer" {...props} onClick={handleClick}>
       {children}
     </div>

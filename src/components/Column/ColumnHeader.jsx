@@ -6,7 +6,7 @@ import { Logo } from "../Logo";
 import Menu from "../NavBar/Menu";
 import useDragSwap from "@/contexts/dragSwap/hooks/useDragSwap";
 
-const Header = ({ children, className }) => {
+const ColumnHeader = ({ children, className }) => {
   const { data, getHandleProps, isDraggable } = useDragSwap();
   return (
     <>
@@ -27,7 +27,7 @@ const Header = ({ children, className }) => {
       <header
         {...getHandleProps?.(data?.id)}
         className={cn(
-          "max-md: top-0 mx-auto flex h-(--header-h) w-full shrink-0 items-center justify-center bg-(--background-secondary) focus-visible:outline-0 max-md:bg-(--elevated-background) md:sticky md:max-w-(--column-max-w)",
+          "top-0 mx-auto flex h-(--header-h) w-full shrink-0 items-center justify-center bg-(--background-secondary) focus-visible:outline-0 max-md:bg-(--elevated-background) md:sticky md:max-w-(--column-max-w)",
           isDraggable && "bg-transparent",
           className
         )}
@@ -35,7 +35,7 @@ const Header = ({ children, className }) => {
         <Back>
           <div className="group absolute top-1/2 left-3 z-20 flex size-12 -translate-y-1/2 cursor-pointer items-center justify-center max-md:hidden">
             <Button
-              className="size-6 shadow-[0_2px_8px_0_var(--box-shadow-08)] group-hover:scale-105 group-active:scale-95"
+              className="size-6 p-0 shadow-[0_2px_8px_0_var(--box-shadow-08)] group-hover:scale-105 group-active:scale-95"
               variant="outline"
               size="icon"
             >
@@ -50,4 +50,4 @@ const Header = ({ children, className }) => {
   );
 };
 
-export default Header;
+export default ColumnHeader;

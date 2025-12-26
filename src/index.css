@@ -78,10 +78,13 @@
   --nav-desktop-w: 76px;
   --nav-mobile-h: 50px;
   --scroll-size: 16px;
+  --dark-backdrop-background: rgba(0, 0, 0, 0.7);
   --header-h: 60px;
+  --liked-text: rgb(255, 48, 64);
   --floating-button-background: rgba(0, 0, 0, 0.03);
   --primary-column-outline: rgb(213, 213, 213);
   --text-secondary: rgb(153, 153, 153);
+  --primary-outline: rgba(0, 0, 0, 0.15);
   --success-text: #20c584;
   --divider: rgba(206, 208, 212, 0.3);
   --lines-primary: rgba(0, 0, 0, 0.15);
@@ -147,7 +150,7 @@
 
 @layer base {
   body {
-    @apply bg-(--background-primary) font-(family-name:--font-family-system) text-[15px] text-(--text-primary);
+    @apply min-h-svh min-w-svw bg-(--background-primary) font-(family-name:--font-family-system) text-[15px] text-(--text-primary);
   }
 
   input,

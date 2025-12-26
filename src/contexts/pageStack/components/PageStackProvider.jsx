@@ -1,16 +1,16 @@
-import { useEffect, useRef, useState } from "react";
-import PageStackContext from "../context/PageStackContext";
-import RouteRenderer from "./RouteRenderer";
-import { cn } from "@/lib/utils";
+import { useEffect, useRef, useState } from 'react';
+import PageStackContext from '../context/PageStackContext';
+import RouteRenderer from './RouteRenderer';
 
 const PageStackProvider = ({ children, url, neverUnmount = [], autoUpdateUrl = true }) => {
+  neverUnmount = [url, ...neverUnmount];
+
   const maxId = useRef(1);
-  const [history, setHistory] = useState([]);
-  const [pages, setPages] = useState([]);
+  const [history, setHistory] = useState([url]);
+  const [pages, setPages] = useState([{ id: 1, path: url }]);
 
   const pushPath = (path) => {
-    if (history.length > 0 && path === history.at(-1)) return;
-    if (!history.length && path === url) return;
+    if (history.at(-1) === path) return;
 
     setHistory((prev) => [...prev, path]);
     setPages((prev) => {
@@ -18,7 +18,8 @@ const PageStackProvider = ({ children, url, neverUnmount = [], autoUpdateUrl = t
       const isNewPath = prev.every((p) => p.path !== path);
 
       if (isNeverUnmount && isNewPath) {
-        return [{ id: ++maxId.current, path }, ...prev];
+        const [rootPage, ...rest] = prev;
+        return [rootPage, { id: ++maxId.current, path }, ...rest];
       }
 
       if (!isNeverUnmount) {
@@ -30,7 +31,7 @@ const PageStackProvider = ({ children, url, neverUnmount = [], autoUpdateUrl = t
   };
 
   const popPath = () => {
-    if (history.length === 0) return;
+    if (history.length === 1) return;
 
     const currentPath = history.at(-1);
     const newHistory = history.slice(0, -1);
@@ -52,8 +53,9 @@ const PageStackProvider = ({ children, url, neverUnmount = [], autoUpdateUrl = t
       const isNeverUnmount = neverUnmount.includes(path);
       let neverUnmountPages = prev.filter((p) => neverUnmount.includes(p.path));
 
-      if (isNeverUnmount && neverUnmountPages.find((p) => p.path === path)) {
-        return neverUnmountPages;
+      if (isNeverUnmount) {
+        // đã có không thêm vào nữa
+        if (neverUnmountPages.find((p) => p.path === path)) return neverUnmountPages;
       }
 
       return [...neverUnmountPages, { id: ++maxId.current, path }];
@@ -61,8 +63,12 @@ const PageStackProvider = ({ children, url, neverUnmount = [], autoUpdateUrl = t
   };
 
   useEffect(() => {
-    if (autoUpdateUrl) window.history.replaceState({}, "", history.at(-1) ?? url);
+    if (autoUpdateUrl) {
+      window.history.replaceState({}, '', history.at(-1));
+    }
   }, [history]);
+
+  console.log(history);
 
   return (
     <PageStackContext.Provider
@@ -74,15 +80,24 @@ const PageStackProvider = ({ children, url, neverUnmount = [], autoUpdateUrl = t
         replacePath,
       }}
     >
-      <div className={cn("size-full", history.length > 0 ? "hidden opacity-0" : "")}>{children}</div>
+      <div
+        className={
+          (history.length === 1 && history[0] !== url) ||
+          (history.length > 1 && history.at(-1) !== url)
+            ? 'hidden'
+            : ''
+        }
+      >
+        {children}
+      </div>
 
-      {pages.map(({ id, path }) => (
-        <RouteRenderer
-          key={id}
-          path={path}
-          className={cn("size-full", history.at(-1) !== path ? "hidden opacity-0" : "")}
-        />
-      ))}
+      {pages.map(({ id, path }, index) => {
+        if (index === 0) return; // page url
+
+        return (
+          <RouteRenderer key={id} path={path} className={history.at(-1) !== path ? 'hidden' : ''} />
+        );
+      })}
     </PageStackContext.Provider>
   );
 };

@@ -22,6 +22,7 @@ import SearchLayout from "@/layouts/SearchLayout";
 import NeverUnmountLayout from "@/layouts/NeverUnmountLayout";
 import FollowingPage from "@/pages/Home/FollowingPage";
 import HomePage from "@/pages/Home";
+import GhostPosts from "@/pages/Home/GhostPosts";
 
 export default [
   {
@@ -94,6 +95,10 @@ export default [
                   {
                     path: paths.forYou,
                     Component: ForYouPage,
+                  },
+                  {
+                    path: paths.ghostPosts,
+                    Component: GhostPosts,
                   },
                 ],
               },

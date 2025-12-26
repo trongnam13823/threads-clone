@@ -1,6 +1,7 @@
+import { cn } from "@/lib/utils";
 import usePageStack from "../hooks/usePageStack";
 
-export default function Link({ children, to, replace }) {
+export default function Link({ children, to, replace, className, ...props }) {
   const { pushPath, replacePath } = usePageStack();
 
   const handleClick = () => {
@@ -13,8 +14,8 @@ export default function Link({ children, to, replace }) {
   };
 
   return (
-    <div className="cursor-pointer text-pink-400" onClick={handleClick}>
+    <a className={cn("cursor-pointer", className)} onClick={handleClick} {...props}>
       {children}
-    </div>
+    </a>
   );
 }

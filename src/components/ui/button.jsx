@@ -13,18 +13,20 @@ const buttonVariants = cva(
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
         destructive:
           "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
-        outline: "border bg-(--elevated-background) border-(--lines-primary) text-(--text-primary) rounded-[10px] px-4",
+        outline:
+          "border bg-(--elevated-background) border-(--lines-primary) text-(--text-primary) rounded-[10px] px-4 font-bold",
         secondary: "bg-secondary text-secondary-foreground",
-        ghost: "hover:bg-(--hovered-background) text-(--charcoal-text)",
+        ghost: "hover:bg-(--background-tertiary) text-(--charcoal-text)",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
         default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
-        lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
-        icon: "size-9 p-0 rounded-full",
-        "icon-sm": "size-8",
-        "icon-lg": "size-10",
+        sm: "h-8 rounded-md gap-1.5 px-3",
+        lg: "h-10 rounded-md px-6",
+        icon: "rounded-full",
+        "icon-sm": "size-6 rounded-full",
+        "icon-md": "size-8 rounded-full",
+        "icon-lg": "size-10 rounded-full",
       },
     },
     defaultVariants: {

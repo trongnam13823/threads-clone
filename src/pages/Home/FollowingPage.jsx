@@ -1,9 +1,10 @@
+import ColumnContent from "@/components/Column/ColumnContent";
 import paths from "@/configs/paths";
 import Link from "@/contexts/pageStack/components/Link";
 
 const FollowingPage = () => {
   return (
-    <>
+    <ColumnContent>
       FollowingPage FollowingPage FollowingPage sit amet consectetur adipisicing elit. Tempora aspernatur veniam ullam
       mollitia similique ut minus minima consequatur delectus obcaecati aperiam magni incidunt eligendi atque repellat
       nisi adipisci odit, odio
@@ -348,7 +349,7 @@ const FollowingPage = () => {
       aliquam hic omnis qui, et illo ut eius, at laudantium. Provident, eveniet. A omnis, neque repudiandae sit hic
       possimus quasi recusandae iure, beatae exercitationem tempore culpa quis! Qui nostrum dicta voluptatum odit
       sapiente autem deleniti rerum omnis. Aliquid!
-    </>
+    </ColumnContent>
   );
 };
 

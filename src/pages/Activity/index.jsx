@@ -1,9 +1,10 @@
+import ColumnContent from "@/components/Column/ColumnContent";
 import paths from "@/configs/paths";
 import Link from "@/contexts/pageStack/components/Link";
 
 const ActivityPage = () => {
   return (
-    <>
+    <ColumnContent>
       <div className="h-80 w-full shrink-0">
         ActivityPage ActivityPage ActivityPage ipsum dolor sit amet consectetur adipisicing elit. Inventore modi quod
         totam ipsam, error suscipit illo unde accusamus aperiam vel iure ex minima repudiandae amet rerum! Incidunt
@@ -25,7 +26,7 @@ const ActivityPage = () => {
       <div className="h-80 w-full shrink-0"></div>
       <div className="h-80 w-full shrink-0"></div>
       <div className="h-80 w-full shrink-0"></div>
-    </>
+    </ColumnContent>
   );
 };
 

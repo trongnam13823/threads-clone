@@ -1,5 +1,7 @@
+import ColumnContent from "@/components/Column/ColumnContent";
+
 const ForYouPage = () => {
-  return <div>ForYouPage</div>;
+  return <ColumnContent>ForYouPage</ColumnContent>;
 };
 
 export default ForYouPage;

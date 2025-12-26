@@ -1,7 +1,30 @@
-import ColumnLayout from "@/components/Column/ColumnLayout";
-import createColumnLayout from "@/components/Column/helper/createColumnLayout";
-import paths from "@/configs/paths";
+import paths from '@/configs/paths';
+import ColumnHeader from '@/components/Column/ColumnHeader';
+import ColumnLayout from '@/components/Column/ColumnLayout';
+import { Outlet } from 'react-router';
+import MaybePageStack from '@/contexts/pageStack/components/MaybePageStack';
 
-const SearchLayout = createColumnLayout(<ColumnLayout.Header>Search Layout</ColumnLayout.Header>, paths.home);
+const SearchLayout = ({
+  children,
+  className,
+  fromRouteRenderer,
+  routeRendererPath,
+  autoUpdateUrl,
+}) => {
+  return (
+    <MaybePageStack
+      enabled={!fromRouteRenderer}
+      url={routeRendererPath ?? paths.search}
+      autoUpdateUrl={autoUpdateUrl}
+    >
+      <ColumnLayout className={className}>
+        <ColumnHeader>Search Layout</ColumnHeader>
+
+        {/* ColumnContent */}
+        {children ? children : <Outlet />}
+      </ColumnLayout>
+    </MaybePageStack>
+  );
+};
 
 export default SearchLayout;
