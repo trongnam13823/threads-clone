@@ -1,17 +1,13 @@
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { usePreserveScroll } from "@/hooks/usePreserveScroll";
 import useDragSwap from "@/contexts/dragSwap/hooks/useDragSwap";
 
 const Content = ({ children, className }) => {
-  const { isDraggable, isDragging } = useDragSwap();
+  const { isDraggable } = useDragSwap();
   const Main = isDraggable ? ScrollArea : "main";
 
-  const scrollRef = usePreserveScroll([isDragging]);
-
   return (
-    <ScrollArea
-      ref={scrollRef}
+    <Main
       className={cn(
         "mx-auto w-full flex-1 bg-(--elevated-background) transition-transform md:max-w-(--column-max-w) md:p-px",
         isDraggable &&
@@ -20,7 +16,7 @@ const Content = ({ children, className }) => {
       )}
     >
       <div className="flex size-full flex-col gap-5">{children}</div>
-    </ScrollArea>
+    </Main>
   );
 };
 

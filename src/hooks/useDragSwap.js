@@ -1,56 +1,35 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
 // ============================================================================
-// TYPES & CONSTANTS
+// CONSTANTS
 // ============================================================================
 
-/**
- * Hướng drag & drop
- */
-export const DIRECTION = {
-  HORIZONTAL: "horizontal",
-  VERTICAL: "vertical",
-};
-
-/**
- * Cấu trúc drag state
- */
 const INITIAL_DRAG_STATE = {
   draggingIndex: -1,
   startPos: 0,
   currentPos: 0,
+  startY: 0,
+  currentY: 0,
   itemRects: [],
   transforms: {},
   containerRect: null,
+  isDropping: false,
+  droppingId: null,
 };
 
-/**
- * Style mặc định cho item
- */
-const DEFAULT_ITEM_STYLE = {
-  userSelect: "none",
-};
-
-/**
- * Style mặc định cho handle
- */
-const DEFAULT_HANDLE_STYLE = {
-  cursor: "grab",
+const DEFAULT_CONFIG = {
+  gap: 20,
+  transitionDuration: 80,
+  transitionTimingFunction: "ease-out",
 };
 
 // ============================================================================
-// UTILITY FUNCTIONS
+// UTILITY FUNCTIONS - Position & Transform Calculations
 // ============================================================================
 
-/**
- * Tính toán transforms cho các items khi drag
- */
-const calculateTransforms = (dragRect, dragStart, dragEnd, draggingIndex, items, itemRects, gap, direction) => {
+const calculateItemTransforms = (dragRect, dragStart, dragEnd, draggingIndex, items, itemRects, gap) => {
   const transforms = {};
-  const isHorizontal = direction === DIRECTION.HORIZONTAL;
-  const itemSize = isHorizontal ? dragRect.width : dragRect.height;
-  const totalOffset = itemSize + gap;
+  const totalOffset = dragRect.width + gap;
 
   items.forEach((item, index) => {
     if (index === draggingIndex) return;
@@ -58,9 +37,7 @@ const calculateTransforms = (dragRect, dragStart, dragEnd, draggingIndex, items,
     const rect = itemRects[index];
     if (!rect) return;
 
-    const rectStart = isHorizontal ? rect.left : rect.top;
-    const rectSize = isHorizontal ? rect.width : rect.height;
-    const rectMiddle = rectStart + rectSize / 2;
+    const rectMiddle = rect.left + rect.width / 2;
 
     if (index > draggingIndex) {
       transforms[item.id] = dragEnd > rectMiddle ? -totalOffset : 0;
@@ -72,12 +49,8 @@ const calculateTransforms = (dragRect, dragStart, dragEnd, draggingIndex, items,
   return transforms;
 };
 
-/**
- * Tính toán index mới sau khi drop
- */
-const calculateNewIndex = (transforms, draggingIndex, items) => {
-  const movedItems = Object.entries(transforms).filter(([_, value]) => value !== 0);
-
+const calculateDropIndex = (transforms, draggingIndex, items) => {
+  const movedItems = Object.entries(transforms).filter(([, value]) => value !== 0);
   if (movedItems.length === 0) return draggingIndex;
 
   const transformedIndices = items
@@ -87,52 +60,46 @@ const calculateNewIndex = (transforms, draggingIndex, items) => {
   const maxIdx = Math.max(...transformedIndices);
   const minIdx = Math.min(...transformedIndices);
 
-  if (transforms[items[maxIdx]?.id] < 0) {
-    return maxIdx;
-  } else if (transforms[items[minIdx]?.id] > 0) {
-    return minIdx;
-  }
+  if (transforms[items[maxIdx]?.id] < 0) return maxIdx;
+  if (transforms[items[minIdx]?.id] > 0) return minIdx;
 
   return draggingIndex;
 };
 
-/**
- * Tính toán delta có giới hạn trong container
- */
-const calculateConstrainedDelta = (currentPos, startPos, dragRect, containerRect, direction) => {
-  const isHorizontal = direction === DIRECTION.HORIZONTAL;
-  let delta = currentPos - startPos;
+const calculateConstrainedDeltaX = (currentX, startX, dragRect, containerRect) => {
+  let delta = currentX - startX;
+  const dragRectLeft = dragRect.left + delta;
+  const dragRectRight = dragRect.right + delta;
 
-  if (isHorizontal) {
-    const dragRectLeft = dragRect.left + delta;
-    const dragRectRight = dragRect.right + delta;
+  if (dragRectLeft < containerRect.left) {
+    delta = containerRect.left - dragRect.left;
+  }
 
-    if (dragRectLeft < containerRect.left) {
-      delta = containerRect.left - dragRect.left;
-    }
-
-    if (dragRectRight > containerRect.right) {
-      delta = containerRect.right - dragRect.right;
-    }
-  } else {
-    const dragRectTop = dragRect.top + delta;
-    const dragRectBottom = dragRect.bottom + delta;
-
-    if (dragRectTop < containerRect.top) {
-      delta = containerRect.top - dragRect.top;
-    }
-
-    if (dragRectBottom > containerRect.bottom) {
-      delta = containerRect.bottom - dragRect.bottom;
-    }
+  if (dragRectRight > containerRect.right) {
+    delta = containerRect.right - dragRect.right;
   }
 
   return delta;
 };
 
-/**
- * Tạo mảng items mới sau khi reorder
- */
+const calculateFinalDropPosition = (fromIndex, toIndex, itemRects, gap) => {
+  let position = 0;
+
+  if (toIndex > fromIndex) {
+    for (let i = fromIndex; i < toIndex; i++) {
+      const rect = itemRects[i + 1];
+      if (rect) position += rect.width + gap;
+    }
+  } else {
+    for (let i = toIndex; i < fromIndex; i++) {
+      const rect = itemRects[i];
+      if (rect) position -= rect.width + gap;
+    }
+  }
+
+  return position;
+};
+
 const reorderItems = (items, fromIndex, toIndex) => {
   const newItems = [...items];
   const [draggedItem] = newItems.splice(fromIndex, 1);
@@ -141,94 +108,65 @@ const reorderItems = (items, fromIndex, toIndex) => {
 };
 
 // ============================================================================
+// UTILITY FUNCTIONS - Rect & State Management
+// ============================================================================
+
+const getItemRects = (items, itemsRef) => {
+  return items.map((item) => {
+    const el = itemsRef.current[item.id];
+    return el ? el.getBoundingClientRect() : null;
+  });
+};
+
+const resetDragState = (dragStateRef) => {
+  dragStateRef.current = { ...INITIAL_DRAG_STATE };
+};
+
+// ============================================================================
 // MAIN HOOK
 // ============================================================================
 
-/**
- * Hook để xử lý drag and drop cho danh sách với drag handle
- *
- * @param {Object} config - Cấu hình
- * @param {Array} config.items - Mảng items cần drag & drop (mỗi item phải có thuộc tính `id`)
- * @param {Function} config.onReorder - Callback được gọi khi thứ tự items thay đổi
- * @param {number} [config.gap=20] - Khoảng cách giữa các items (px)
- * @param {string} [config.direction='horizontal'] - Hướng drag: 'horizontal' hoặc 'vertical'
- *
- * @returns {Object} Object chứa:
- *   - getItemProps: Function để bind props vào item container
- *   - getHandleProps: Function để bind props vào drag handle
- *   - containerRef: Ref cần gắn vào container
- *   - isDragging: Boolean cho biết có đang kéo hay không
- *   - draggingId: ID của item đang được kéo
- *
- * @example
- * const { getItemProps, getHandleProps, containerRef } = useDragSwap({
- *   items,
- *   onReorder: (newItems) => setItems(newItems),
- * });
- *
- * // Trong component:
- * <div ref={containerRef}>
- *   {items.map((item, index) => (
- *     <div key={item.id} {...getItemProps(item, index)}>
- *       <div {...getHandleProps(item.id)}>
- *         Kéo ở đây (Header)
- *       </div>
- *       <div>Nội dung không kéo được (Body)</div>
- *     </div>
- *   ))}
- * </div>
- */
-export function useDragSwap({ items, onReorder, gap = 20, direction = DIRECTION.HORIZONTAL }) {
-  // ============================================================================
-  // STATE & REFS
-  // ============================================================================
-
+export function useDragSwap({
+  items,
+  onReorder,
+  gap = DEFAULT_CONFIG.gap,
+  transitionDuration = DEFAULT_CONFIG.transitionDuration,
+  transitionTimingFunction = DEFAULT_CONFIG.transitionTimingFunction,
+}) {
   const [draggingId, setDraggingId] = useState(null);
+  const [noTransition, setNoTransition] = useState(false);
   const [, forceUpdate] = useState({});
 
-  const dragStateRef = useRef(INITIAL_DRAG_STATE);
+  const dragStateRef = useRef({ ...INITIAL_DRAG_STATE });
   const itemsRef = useRef({});
   const containerRef = useRef(null);
 
-  const isHorizontal = direction === DIRECTION.HORIZONTAL;
+  const transitionStyle = `transform ${transitionDuration}ms ${transitionTimingFunction}`;
 
-  // ============================================================================
-  // EVENT HANDLERS
-  // ============================================================================
-
-  /**
-   * Xử lý khi bắt đầu kéo từ handle
-   */
   const handleMouseDown = useCallback(
     (e, id, index) => {
       e.preventDefault();
-      e.stopPropagation(); // Ngăn event bubble lên item
+      e.stopPropagation();
 
-      const rects = items.map((item) => {
-        const el = itemsRef.current[item.id];
-        return el ? el.getBoundingClientRect() : null;
-      });
-
-      const containerRect = containerRef.current ? containerRef.current.getBoundingClientRect() : null;
-      const startPos = isHorizontal ? e.clientX : e.clientY;
+      const itemRects = getItemRects(items, itemsRef);
+      const containerRect = containerRef.current?.getBoundingClientRect();
 
       dragStateRef.current = {
+        ...INITIAL_DRAG_STATE,
         draggingIndex: index,
-        startPos,
-        currentPos: startPos,
-        itemRects: rects,
-        transforms: {},
+        startPos: e.clientX,
+        currentPos: e.clientX,
+        startY: e.clientY,
+        currentY: e.clientY,
+        itemRects,
         containerRect,
       };
 
       setDraggingId(id);
     },
-    [items, isHorizontal]
+    [items]
   );
 
-  /**
-   * Xử lý khi di chuyển chuột
-   */
   const handleMouseMove = useCallback(
     (e) => {
       if (!draggingId) return;
@@ -238,50 +176,65 @@ export function useDragSwap({ items, onReorder, gap = 20, direction = DIRECTION.
 
       if (!dragRect || !containerRect) return;
 
-      const currentPos = isHorizontal ? e.clientX : e.clientY;
-      const delta = calculateConstrainedDelta(currentPos, startPos, dragRect, containerRect, direction);
+      const deltaX = calculateConstrainedDeltaX(e.clientX, startPos, dragRect, containerRect);
+      const dragStart = dragRect.left + deltaX;
+      const dragEnd = dragRect.right + deltaX;
 
-      const dragStart = (isHorizontal ? dragRect.left : dragRect.top) + delta;
-      const dragEnd = (isHorizontal ? dragRect.right : dragRect.bottom) + delta;
-
-      dragStateRef.current.currentPos = startPos + delta;
-      dragStateRef.current.transforms = calculateTransforms(
+      dragStateRef.current.currentPos = startPos + deltaX;
+      dragStateRef.current.currentY = e.clientY;
+      dragStateRef.current.transforms = calculateItemTransforms(
         dragRect,
         dragStart,
         dragEnd,
         draggingIndex,
         items,
         itemRects,
-        gap,
-        direction
+        gap
       );
 
       forceUpdate({});
     },
-    [draggingId, items, gap, direction, isHorizontal]
+    [draggingId, items, gap]
   );
 
-  /**
-   * Xử lý khi thả chuột
-   */
   const handleMouseUp = useCallback(() => {
     if (!draggingId) return;
 
-    const { transforms, draggingIndex } = dragStateRef.current;
-    const newIndex = calculateNewIndex(transforms, draggingIndex, items);
+    const { transforms, draggingIndex, itemRects } = dragStateRef.current;
+    const newIndex = calculateDropIndex(transforms, draggingIndex, items);
 
-    dragStateRef.current = INITIAL_DRAG_STATE;
     setDraggingId(null);
 
-    if (newIndex !== draggingIndex && onReorder) {
-      const newItems = reorderItems(items, draggingIndex, newIndex);
-      onReorder(newItems);
-    }
-  }, [draggingId, items, onReorder]);
+    if (newIndex !== draggingIndex) {
+      dragStateRef.current.isDropping = true;
+      dragStateRef.current.droppingId = items[draggingIndex].id;
 
-  // ============================================================================
-  // EFFECTS
-  // ============================================================================
+      const finalPosition = calculateFinalDropPosition(draggingIndex, newIndex, itemRects, gap);
+
+      dragStateRef.current.transforms[items[draggingIndex].id] = finalPosition;
+      dragStateRef.current.currentPos = dragStateRef.current.startPos + finalPosition;
+      forceUpdate({});
+
+      setTimeout(() => {
+        setNoTransition(true);
+
+        requestAnimationFrame(() => {
+          resetDragState(dragStateRef);
+
+          if (onReorder) {
+            const newItems = reorderItems(items, draggingIndex, newIndex);
+            onReorder(newItems);
+          }
+
+          requestAnimationFrame(() => {
+            setNoTransition(false);
+          });
+        });
+      }, transitionDuration);
+    } else {
+      resetDragState(dragStateRef);
+    }
+  }, [draggingId, items, onReorder, gap, transitionDuration]);
 
   useEffect(() => {
     if (draggingId) {
@@ -295,49 +248,38 @@ export function useDragSwap({ items, onReorder, gap = 20, direction = DIRECTION.
     }
   }, [draggingId, handleMouseMove, handleMouseUp]);
 
-  // ============================================================================
-  // HELPER FUNCTIONS
-  // ============================================================================
-
-  /**
-   * Lấy style cho item
-   */
   const getItemStyle = useCallback(
     (itemId) => {
       const isDragging = draggingId === itemId;
-
+      const isDropping = dragStateRef.current.isDropping && dragStateRef.current.droppingId === itemId;
       let transform = "";
-      if (isDragging) {
-        const delta = dragStateRef.current.currentPos - dragStateRef.current.startPos;
-        transform = isHorizontal ? `translateX(${delta}px)` : `translateY(${delta}px)`;
+
+      if (isDragging && !isDropping) {
+        const deltaX = dragStateRef.current.currentPos - dragStateRef.current.startPos;
+        const deltaY = dragStateRef.current.currentY - dragStateRef.current.startY;
+        transform = `translate(${deltaX}px, ${deltaY}px)`;
       } else if (dragStateRef.current.transforms[itemId] !== undefined) {
-        const transformValue = dragStateRef.current.transforms[itemId];
-        transform = isHorizontal ? `translateX(${transformValue}px)` : `translateY(${transformValue}px)`;
+        transform = `translateX(${dragStateRef.current.transforms[itemId]}px)`;
       }
 
       return {
-        ...DEFAULT_ITEM_STYLE,
+        userSelect: "none",
         transform,
-        zIndex: isDragging ? 1000 : 1,
+        transition: noTransition ? "none" : transitionStyle,
+        zIndex: isDragging || isDropping ? 1000 : 1,
       };
     },
-    [draggingId, isHorizontal]
+    [draggingId, noTransition, transitionStyle]
   );
 
-  /**
-   * Lấy props để bind vào item container
-   */
   const getItemProps = useCallback(
-    (item, index) => ({
+    (item) => ({
       ref: (el) => (itemsRef.current[item.id] = el),
       style: getItemStyle(item.id),
     }),
     [getItemStyle]
   );
 
-  /**
-   * Lấy props để bind vào drag handle
-   */
   const getHandleProps = useCallback(
     (itemId) => {
       const item = items.find((i) => i.id === itemId);
@@ -347,17 +289,12 @@ export function useDragSwap({ items, onReorder, gap = 20, direction = DIRECTION.
       return {
         onMouseDown: (e) => handleMouseDown(e, itemId, index),
         style: {
-          ...DEFAULT_HANDLE_STYLE,
           cursor: isDragging ? "grabbing" : "grab",
         },
       };
     },
     [items, draggingId, handleMouseDown]
   );
-
-  // ============================================================================
-  // RETURN
-  // ============================================================================
 
   return {
     getItemProps,
