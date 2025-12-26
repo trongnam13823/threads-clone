@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const PageStackContext = createContext(false) ?? {};
+const PageStackContext = createContext(false);
 
 export default PageStackContext;

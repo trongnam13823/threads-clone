@@ -1,55 +1,44 @@
-import { useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { cn } from "@/lib/utils";
 import { ListPlusIcon } from "lucide-react";
 import RouteRenderer from "@/contexts/pageStack/components/RouteRenderer";
-import { dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import { autoScrollForElements } from "@atlaskit/pragmatic-drag-and-drop-auto-scroll/element";
-import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
-import invariant from "tiny-invariant";
-import DraggableProvider from "@/contexts/draggable/components/DraggableProvider";
+import { setColumns } from "@/features/auth/authSlice";
+import { useDragSwap } from "@/hooks/useDragSwap";
+import DragSwapProvider from "@/contexts/dragSwap/components/DragSwapProvider";
 
 export default function HomeColsPage({ className, handleToggleCols }) {
+  const dispatch = useDispatch();
   const columns = useSelector((s) => s.auth.columns);
-  const ulRef = useRef(null);
 
-  useEffect(() => {
-    const element = ulRef.current;
-    invariant(element);
-
-    return combine(
-      dropTargetForElements({
-        element,
-      }),
-      autoScrollForElements({
-        element,
-        getAllowedAxis: () => "horizontal",
-        getConfiguration: () => ({
-          maxScrollSpeed: "fast",
-          startEdgeThreshold: 30,
-          maxEdgeThreshold: 60,
-        }),
-      })
-    );
+  const { getItemProps, containerRef, getHandleProps, isDragging, draggingId } = useDragSwap({
+    items: columns,
+    onReorder: (newColumns) => dispatch(setColumns(newColumns)),
+    gap: 12,
   });
 
   return (
     <div className={cn("absolute inset-0 ml-(--nav-desktop-w) bg-(--background-secondary)", className)}>
       <ul
-        ref={ulRef}
+        ref={containerRef}
         className={cn(
           "relative flex h-full gap-3 overflow-x-auto overflow-y-hidden pr-[calc(var(--nav-desktop-w)+20px)] pl-5 *:first-of-type:ml-auto *:last-of-type:mr-auto"
         )}
       >
         {columns.map((column, index) => (
-          <DraggableProvider
+          <div
             key={column.id}
-            index={index}
-            data={column}
+            {...getItemProps(column, index)}
             className="relative w-full max-w-(--column-max-w) min-w-(--column-min-w)"
           >
-            <RouteRenderer fromRouteRenderer={false} autoUpdateUrl={false} path={column.path} />
-          </DraggableProvider>
+            <DragSwapProvider
+              getHandleProps={getHandleProps}
+              data={column}
+              isDragging={isDragging}
+              draggingId={draggingId}
+            >
+              <RouteRenderer fromRouteRenderer={false} autoUpdateUrl={false} path={column.path} />
+            </DragSwapProvider>
+          </div>
         ))}
 
         <li className="relative h-full w-0">

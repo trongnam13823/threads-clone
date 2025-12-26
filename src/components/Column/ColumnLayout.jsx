@@ -5,7 +5,7 @@ import Content from "@/components/Column/Content";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import paths from "@/configs/paths";
-import { useDraggable } from "@/contexts/draggable/hooks/usePageStack";
+import useDragSwap from "@/contexts/dragSwap/hooks/useDragSwap";
 
 const ColumnLayout = ({ children, className }) => {
   const childrenArray = Children.toArray(children);
@@ -13,7 +13,7 @@ const ColumnLayout = ({ children, className }) => {
   const content = childrenArray.find((child) => isValidElement(child) && child.type === Content);
   const columns = useSelector((s) => s.auth.columns);
   const { pathname } = useLocation();
-  const { isDraggable } = useDraggable();
+  const { isDraggable } = useDragSwap();
 
   return (
     <div
