@@ -4,15 +4,12 @@ import { HeartIcon, HomeIcon, PlusIcon, SearchIcon, UserIcon } from "lucide-reac
 import paths from "@/configs/paths";
 import Menu from "./Menu";
 import { useSelector } from "react-redux";
-import { NavLink, useLocation } from "react-router";
+import NavLink from "@/contexts/pageStack/components/NavLink";
 
 const NavDesktop = () => {
   const userInfo = useSelector((s) => s.auth.userInfo);
-  const location = useLocation();
 
   // Home icon should be active for all home-related paths
-  const homePaths = [paths.home, paths.forYou, paths.following, paths.ghostPosts];
-  const isHomeActive = homePaths.includes(location.pathname);
 
   return (
     <div className="absolute top-0 left-0 z-20 flex h-svh w-(--nav-desktop-w) flex-col items-center justify-between bg-(--side-navigation-background) py-4 backdrop-blur-lg max-md:hidden">
@@ -21,8 +18,8 @@ const NavDesktop = () => {
       <nav className="flex flex-col gap-4">
         <Button asChild variant="ghost" className="h-12 w-15 rounded-xl hover:bg-(--navigation-item-hover-background)">
           <NavLink replace to={paths.home}>
-            {() => (
-              <HomeIcon size={24} className={isHomeActive ? "text-(--icon-primary)" : "text-(--navigation-icon)"} />
+            {({ isActive }) => (
+              <HomeIcon size={24} className={isActive ? "text-(--icon-primary)" : "text-(--navigation-icon)"} />
             )}
           </NavLink>
         </Button>

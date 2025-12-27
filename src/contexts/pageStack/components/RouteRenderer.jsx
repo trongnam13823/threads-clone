@@ -1,8 +1,8 @@
-import routes from "@/configs/routes";
-import { memo } from "react";
-import { matchRoutes } from "react-router";
+import routes from '@/configs/routes';
+import { memo } from 'react';
+import { matchRoutes } from 'react-router';
 
-const RouteRenderer = memo(({ path, className, autoUpdateUrl, skip = 3, fromRouteRenderer = true }) => {
+const RouteRenderer = memo(({ path, className, skip = 2, flag }) => {
   const matches = matchRoutes(routes, path);
   if (!matches) return null;
 
@@ -15,17 +15,12 @@ const RouteRenderer = memo(({ path, className, autoUpdateUrl, skip = 3, fromRout
     // Component ngoài cùng sẽ nhận style/className
     if (index === 0) {
       return (
-        <Comp
-          fromRouteRenderer={fromRouteRenderer}
-          routeRendererPath={path}
-          autoUpdateUrl={autoUpdateUrl}
-          className={className}
-        >
+        <Comp flag={flag} className={className} pageStackName={path}>
           {children}
         </Comp>
       );
     }
-    return <Comp fromRouteRenderer={fromRouteRenderer}>{children}</Comp>;
+    return <Comp>{children}</Comp>;
   }, null);
 
   return nestedTree;

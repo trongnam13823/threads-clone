@@ -2,9 +2,13 @@ import { useRef, useState } from 'react';
 import PageStackContext from '../context/PageStackContext';
 import RouteRenderer from './RouteRenderer';
 
-const PageStackProvider = ({ children, path, neverUnmount = [], autoUpdateUrl = true }) => {
-  neverUnmount = [path, ...neverUnmount];
-
+const PageStackProvider = ({
+  children,
+  path,
+  neverUnmount = [],
+  autoUpdateUrl = true,
+  flag = true,
+}) => {
   const maxId = useRef(1);
   const [history, setHistory] = useState([path]);
   const [pages, setPages] = useState([{ id: 1, path: path }]);
@@ -24,8 +28,7 @@ const PageStackProvider = ({ children, path, neverUnmount = [], autoUpdateUrl = 
       const isNewPath = prev.every((p) => p.path !== path);
 
       if (isNeverUnmount && isNewPath) {
-        const [rootPage, ...rest] = prev;
-        return [rootPage, { id: ++maxId.current, path }, ...rest];
+        return [{ id: ++maxId.current, path }, ...prev];
       }
 
       if (!isNeverUnmount) {
@@ -84,24 +87,18 @@ const PageStackProvider = ({ children, path, neverUnmount = [], autoUpdateUrl = 
         replacePath,
       }}
     >
-      <div
-        className={
-          (history.length === 1 && history[0] !== pages[0].path) ||
-          (history.length > 1 && history.at(-1) !== pages[0].path)
-            ? 'hidden'
-            : ''
-        }
-      >
-        {children}
-      </div>
-
-      {pages.map(({ id, path }, index) => {
-        if (index === 0) return; // page url
-
+      {pages.map(({ id, path }) => {
         return (
-          <RouteRenderer key={id} path={path} className={history.at(-1) !== path ? 'hidden' : ''} />
+          <RouteRenderer
+            flag={flag}
+            key={id}
+            path={path}
+            className={history.at(-1) !== path ? 'hidden' : ''}
+          />
         );
       })}
+
+      {children}
     </PageStackContext.Provider>
   );
 };

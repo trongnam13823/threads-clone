@@ -1,75 +1,30 @@
-import paths from '@/configs/paths';
-import NavLink from '@/contexts/pageStack/components/NavLink';
-import { cn } from '@/lib/utils';
-import { DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
-import MoreDropdown from '@/components/Column/MoreDropdown';
-import { CirclePlusIcon, Pin } from 'lucide-react';
-import ColumnHeader from '@/components/Column/ColumnHeader';
-import MaybePageStack from '@/contexts/pageStack/components/MaybePageStack';
-import ColumnLayout from '@/components/Column/ColumnLayout';
-import { Outlet } from 'react-router';
-import usePageStack from '@/contexts/pageStack/hooks/usePageStack';
 import { useSelector } from 'react-redux';
+import HomeColLayout from './HomeColLayout';
+import usePageStack from '@/contexts/pageStack/hooks/usePageStack';
+import paths from '@/configs/paths';
+import HomeColsPage from '@/pages/Home/HomeColsPage';
+import { ListPlusIcon } from 'lucide-react';
 
-const HomeLayout = ({
-  children,
-  className,
-  fromRouteRenderer,
-  routeRendererPath,
-  autoUpdateUrl,
-}) => {
-  const columns = useSelector((state) => state.auth.columns);
+const HomeLayout = ({ children, className, pageStackName, flag }) => {
+  const columns = useSelector((s) => s.auth.columns);
+  const { history } = usePageStack();
 
-  const { pages } = usePageStack();
-  const path = routeRendererPath ?? paths.home;
-  const initPath = pages ? pages[0].path : path;
+  const isHomePage = history.at(-1) === paths.home;
+  const hasColumns = columns.length > 0;
 
-  const navLinks = [
-    { path: columns.length > 0 ? paths.forYou : paths.home, name: 'Dành cho bạn' },
-    { path: paths.following, name: 'Đang theo dõi' },
-    { path: paths.ghostPosts, name: 'Bài viết tự hủy' },
-  ];
+  if (flag && isHomePage && hasColumns) {
+    return <HomeColsPage pageStackName={pageStackName} />;
+  }
 
   return (
-    <MaybePageStack
-      enabled={!fromRouteRenderer}
-      path={routeRendererPath}
-      autoUpdateUrl={autoUpdateUrl}
-      neverUnmount={[paths.following, paths.ghostPosts]}
-    >
-      <ColumnLayout className={className}>
-        {columns.length > 0 && initPath === paths.home ? (
-          <ColumnHeader></ColumnHeader>
-        ) : (
-          <ColumnHeader className='gap-12'>
-            {navLinks.map(({ path, name }) => {
-              const isNoColumns = columns.length === 0;
-              const isInitPathWithColumns = columns.length > 0 && path === initPath;
-              return (
-                (isNoColumns || isInitPathWithColumns) && (
-                  <NavLink
-                    key={path}
-                    to={path}
-                    replace
-                    className={({ isActive }) =>
-                      cn(
-                        'font-bold text-(--text-secondary) active:opacity-65',
-                        isActive && 'text-(--text-primary)'
-                      )
-                    }
-                  >
-                    {name}
-                  </NavLink>
-                )
-              );
-            })}
-          </ColumnHeader>
-        )}
-
-        {/* ColumnContent */}
-        {children ? children : <Outlet />}
-      </ColumnLayout>
-    </MaybePageStack>
+    <HomeColLayout className={className} pageStackName={pageStackName}>
+      {children}
+      {isHomePage && !hasColumns && (
+        <button className='group fixed top-1/2 right-[calc(50%-var(--column-max-w)/2-10px)] z-20 flex size-9 translate-x-full -translate-y-1/2 items-center justify-center rounded-full bg-(--floating-button-background) max-lg:right-[calc(50%-var(--column-max-w)/2-var(--nav-desktop-w)/2-10px)] max-md:hidden'>
+          <ListPlusIcon className='ml-0.5 size-5 text-(--navigation-icon) group-hover:text-(--icon-primary)' />
+        </button>
+      )}
+    </HomeColLayout>
   );
 };
 

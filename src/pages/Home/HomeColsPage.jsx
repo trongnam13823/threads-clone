@@ -1,12 +1,14 @@
-import { useDispatch, useSelector } from "react-redux";
-import { cn } from "@/lib/utils";
-import { ListPlusIcon } from "lucide-react";
-import RouteRenderer from "@/contexts/pageStack/components/RouteRenderer";
-import { setColumns } from "@/features/auth/authSlice";
-import { useDragSwap } from "@/hooks/useDragSwap";
-import DragSwapProvider from "@/contexts/dragSwap/components/DragSwapProvider";
+import { useDispatch, useSelector } from 'react-redux';
+import { cn } from '@/lib/utils';
+import { ListPlusIcon } from 'lucide-react';
+import RouteRenderer from '@/contexts/pageStack/components/RouteRenderer';
+import { setColumns } from '@/features/auth/authSlice';
+import { useDragSwap } from '@/hooks/useDragSwap';
+import DragSwapProvider from '@/contexts/dragSwap/components/DragSwapProvider';
+import paths from '@/configs/paths';
+import PageStackProvider from '@/contexts/pageStack/components/PageStackProvider';
 
-export default function HomeColsPage({ className, handleToggleCols }) {
+export default function HomeColsPage({ className, pageStackName }) {
   const dispatch = useDispatch();
   const columns = useSelector((s) => s.auth.columns);
 
@@ -17,18 +19,21 @@ export default function HomeColsPage({ className, handleToggleCols }) {
   });
 
   return (
-    <div className={cn("absolute inset-0 ml-(--nav-desktop-w) bg-(--background-secondary)", className)}>
+    <div
+      data-page-stack-name={pageStackName}
+      className={cn('absolute inset-0 ml-(--nav-desktop-w) bg-(--background-secondary)', className)}
+    >
       <ul
         ref={containerRef}
         className={cn(
-          "relative flex h-full gap-3 overflow-x-auto overflow-y-hidden pr-[calc(var(--nav-desktop-w)+20px)] pl-5 *:first-of-type:ml-auto *:last-of-type:mr-auto"
+          'relative flex h-full gap-3 overflow-x-auto overflow-y-hidden pr-[calc(var(--nav-desktop-w)+20px)] pl-5 *:first-of-type:ml-auto *:last-of-type:mr-auto'
         )}
       >
         {columns.map((column, index) => (
-          <div
+          <li
             key={column.id}
             {...getItemProps(column, index)}
-            className="relative w-full max-w-(--column-max-w) min-w-(--column-min-w)"
+            className='relative w-full max-w-(--column-max-w) min-w-(--column-min-w)'
           >
             <DragSwapProvider
               getHandleProps={getHandleProps}
@@ -36,17 +41,21 @@ export default function HomeColsPage({ className, handleToggleCols }) {
               isDragging={isDragging}
               draggingId={draggingId}
             >
-              <RouteRenderer fromRouteRenderer={false} autoUpdateUrl={false} path={column.path} />
+              <PageStackProvider
+                flag={false}
+                path={column.path}
+                neverUnmount={
+                  column.path === paths.home ? [paths.home, paths.following, paths.ghostPosts] : []
+                }
+                autoUpdateUrl={false}
+              />
             </DragSwapProvider>
-          </div>
+          </li>
         ))}
 
-        <li className="relative h-full w-0">
-          <button
-            className="group absolute top-1/2 right-0 flex size-9 translate-x-full -translate-y-1/2 items-center justify-center rounded-full bg-(--floating-button-background)"
-            onClick={handleToggleCols}
-          >
-            <ListPlusIcon className="ml-0.5 size-5 text-(--navigation-icon) group-hover:text-(--icon-primary)" />
+        <li className='relative h-full w-0'>
+          <button className='group absolute top-1/2 right-0 flex size-9 translate-x-full -translate-y-1/2 items-center justify-center rounded-full bg-(--floating-button-background)'>
+            <ListPlusIcon className='ml-0.5 size-5 text-(--navigation-icon) group-hover:text-(--icon-primary)' />
           </button>
         </li>
       </ul>

@@ -7,8 +7,8 @@ const initialState = {
   refreshToken: null,
   userInfo: null,
   columns: [
-    // { id: 1, path: paths.home },
-    // { id: 2, path: paths.following },
+    { id: 1, path: paths.home },
+    { id: 2, path: paths.following },
     // { id: 3, path: paths.ghostPosts },
     // { id: 4, path: paths.forYou },
   ],
