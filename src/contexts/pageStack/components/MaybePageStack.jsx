@@ -1,10 +1,17 @@
+import { useLocation } from 'react-router';
 import PageStackProvider from './PageStackProvider';
 
-export default function MaybePageStack({ enabled, url, autoUpdateUrl, neverUnmount, children }) {
+export default function MaybePageStack({ enabled, path, autoUpdateUrl, neverUnmount, children }) {
+  const { pathname } = useLocation();
+
   if (!enabled) return children;
 
   return (
-    <PageStackProvider url={url} neverUnmount={neverUnmount} autoUpdateUrl={autoUpdateUrl}>
+    <PageStackProvider
+      path={path ?? pathname}
+      neverUnmount={neverUnmount}
+      autoUpdateUrl={autoUpdateUrl}
+    >
       {children}
     </PageStackProvider>
   );

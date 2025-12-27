@@ -1,13 +1,19 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import PageStackContext from '../context/PageStackContext';
 import RouteRenderer from './RouteRenderer';
 
-const PageStackProvider = ({ children, url, neverUnmount = [], autoUpdateUrl = true }) => {
-  neverUnmount = [url, ...neverUnmount];
+const PageStackProvider = ({ children, path, neverUnmount = [], autoUpdateUrl = true }) => {
+  neverUnmount = [path, ...neverUnmount];
 
   const maxId = useRef(1);
-  const [history, setHistory] = useState([url]);
-  const [pages, setPages] = useState([{ id: 1, path: url }]);
+  const [history, setHistory] = useState([path]);
+  const [pages, setPages] = useState([{ id: 1, path: path }]);
+
+  const updateUrl = (path) => {
+    if (autoUpdateUrl) {
+      window.history.replaceState({}, '', path);
+    }
+  };
 
   const pushPath = (path) => {
     if (history.at(-1) === path) return;
@@ -28,6 +34,8 @@ const PageStackProvider = ({ children, url, neverUnmount = [], autoUpdateUrl = t
 
       return [...prev];
     });
+
+    updateUrl(path);
   };
 
   const popPath = () => {
@@ -44,6 +52,8 @@ const PageStackProvider = ({ children, url, neverUnmount = [], autoUpdateUrl = t
       if (isNeverUnmount) return [...prev];
       else return prev.slice(0, -1);
     });
+
+    updateUrl(newHistory.at(-1));
   };
 
   const replacePath = (path) => {
@@ -60,15 +70,9 @@ const PageStackProvider = ({ children, url, neverUnmount = [], autoUpdateUrl = t
 
       return [...neverUnmountPages, { id: ++maxId.current, path }];
     });
+
+    updateUrl(path);
   };
-
-  useEffect(() => {
-    if (autoUpdateUrl) {
-      window.history.replaceState({}, '', history.at(-1));
-    }
-  }, [history]);
-
-  console.log(history);
 
   return (
     <PageStackContext.Provider
@@ -82,8 +86,8 @@ const PageStackProvider = ({ children, url, neverUnmount = [], autoUpdateUrl = t
     >
       <div
         className={
-          (history.length === 1 && history[0] !== url) ||
-          (history.length > 1 && history.at(-1) !== url)
+          (history.length === 1 && history[0] !== pages[0].path) ||
+          (history.length > 1 && history.at(-1) !== pages[0].path)
             ? 'hidden'
             : ''
         }

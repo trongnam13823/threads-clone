@@ -1,4 +1,3 @@
-import paths from '@/configs/paths';
 import ColumnHeader from '@/components/Column/ColumnHeader';
 import ColumnLayout from '@/components/Column/ColumnLayout';
 import { Outlet } from 'react-router';
@@ -14,8 +13,8 @@ const SearchLayout = ({
   return (
     <MaybePageStack
       enabled={!fromRouteRenderer}
-      url={routeRendererPath ?? paths.search}
       autoUpdateUrl={autoUpdateUrl}
+      path={routeRendererPath}
     >
       <ColumnLayout className={className}>
         <ColumnHeader>Search Layout</ColumnHeader>

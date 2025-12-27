@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { logoutThunk } from "./authThunks";
-import paths from "@/configs/paths";
+import { createSlice } from '@reduxjs/toolkit';
+import { logoutThunk } from './authThunks';
+import paths from '@/configs/paths';
 
 const initialState = {
   accessToken: null,
@@ -8,13 +8,14 @@ const initialState = {
   userInfo: null,
   columns: [
     // { id: 1, path: paths.home },
-    // { id: 2, path: paths.search },
-    // { id: 3, path: paths.activity },
+    // { id: 2, path: paths.following },
+    // { id: 3, path: paths.ghostPosts },
+    // { id: 4, path: paths.forYou },
   ],
 };
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     setToken: (state, action) => {

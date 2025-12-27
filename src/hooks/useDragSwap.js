@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, useReducer } from "react";
+import { useState, useRef, useEffect, useCallback, useReducer } from 'react';
 
 // ============================================================================
 // CONSTANTS
@@ -14,13 +14,14 @@ const INITIAL_DRAG_STATE = {
   containerRect: null,
   isDropping: false,
   droppingId: null,
+  hasScroll: false,
 };
 
 const DEFAULT_CONFIG = {
   gap: 20,
   transitionDuration: 200,
-  transitionTimingFunction: "ease-out",
-  direction: "horizontal", // "horizontal" | "vertical"
+  transitionTimingFunction: 'ease-out',
+  direction: 'horizontal', // "horizontal" | "vertical"
 };
 
 // ============================================================================
@@ -42,8 +43,27 @@ const resetDragState = (dragStateRef) => {
   dragStateRef.current = { ...INITIAL_DRAG_STATE };
 };
 
+// Check if container has scroll
+const checkContainerScroll = (container, direction) => {
+  if (!container) return false;
+
+  if (direction === 'horizontal') {
+    return container.scrollWidth > container.clientWidth;
+  } else {
+    return container.scrollHeight > container.clientHeight;
+  }
+};
+
 // Horizontal calculation
-const calculateItemTransformsHorizontal = (dragRect, dragStart, dragEnd, draggingIndex, items, itemRects, gap) => {
+const calculateItemTransformsHorizontal = (
+  dragRect,
+  dragStart,
+  dragEnd,
+  draggingIndex,
+  items,
+  itemRects,
+  gap
+) => {
   const transforms = {};
   const totalOffset = dragRect.width + gap;
 
@@ -66,7 +86,15 @@ const calculateItemTransformsHorizontal = (dragRect, dragStart, dragEnd, draggin
 };
 
 // Vertical calculation
-const calculateItemTransformsVertical = (dragRect, dragStart, dragEnd, draggingIndex, items, itemRects, gap) => {
+const calculateItemTransformsVertical = (
+  dragRect,
+  dragStart,
+  dragEnd,
+  draggingIndex,
+  items,
+  itemRects,
+  gap
+) => {
   const transforms = {};
   const totalOffset = dragRect.height + gap;
 
@@ -105,9 +133,13 @@ const calculateDropIndex = (transforms, draggingIndex, items) => {
   return draggingIndex;
 };
 
-// Horizontal constraint
-const calculateConstrainedDeltaX = (currentX, startX, dragRect, containerRect) => {
+// Horizontal constraint (only when no scroll)
+const calculateConstrainedDeltaX = (currentX, startX, dragRect, containerRect, hasScroll) => {
   let delta = currentX - startX;
+
+  // Skip constraint if container has scroll
+  if (hasScroll) return delta;
+
   const dragRectLeft = dragRect.left + delta;
   const dragRectRight = dragRect.right + delta;
 
@@ -117,9 +149,13 @@ const calculateConstrainedDeltaX = (currentX, startX, dragRect, containerRect) =
   return delta;
 };
 
-// Vertical constraint
-const calculateConstrainedDeltaY = (currentY, startY, dragRect, containerRect) => {
+// Vertical constraint (only when no scroll)
+const calculateConstrainedDeltaY = (currentY, startY, dragRect, containerRect, hasScroll) => {
   let delta = currentY - startY;
+
+  // Skip constraint if container has scroll
+  if (hasScroll) return delta;
+
   const dragRectTop = dragRect.top + delta;
   const dragRectBottom = dragRect.bottom + delta;
 
@@ -194,7 +230,7 @@ export function useDragSwap({
   const itemsRef = useRef({});
   const containerRef = useRef(null);
 
-  const isHorizontal = direction === "horizontal";
+  const isHorizontal = direction === 'horizontal';
   const transitionStyle = `transform ${transitionDuration}ms ${transitionTimingFunction}`;
 
   // ========================================================================
@@ -204,6 +240,7 @@ export function useDragSwap({
     (clientX, clientY, id, index) => {
       const itemRects = getItemRects(items, itemsRef);
       const containerRect = containerRef.current?.getBoundingClientRect();
+      const hasScroll = checkContainerScroll(containerRef.current, direction);
 
       dragStateRef.current = {
         ...INITIAL_DRAG_STATE,
@@ -214,11 +251,12 @@ export function useDragSwap({
         currentY: clientY,
         itemRects,
         containerRect,
+        hasScroll,
       };
 
       setDraggingId(id);
     },
-    [items]
+    [items, direction]
   );
 
   const handleMouseDown = useCallback(
@@ -245,12 +283,19 @@ export function useDragSwap({
     (clientX, clientY) => {
       if (!draggingId) return;
 
-      const { itemRects, draggingIndex, startX, startY, containerRect } = dragStateRef.current;
+      const { itemRects, draggingIndex, startX, startY, containerRect, hasScroll } =
+        dragStateRef.current;
       const dragRect = itemRects[draggingIndex];
       if (!dragRect || !containerRect) return;
 
       if (isHorizontal) {
-        const deltaX = calculateConstrainedDeltaX(clientX, startX, dragRect, containerRect);
+        const deltaX = calculateConstrainedDeltaX(
+          clientX,
+          startX,
+          dragRect,
+          containerRect,
+          hasScroll
+        );
         const dragStart = dragRect.left + deltaX;
         const dragEnd = dragRect.right + deltaX;
 
@@ -266,7 +311,13 @@ export function useDragSwap({
           gap
         );
       } else {
-        const deltaY = calculateConstrainedDeltaY(clientY, startY, dragRect, containerRect);
+        const deltaY = calculateConstrainedDeltaY(
+          clientY,
+          startY,
+          dragRect,
+          containerRect,
+          hasScroll
+        );
         const dragStart = dragRect.top + deltaY;
         const dragEnd = dragRect.bottom + deltaY;
 
@@ -356,16 +407,16 @@ export function useDragSwap({
   useEffect(() => {
     if (!draggingId) return;
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
-    window.addEventListener("touchmove", handleTouchMove, { passive: false });
-    window.addEventListener("touchend", handleTouchEnd);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd);
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-      window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchend", handleTouchEnd);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
     };
   }, [draggingId, handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
 
@@ -375,8 +426,9 @@ export function useDragSwap({
   const getItemStyle = useCallback(
     (itemId) => {
       const isDragging = draggingId === itemId;
-      const isDropping = dragStateRef.current.isDropping && dragStateRef.current.droppingId === itemId;
-      let transform = "";
+      const isDropping =
+        dragStateRef.current.isDropping && dragStateRef.current.droppingId === itemId;
+      let transform = '';
 
       if (isDragging && !isDropping) {
         if (isHorizontal) {
@@ -394,11 +446,11 @@ export function useDragSwap({
       }
 
       return {
-        userSelect: "none",
+        userSelect: 'none',
         transform,
-        transition: noTransition || isDragging ? "none" : transitionStyle,
+        transition: noTransition || isDragging ? 'none' : transitionStyle,
         zIndex: isDragging || isDropping ? 1000 : 1,
-        position: isDragging ? "relative" : undefined,
+        position: isDragging ? 'relative' : undefined,
       };
     },
     [draggingId, noTransition, transitionStyle, isHorizontal]
@@ -422,7 +474,7 @@ export function useDragSwap({
         onMouseDown: (e) => handleMouseDown(e, itemId, index),
         onTouchStart: (e) => handleTouchStart(e, itemId, index),
         style: {
-          cursor: isDragging ? "grabbing" : "grab",
+          cursor: isDragging ? 'grabbing' : 'grab',
         },
       };
     },

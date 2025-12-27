@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -72,7 +72,8 @@
   --sidebar-ring: oklch(0.708 0 0);
 
   /* App */
-  --font-family-system: system-ui, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  --font-family-system:
+    system-ui, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
   --column-max-w: 640px;
   --column-min-w: 420px;
   --nav-desktop-w: 76px;
@@ -100,6 +101,7 @@
   --box-shadow-04: rgba(0, 0, 0, 0.04);
   --box-shadow-08: rgba(0, 0, 0, 0.08);
   --icon-primary: rgb(0, 0, 0);
+  --secondary-icon: rgb(153, 153, 153);
   --navigation-icon: rgb(184, 184, 184);
   --background-primary: rgb(255, 255, 255);
   --background-secondary: rgb(250, 250, 250);

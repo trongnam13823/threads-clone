@@ -1,13 +1,15 @@
 import paths from '@/configs/paths';
 import NavLink from '@/contexts/pageStack/components/NavLink';
 import { cn } from '@/lib/utils';
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import MoreDropdown from '@/components/Column/MoreDropdown';
-import { CirclePlusIcon } from 'lucide-react';
+import { CirclePlusIcon, Pin } from 'lucide-react';
 import ColumnHeader from '@/components/Column/ColumnHeader';
 import MaybePageStack from '@/contexts/pageStack/components/MaybePageStack';
 import ColumnLayout from '@/components/Column/ColumnLayout';
 import { Outlet } from 'react-router';
+import usePageStack from '@/contexts/pageStack/hooks/usePageStack';
+import { useSelector } from 'react-redux';
 
 const HomeLayout = ({
   children,
@@ -16,58 +18,52 @@ const HomeLayout = ({
   routeRendererPath,
   autoUpdateUrl,
 }) => {
+  const columns = useSelector((state) => state.auth.columns);
+
+  const { pages } = usePageStack();
+  const path = routeRendererPath ?? paths.home;
+  const initPath = pages ? pages[0].path : path;
+
+  const navLinks = [
+    { path: columns.length > 0 ? paths.forYou : paths.home, name: 'Dành cho bạn' },
+    { path: paths.following, name: 'Đang theo dõi' },
+    { path: paths.ghostPosts, name: 'Bài viết tự hủy' },
+  ];
+
   return (
     <MaybePageStack
       enabled={!fromRouteRenderer}
-      url={routeRendererPath ?? paths.home}
+      path={fromRouteRenderer}
       autoUpdateUrl={autoUpdateUrl}
       neverUnmount={[paths.following, paths.ghostPosts]}
     >
       <ColumnLayout className={className}>
-        <ColumnHeader className='gap-6'>
-          <NavLink
-            to={paths.home}
-            replace
-            className={({ isActive }) =>
-              cn(
-                'font-bold text-(--text-secondary) active:opacity-65',
-                isActive && 'text-(--text-primary)'
-              )
-            }
-          >
-            Dành cho bạn
-          </NavLink>
-          <NavLink
-            to={paths.following}
-            replace
-            className={({ isActive }) =>
-              cn(
-                'font-bold text-(--text-secondary) active:opacity-65',
-                isActive && 'text-(--text-primary)'
-              )
-            }
-          >
-            Đang theo dõi
-          </NavLink>
-          <NavLink
-            to={paths.ghostPosts}
-            replace
-            className={({ isActive }) =>
-              cn(
-                'font-bold text-(--text-secondary) active:opacity-65',
-                isActive && 'text-(--text-primary)'
-              )
-            }
-          >
-            Bài viết tự hủy
-          </NavLink>
-
-          <MoreDropdown>
-            <DropdownMenuItem className='flex items-center justify-between'>
-              Tạo bảng feed mới <CirclePlusIcon className='size-5 text-inherit' />
-            </DropdownMenuItem>
-          </MoreDropdown>
-        </ColumnHeader>
+        {columns.length > 0 && initPath === paths.home ? (
+          <ColumnHeader></ColumnHeader>
+        ) : (
+          <ColumnHeader className='gap-12'>
+            {navLinks.map(({ path, name }) => {
+              const isNoColumns = columns.length === 0;
+              const isInitPathWithColumns = columns.length > 0 && path === initPath;
+              return (
+                (isNoColumns || isInitPathWithColumns) && (
+                  <NavLink
+                    to={path}
+                    replace
+                    className={({ isActive }) =>
+                      cn(
+                        'font-bold text-(--text-secondary) active:opacity-65',
+                        isActive && 'text-(--text-primary)'
+                      )
+                    }
+                  >
+                    {name}
+                  </NavLink>
+                )
+              );
+            })}
+          </ColumnHeader>
+        )}
 
         {/* ColumnContent */}
         {children ? children : <Outlet />}
