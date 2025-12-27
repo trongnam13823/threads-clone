@@ -4,10 +4,15 @@ import { ArrowLeftIcon, HeartIcon, HomeIcon, PlusIcon, SearchIcon, UserIcon } fr
 import paths from "@/configs/paths";
 import Menu from "./Menu";
 import { useSelector } from "react-redux";
-import { NavLink } from "react-router";
+import { NavLink, useLocation } from "react-router";
 
 const NavMobile = () => {
   const userInfo = useSelector((s) => s.auth.userInfo);
+  const location = useLocation();
+
+  // Home icon should be active for all home-related paths
+  const homePaths = [paths.home, paths.forYou, paths.following, paths.ghostPosts];
+  const isHomeActive = homePaths.includes(location.pathname);
 
   return (
     <nav className="absolute right-0 bottom-0 left-0 flex h-(--nav-mobile-h) gap-2 bg-(--side-navigation-background) backdrop-blur-lg md:hidden">
@@ -17,8 +22,8 @@ const NavMobile = () => {
         className="h-full flex-1 rounded-xl hover:bg-(--navigation-item-hover-background)"
       >
         <NavLink replace to={paths.home}>
-          {({ isActive }) => (
-            <HomeIcon size={24} className={isActive ? "text-(--icon-primary)" : "text-(--navigation-icon)"} />
+          {() => (
+            <HomeIcon size={24} className={isHomeActive ? "text-(--icon-primary)" : "text-(--navigation-icon)"} />
           )}
         </NavLink>
       </Button>

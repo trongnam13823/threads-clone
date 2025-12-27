@@ -33,7 +33,7 @@ const HomeLayout = ({
   return (
     <MaybePageStack
       enabled={!fromRouteRenderer}
-      path={fromRouteRenderer}
+      path={routeRendererPath}
       autoUpdateUrl={autoUpdateUrl}
       neverUnmount={[paths.following, paths.ghostPosts]}
     >
@@ -48,6 +48,7 @@ const HomeLayout = ({
               return (
                 (isNoColumns || isInitPathWithColumns) && (
                   <NavLink
+                    key={path}
                     to={path}
                     replace
                     className={({ isActive }) =>
