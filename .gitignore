@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Installation files
+*.deb
+*.rpm
+*.dmg
+*.exe
+*.msi
