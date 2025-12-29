@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -72,21 +72,29 @@
   --sidebar-ring: oklch(0.708 0 0);
 
   /* App */
-  --font-family-system: system-ui, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+  --font-family-system:
+    system-ui, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
   --column-max-w: 640px;
   --column-min-w: 420px;
   --nav-desktop-w: 76px;
   --nav-mobile-h: 50px;
   --scroll-size: 16px;
   --header-h: 60px;
+  --media-max-h: 280px;
+  --always-dark-overlay: rgba(0, 0, 0, 0.2);
+  --dark-backdrop-background: rgba(0, 0, 0, 0.7);
+  --liked-text: rgb(255, 48, 64);
   --floating-button-background: rgba(0, 0, 0, 0.03);
   --primary-column-outline: rgb(213, 213, 213);
   --text-secondary: rgb(153, 153, 153);
+  --primary-outline: rgba(0, 0, 0, 0.15);
   --success-text: #20c584;
   --divider: rgba(206, 208, 212, 0.3);
   --lines-primary: rgba(0, 0, 0, 0.15);
   --primary-button: rgb(0, 0, 0);
   --scroll-thumb: #bcc0c4;
+  --primary-button-background: rgb(0, 0, 0);
+  --primary-button-text: rgb(255, 255, 255);
   --secondary-button: rgb(255, 255, 255);
   --text-primary: rgb(0, 0, 0);
   --error-text: rgb(255, 48, 64);
@@ -97,6 +105,7 @@
   --box-shadow-04: rgba(0, 0, 0, 0.04);
   --box-shadow-08: rgba(0, 0, 0, 0.08);
   --icon-primary: rgb(0, 0, 0);
+  --secondary-icon: rgb(153, 153, 153);
   --navigation-icon: rgb(184, 184, 184);
   --background-primary: rgb(255, 255, 255);
   --background-secondary: rgb(250, 250, 250);
@@ -147,7 +156,7 @@
 
 @layer base {
   body {
-    @apply bg-(--background-primary) font-(family-name:--font-family-system) text-[15px] text-(--text-primary);
+    @apply min-h-svh min-w-svw bg-(--background-primary) font-(family-name:--font-family-system) text-[15px] text-(--text-primary);
   }
 
   input,

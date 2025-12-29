@@ -1,8 +1,8 @@
-import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setToken } from "../features/auth/authSlice";
-import { API_URL } from "@/configs/paths";
-import { logoutThunk } from "@/features/auth/authThunks";
-import { toast } from "sonner";
+import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { setToken } from '../features/auth/authSlice';
+import { API_URL } from '@/configs/paths';
+import { logoutThunk } from '@/features/auth/authThunks';
+import { toast } from 'sonner';
 
 const isRefreshToken = false;
 const refreshQueue = [];
@@ -12,7 +12,7 @@ export function createBaseQuery(path) {
     baseUrl: API_URL + path,
     prepareHeaders: (headers, { getState }) => {
       const accessToken = getState().auth.accessToken;
-      if (accessToken) headers.set("Authorization", `Bearer ${accessToken}`);
+      if (accessToken) headers.set('Authorization', `Bearer ${accessToken}`);
       return headers;
     },
   });
@@ -22,12 +22,16 @@ export function createBaseQuery(path) {
 
     // --- Xử lý lỗi server (5xx) ---
     if (result.error && result.error.status >= 500 && result.error.status < 600) {
-      toast.error("Server đang gặp sự cố, vui lòng thử lại sau.");
+      toast.error('Server đang gặp sự cố, vui lòng thử lại sau.');
       return result.error;
     }
 
     // --- Xử lý token hết hạn ---
-    if (result.error && result.error.status === 401 && result.error.data.message.includes("expired")) {
+    if (
+      result.error &&
+      result.error.status === 401 &&
+      result.error.data.message.includes('expired')
+    ) {
       if (isRefreshToken) {
         // nếu đang có request refresh token thì đẩy request hiện tại vào hàng đợi
         await new Promise((resolve, reject) => {
@@ -43,8 +47,8 @@ export function createBaseQuery(path) {
         }
 
         const response = await fetch(`${API_URL}/auth/refresh`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ refresh_token: refreshToken }),
         });
 

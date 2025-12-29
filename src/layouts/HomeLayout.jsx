@@ -1,19 +1,23 @@
-import { Outlet } from "react-router";
-import ColumnLayout from "./ColumnLayout";
-import PageStackProvider from "@/contexts/PageStack/components/PageStackProvider";
-import paths from "@/configs/paths";
+import { useSelector } from 'react-redux';
+import HomeColLayout from './HomeColLayout';
+import paths from '@/configs/paths';
+import HomeColsPage from '@/pages/Home/HomeColsPage';
 
-const HomeLayout = ({ children, className, fromRouteRenderer }) => {
-  const content = (
-    <ColumnLayout className={className}>
-      <ColumnLayout.Header>Home Layout</ColumnLayout.Header>
-      <ColumnLayout.Content>{children ? children : <Outlet />}</ColumnLayout.Content>
-    </ColumnLayout>
+const HomeLayout = ({ children, className, pageStackName, flag, path }) => {
+  const columns = useSelector((s) => s.auth.columns);
+
+  const isHomePage = path === paths.home;
+  const hasColumns = columns.length > 1;
+
+  if (flag && isHomePage && hasColumns) {
+    return <HomeColsPage pageStackName={pageStackName} className={className} />;
+  }
+
+  return (
+    <HomeColLayout className={className} pageStackName={pageStackName}>
+      {children}
+    </HomeColLayout>
   );
-
-  if (fromRouteRenderer) return content;
-
-  return <PageStackProvider page={paths.home}>{content}</PageStackProvider>;
 };
 
 export default HomeLayout;

@@ -1,21 +1,9 @@
 const ProfileRepliesPage = () => {
   return (
     <>
-      <div className="h-80 w-full shrink-0 bg-gray-200">
-        ProfileRepliesPage ProfileRepliesPage ProfileRepliesPage ipsum dolor sit amet consectetur adipisicing elit.
-        Inventore modi quod totam ipsam, error suscipit illo unde accusamus aperiam vel iure ex minima repudiandae amet
-        rerum! Incidunt voluptatibus reiciendis maiores.
+      <div className='flex flex-1 items-center justify-center'>
+        <p className='text-(--text-secondary)'>Chưa có thread nào.</p>
       </div>
-      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
-      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
-      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
-      <div className="h-80 w-full shrink-0 bg-gray-200">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore modi quod totam ipsam, error suscipit illo
-        unde accusamus aperiam vel iure ex minima repudiandae amet rerum! Incidunt voluptatibus reiciendis maiores.
-      </div>
-      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
-      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
-      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
     </>
   );
 };

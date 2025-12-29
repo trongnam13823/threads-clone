@@ -1,12 +1,15 @@
-import { Outlet } from "react-router";
-import ColumnLayout from "./ColumnLayout";
+import ColumnHeader from '@/components/Column/ColumnHeader';
+import ColumnLayout from '@/components/Column/ColumnLayout';
 
-const SearchLayout = ({ children }) => {
+const SearchLayout = ({ children, className, pageStackName }) => {
   return (
-    <ColumnLayout>
-      <ColumnLayout.Header>Search Layout</ColumnLayout.Header>
-      <ColumnLayout.Content> {children ? children : <Outlet />}</ColumnLayout.Content>
+    <ColumnLayout className={className} pageStackName={pageStackName}>
+      <ColumnHeader className='font-bold max-md:hidden'>Tìm kiếm</ColumnHeader>
+
+      {/* ColumnContent */}
+      {children}
     </ColumnLayout>
   );
 };
+
 export default SearchLayout;

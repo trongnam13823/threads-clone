@@ -1,32 +1,18 @@
-import paths from "@/configs/paths";
-import Link from "@/contexts/PageStack/components/Link";
+import ColumnContent from '@/components/Column/ColumnContent';
+import { PostCard } from '@/components/Post/PostCard';
 
 const ActivityPage = () => {
-  console.log("ActivityPage");
   return (
-    <>
-      <div className="h-80 w-full shrink-0 bg-gray-200">
-        ActivityPage ActivityPage ActivityPage ipsum dolor sit amet consectetur adipisicing elit. Inventore modi quod
-        totam ipsam, error suscipit illo unde accusamus aperiam vel iure ex minima repudiandae amet rerum! Incidunt
-        voluptatibus reiciendis maiores.
+    <ColumnContent>
+      <div className='py-3'>
+        {Array.from({ length: 10 }).map((_, index) => (
+          <div key={index}>
+            <PostCard />
+            <div className='ml-auto h-px w-[calc(100%-24px-36px-16px)] bg-(--lines-primary)' />
+          </div>
+        ))}
       </div>
-      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
-      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
-      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
-      <div className="h-80 w-full shrink-0 bg-gray-200">
-        Lorem ipsum dolor sit amet consecteLorem ipsum dolor sit amet consectetur adipisicing elit. Eaque asperi
-        <Link to={paths.activityFollows} className="text-pink-400">
-          To Activity Follows
-        </Link>
-        ores expedita voluptatibus! Voluptatem quos doloremque, facere animi, amet voluptatibus iure laudantium ipsam
-        culpa itaque nemo tempora excepturi minima saepe! Id?tur adipisicing elit. Inventore modi quod totam ipsam,
-        error suscipit illo unde accusamus aperiam vel iure ex minima repudiandae amet rerum! Incidunt voluptatibus
-        reiciendis maiores.
-      </div>
-      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
-      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
-      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
-    </>
+    </ColumnContent>
   );
 };
 

@@ -1,32 +1,54 @@
-import paths from "@/configs/paths";
-import { useSelector } from "react-redux";
-import { Link } from "react-router";
+import ColumnContent from '@/components/Column/ColumnContent';
+import MoreDropdown from '@/components/Column/MoreDropdown';
+import PinColumn from '@/components/Column/PinColumn';
+import SearchUserItem from '@/components/Search/SearchUserItem';
+import { Button } from '@/components/ui/button';
+import { SearchIcon, SlidersHorizontalIcon } from 'lucide-react';
 
 const SearchPage = () => {
-  const userInfo = useSelector((s) => s.auth.userInfo);
-
   return (
-    <>
-      <div className="h-80 w-full shrink-0 bg-gray-200">
-        SearchPage SearchPage SearchPage ipsum dolor sit amet consectetur adipisicing elit. Inventore modi quod totam
-        ipsam, error suscipit illo unde accusamus aperiam vel iure ex minima repudiandae amet rerum! Incidunt
-        voluptatibus reiciendis maiores.
+    <ColumnContent
+      className=''
+      dropdownElement={
+        <MoreDropdown>
+          <PinColumn />
+        </MoreDropdown>
+      }
+    >
+      {/* INPUT */}
+      <div className='px-6 pt-6'>
+        <div className='flex h-11 items-center gap-2 rounded-2xl border border-(--lines-primary) bg-(--background-secondary) px-4'>
+          <label htmlFor='search-input'>
+            <SearchIcon className='text-(--navigation-icon)' size={20} />
+          </label>
+          <input
+            id='search-input'
+            type='text'
+            className='flex-1 text-(--text-primary) outline-none placeholder:text-(--text-secondary)'
+            placeholder='Tìm kiếm'
+          />
+          <Button variant='ghost' size='icon' className='p-2'>
+            <SlidersHorizontalIcon className='size-5 text-(--navigation-icon)' />
+          </Button>
+        </div>
       </div>
-      <div className="h-80 w-full shrink-0 bg-gray-200"></div>
-      <div className="h-80 w-full shrink-0 bg-gray-200">
-        SearchPage SearchPage SearchPage ipsum dolor sit amet consectetur adipisicing elit. Inventore modi quod totam
-        ipsam, error suscipit
-        <Link to={paths.profile(userInfo.username)} className="text-pink-400">
-          To Profile
-        </Link>
-        illo unde accusamus aperiam vel iure ex minima repudiandae amet rerum! Incidunt voluptatibus reiciendis maiores.
+
+      <h2 className='px-6 pt-5 pb-1.5 font-bold text-(--text-secondary)'>Gợi ý theo dõi</h2>
+
+      <div className='flex flex-col'>
+        <SearchUserItem />
+        <SearchUserItem />
+        <SearchUserItem />
+        <SearchUserItem />
+        <SearchUserItem />
+        <SearchUserItem />
+        <SearchUserItem />
+        <SearchUserItem />
+        <SearchUserItem />
+        <SearchUserItem />
+        <SearchUserItem />
       </div>
-      <div className="h-80 w-full shrink-0 bg-gray-200">
-        SearchPage SearchPage SearchPage ipsum dolor sit amet consectetur adipisicing elit. Inventore modi quod totam
-        ipsam, error suscipit illo unde accusamus aperiam vel iure ex minima repudiandae amet rerum! Incidunt
-        voluptatibus reiciendis maiores.
-      </div>
-    </>
+    </ColumnContent>
   );
 };
 export default SearchPage;
