@@ -7,6 +7,8 @@ import SearchPage from '@/pages/Search';
 import ProfileLayout from '@/layouts/ProfileLayout';
 import ProfilePage from '@/pages/Profile';
 import ProfileRepliesPage from '@/pages/Profile/ProfileRepliesPage';
+import ProfileMediaPage from '@/pages/Profile/ProfileMediaPage';
+import ProfileRepostsPage from '@/pages/Profile/ProfileRepostsPage';
 import ForYouPage from '@/pages/Home/ForYouPage';
 import AuthLayout from '@/layouts/AuthLayout';
 import LoginPage from '@/pages/Auth/LoginPage';
@@ -22,6 +24,11 @@ import FollowingPage from '@/pages/Home/FollowingPage';
 import HomePage from '@/pages/Home';
 import GhostPosts from '@/pages/Home/GhostPosts';
 import HomeLayout from '@/layouts/HomeLayout';
+import ActivityRepliesPage from '@/pages/Activity/ActivityRepliesPage';
+import ActivityMentionsPage from '@/pages/Activity/ActivityMentionsPage';
+import ActivityQuotesPage from '@/pages/Activity/ActivityQuotesPage';
+import ActivityRepostsPage from '@/pages/Activity/ActivityRepostsPage';
+import ActivityVerifiedPage from '@/pages/Activity/ActivityVerifiedPage';
 
 export default [
   {
@@ -119,6 +126,26 @@ export default [
                 path: paths.activityFollows,
                 Component: ActivityFollowsPage,
               },
+              {
+                path: paths.activityReplies,
+                Component: ActivityRepliesPage,
+              },
+              {
+                path: paths.activityMentions,
+                Component: ActivityMentionsPage,
+              },
+              {
+                path: paths.activityQuotes,
+                Component: ActivityQuotesPage,
+              },
+              {
+                path: paths.activityReposts,
+                Component: ActivityRepostsPage,
+              },
+              {
+                path: paths.activityVerified,
+                Component: ActivityVerifiedPage,
+              },
             ],
           },
           {
@@ -131,6 +158,14 @@ export default [
               {
                 path: paths.profileReplies(':username'),
                 Component: ProfileRepliesPage,
+              },
+              {
+                path: paths.profileMedia(':username'),
+                Component: ProfileMediaPage,
+              },
+              {
+                path: paths.profileReposts(':username'),
+                Component: ProfileRepostsPage,
               },
             ],
           },

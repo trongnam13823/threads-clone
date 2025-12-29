@@ -1,25 +1,23 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useCallback, useMemo, memo } from 'react';
 import PageStackContext from '../context/PageStackContext';
 import RouteRenderer from './RouteRenderer';
 
-const PageStackProvider = ({
-  children,
-  path,
-  neverUnmount = [],
-  autoUpdateUrl = true,
-  flag = true,
-}) => {
+export default memo(({ children, path, neverUnmount = [], autoUpdateUrl = true, flag = true }) => {
   const maxId = useRef(1);
   const [history, setHistory] = useState([path]);
   const [pages, setPages] = useState([{ id: 1, path: path }]);
 
-  const updateUrl = (path) => {
-    if (autoUpdateUrl) {
-      window.history.replaceState({}, '', path);
-    }
-  };
+  // Memoize updateUrl để tránh tạo lại callbacks
+  const updateUrl = useCallback(
+    (path) => {
+      if (autoUpdateUrl) {
+        window.history.replaceState({}, '', path);
+      }
+    },
+    [autoUpdateUrl]
+  );
 
-  const pushPath = (path) => {
+  const pushPath = useCallback((path) => {
     if (history.at(-1) === path) return;
 
     setHistory((prev) => [...prev, path]);
@@ -39,9 +37,9 @@ const PageStackProvider = ({
     });
 
     updateUrl(path);
-  };
+  }, [history, neverUnmount, updateUrl]);
 
-  const popPath = () => {
+  const popPath = useCallback(() => {
     if (history.length === 1) return;
 
     const currentPath = history.at(-1);
@@ -57,9 +55,9 @@ const PageStackProvider = ({
     });
 
     updateUrl(newHistory.at(-1));
-  };
+  }, [history, neverUnmount, updateUrl]);
 
-  const replacePath = (path) => {
+  const replacePath = useCallback((path) => {
     setHistory([path]);
 
     setPages((prev) => {
@@ -75,18 +73,22 @@ const PageStackProvider = ({
     });
 
     updateUrl(path);
-  };
+  }, [neverUnmount, updateUrl]);
+
+  // Memoize context value để tránh re-render tất cả consumers
+  const contextValue = useMemo(
+    () => ({
+      history,
+      pages,
+      pushPath,
+      popPath,
+      replacePath,
+    }),
+    [history, pages, pushPath, popPath, replacePath]
+  );
 
   return (
-    <PageStackContext.Provider
-      value={{
-        history,
-        pages,
-        pushPath,
-        popPath,
-        replacePath,
-      }}
-    >
+    <PageStackContext.Provider value={contextValue}>
       {pages.map(({ id, path }) => {
         return (
           <RouteRenderer
@@ -101,6 +103,4 @@ const PageStackProvider = ({
       {children}
     </PageStackContext.Provider>
   );
-};
-
-export default PageStackProvider;
+});

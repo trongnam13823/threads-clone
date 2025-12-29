@@ -6,14 +6,7 @@ const initialState = {
   accessToken: null,
   refreshToken: null,
   userInfo: null,
-  columns: [
-    // { id: 1, path: paths.home },
-    // { id: 2, path: paths.following },
-    // { id: 3, path: paths.ghostPosts },
-    // { id: 4, path: paths.forYou },
-    // { id: 5, path: paths.search },
-    // { id: 6, path: paths.activity },
-  ],
+  columns: [{ id: 1, path: paths.home }], // default là trang chủ
 };
 
 const authSlice = createSlice({
@@ -32,6 +25,18 @@ const authSlice = createSlice({
     setColumns(state, action) {
       state.columns = action.payload;
     },
+
+    pinColumn(state, action) {
+      const path = action.payload;
+
+      const maxId = Math.max(...state.columns.map((col) => col.id), 0);
+      state.columns.push({ id: maxId + 1, path });
+    },
+
+    unpinColumn(state, action) {
+      const id = action.payload;
+      state.columns = state.columns.filter((col) => col.id !== id);
+    },
   },
 
   extraReducers: (builder) => {
@@ -40,5 +45,13 @@ const authSlice = createSlice({
   },
 });
 
-export const { setToken, setUserInfo, resetAuth, reorderColumns, setColumns } = authSlice.actions;
+export const {
+  setToken,
+  setUserInfo,
+  resetAuth,
+  reorderColumns,
+  setColumns,
+  pinColumn,
+  unpinColumn,
+} = authSlice.actions;
 export default authSlice;

@@ -1,20 +1,28 @@
+import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { cn } from '@/lib/utils';
-import { ListPlusIcon } from 'lucide-react';
-import RouteRenderer from '@/contexts/pageStack/components/RouteRenderer';
 import { setColumns } from '@/features/auth/authSlice';
 import { useDragSwap } from '@/hooks/useDragSwap';
 import DragSwapProvider from '@/contexts/dragSwap/components/DragSwapProvider';
 import paths from '@/configs/paths';
 import PageStackProvider from '@/contexts/pageStack/components/PageStackProvider';
+import PinMenu from '@/components/Column/PinMenu';
 
 export default function HomeColsPage({ className, pageStackName }) {
   const dispatch = useDispatch();
   const columns = useSelector((s) => s.auth.columns);
 
+  // Memoize onReorder callback để tránh useDragSwap tạo lại handlers
+  const handleReorder = useCallback(
+    (newColumns) => {
+      dispatch(setColumns(newColumns));
+    },
+    [dispatch]
+  );
+
   const { getItemProps, containerRef, getHandleProps, isDragging, draggingId } = useDragSwap({
     items: columns,
-    onReorder: (newColumns) => dispatch(setColumns(newColumns)),
+    onReorder: handleReorder,
     gap: 12,
   });
 
@@ -54,9 +62,7 @@ export default function HomeColsPage({ className, pageStackName }) {
         ))}
 
         <li className='relative h-full w-0'>
-          <button className='group absolute top-1/2 right-0 flex size-9 translate-x-full -translate-y-1/2 items-center justify-center rounded-full bg-(--floating-button-background)'>
-            <ListPlusIcon className='ml-0.5 size-5 text-(--navigation-icon) group-hover:text-(--icon-primary)' />
-          </button>
+          <PinMenu />
         </li>
       </ul>
     </div>

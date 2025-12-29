@@ -1,4 +1,4 @@
-const ProfileRepliesPage = () => {
+const ProfileRepostsPage = () => {
   return (
     <>
       <div className='flex flex-1 items-center justify-center'>
@@ -8,4 +8,4 @@ const ProfileRepliesPage = () => {
   );
 };
 
-export default ProfileRepliesPage;
+export default ProfileRepostsPage;

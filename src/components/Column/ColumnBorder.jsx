@@ -6,7 +6,7 @@ const ColumnBorder = () => {
   const columns = useSelector((s) => s.auth.columns);
   const { history } = usePageStack();
   const isHomePage = history.at(-1) === paths.home;
-  const hasColumns = columns.length > 0;
+  const hasColumns = columns.length > 1;
 
   return isHomePage && hasColumns ? null : (
     <div className='pointer-events-none fixed inset-0 z-10 flex flex-col items-center justify-center pt-(--header-h) pr-(--scroll-size) max-md:hidden'>

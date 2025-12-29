@@ -1,8 +1,17 @@
 import ColumnContent from '@/components/Column/ColumnContent';
+import MoreDropdown from '@/components/Column/MoreDropdown';
+import PinColumn from '@/components/Column/PinColumn';
 
 export default function GhostPosts() {
   return (
-    <ColumnContent className='flex items-center justify-center text-center'>
+    <ColumnContent
+      className='flex items-center justify-center text-center'
+      dropdownElement={
+        <MoreDropdown>
+          <PinColumn />
+        </MoreDropdown>
+      }
+    >
       <div className='flex h-full flex-col items-center justify-center p-8 text-balance text-(--secondary-icon)'>
         <svg aria-label='' role='img' viewBox='0 0 20 19' className='size-16' fill='currentColor'>
           <title></title>

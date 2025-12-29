@@ -1,11 +1,12 @@
-import DragSwapContext from "../context/DragSwapContext";
+import { useMemo, memo } from 'react';
+import DragSwapContext from '../context/DragSwapContext';
 
-const DragSwapProvider = ({ children, getHandleProps, isDragging, draggingId, data }) => {
-  return (
-    <DragSwapContext.Provider value={{ getHandleProps, isDragging, draggingId, data, isDraggable: true }}>
-      {children}
-    </DragSwapContext.Provider>
+export default memo(({ children, getHandleProps, isDragging, draggingId, data }) => {
+  // Memoize context value để tránh re-render tất cả consumers khi parent re-render
+  const contextValue = useMemo(
+    () => ({ getHandleProps, isDragging, draggingId, data, isDraggable: true }),
+    [getHandleProps, isDragging, draggingId, data]
   );
-};
 
-export default DragSwapProvider;
+  return <DragSwapContext.Provider value={contextValue}>{children}</DragSwapContext.Provider>;
+});

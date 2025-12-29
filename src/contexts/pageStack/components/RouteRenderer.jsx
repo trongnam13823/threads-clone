@@ -15,7 +15,7 @@ const RouteRenderer = memo(({ path, className, skip = 2, flag }) => {
     // Component ngoài cùng sẽ nhận style/className
     if (index === 0) {
       return (
-        <Comp flag={flag} className={className} pageStackName={path}>
+        <Comp flag={flag} path={path} className={className} pageStackName={path}>
           {children}
         </Comp>
       );

@@ -1,8 +1,8 @@
-import { Children } from 'react';
+import { Children, memo } from 'react';
 import { cn } from '@/lib/utils';
 import useDragSwap from '@/contexts/dragSwap/hooks/useDragSwap';
 
-const ColumnLayout = ({ children, className, pageStackName }) => {
+const ColumnLayout = memo(({ children, className, pageStackName }) => {
   const [header, content] = Children.toArray(children);
 
   const { isDraggable } = useDragSwap();
@@ -20,6 +20,6 @@ const ColumnLayout = ({ children, className, pageStackName }) => {
       {content}
     </div>
   );
-};
+});
 
 export default ColumnLayout;

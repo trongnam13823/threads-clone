@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback, memo } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { EllipsisIcon, HeartIcon, MessageCircleIcon, Repeat2Icon, SendIcon } from 'lucide-react';
 import paths from '@/configs/paths';
@@ -6,30 +6,43 @@ import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import Link from '@/contexts/pageStack/components/Link';
 import { ReplyBox } from './ReplyBox';
+import { MediaGallery } from './MediaGallery';
 
-export const PostCard = () => {
+export const PostCard = memo(() => {
   const [showReply, setShowReply] = useState(false);
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(1);
 
-  const handleLike = () => {
+  // Danh sách media (ảnh hoặc video) với các kích thước khác nhau
+  const mediaList = [
+    'https://picsum.photos/id/1018/600/400', // Landscape - Cây trong sương mù
+    'https://picsum.photos/id/1015/400/600', // Portrait - Núi tuyết
+    'https://picsum.photos/id/1025/500/500', // Square - Chú chó
+    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    'https://picsum.photos/id/1019/700/400', // Wide landscape - Bờ biển
+    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+    'https://picsum.photos/id/1036/400/700', // Tall portrait - Cầu thang
+    'https://picsum.photos/id/1040/800/500', // Wide - Thành phố
+  ];
+
+  const handleLike = useCallback(() => {
     setLikes((prev) => prev + (liked ? -1 : 1));
     setLiked((prev) => !prev);
-  };
+  }, [liked]);
 
-  const handleToggleReply = () => {
-    setShowReply(!showReply);
-  };
+  const handleToggleReply = useCallback(() => {
+    setShowReply((prev) => !prev);
+  }, []);
 
-  const handlePostClick = () => {
+  const handlePostClick = useCallback(() => {
     const selection = window.getSelection();
     if (!selection || selection.isCollapsed) {
       alert('oke oke');
     }
-  };
+  }, []);
 
   return (
-    <div className='flex flex-col gap-4 px-6 py-3'>
+    <div className='flex flex-col gap-4 overflow-hidden px-6 py-3'>
       {/* POST CONTENT*/}
       <div className='flex gap-4'>
         {/* LEFT */}
@@ -79,6 +92,9 @@ export const PostCard = () => {
             }}
           />
 
+          {/* MEDIA */}
+          <MediaGallery mediaList={mediaList} />
+
           {/* ACTION BTNS */}
           <div className='mt-1.5 -mb-1 -ml-3 flex items-center'>
             {/* LIKE BTN */}
@@ -122,4 +138,4 @@ export const PostCard = () => {
       {showReply && <ReplyBox />}
     </div>
   );
-};
+});

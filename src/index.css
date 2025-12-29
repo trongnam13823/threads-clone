@@ -79,8 +79,10 @@
   --nav-desktop-w: 76px;
   --nav-mobile-h: 50px;
   --scroll-size: 16px;
-  --dark-backdrop-background: rgba(0, 0, 0, 0.7);
   --header-h: 60px;
+  --media-max-h: 280px;
+  --always-dark-overlay: rgba(0, 0, 0, 0.2);
+  --dark-backdrop-background: rgba(0, 0, 0, 0.7);
   --liked-text: rgb(255, 48, 64);
   --floating-button-background: rgba(0, 0, 0, 0.03);
   --primary-column-outline: rgb(213, 213, 213);
@@ -91,6 +93,8 @@
   --lines-primary: rgba(0, 0, 0, 0.15);
   --primary-button: rgb(0, 0, 0);
   --scroll-thumb: #bcc0c4;
+  --primary-button-background: rgb(0, 0, 0);
+  --primary-button-text: rgb(255, 255, 255);
   --secondary-button: rgb(255, 255, 255);
   --text-primary: rgb(0, 0, 0);
   --error-text: rgb(255, 48, 64);

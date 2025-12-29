@@ -1,23 +1,30 @@
-import ColumnContent from "@/components/Column/ColumnContent";
+import ColumnContent from '@/components/Column/ColumnContent';
+import MoreDropdown from '@/components/Column/MoreDropdown';
+import PinColumn from '@/components/Column/PinColumn';
+import CreateFeedMenuItem from '@/components/Column/CreateFeedMenuItem';
+import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import useDragSwap from '@/contexts/dragSwap/hooks/useDragSwap';
 
 const ActivityFollowsPage = () => {
+  const { isDraggable } = useDragSwap();
+
   return (
-    <ColumnContent>
-      <div className="h-80 w-full shrink-0">
-        ActivityFollowsPage ActivityFollowsPage ActivityFollowsPage ipsum dolor sit amet consectetur adipisicing elit.
-        Inventore modi quod totam ipsam, error suscipit illo unde accusamus aperiam vel iure ex minima repudiandae amet
-        rerum! Incidunt voluptatibus reiciendis maiores.
+    <ColumnContent
+      dropdownElement={
+        <MoreDropdown>
+          <PinColumn />
+          {!isDraggable && (
+            <>
+              <DropdownMenuSeparator />
+              <CreateFeedMenuItem />
+            </>
+          )}
+        </MoreDropdown>
+      }
+    >
+      <div className='flex size-full items-center justify-center py-2'>
+        <p className='text-(--text-secondary)'>Chưa có hoạt động nào.</p>
       </div>
-      <div className="h-80 w-full shrink-0"></div>
-      <div className="h-80 w-full shrink-0"></div>
-      <div className="h-80 w-full shrink-0"></div>
-      <div className="h-80 w-full shrink-0">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore modi quod totam ipsam, error suscipit illo
-        unde accusamus aperiam vel iure ex minima repudiandae amet rerum! Incidunt voluptatibus reiciendis maiores.
-      </div>
-      <div className="h-80 w-full shrink-0"></div>
-      <div className="h-80 w-full shrink-0"></div>
-      <div className="h-80 w-full shrink-0"></div>
     </ColumnContent>
   );
 };
