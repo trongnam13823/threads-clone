@@ -20,7 +20,7 @@ function GuestLayout() {
     if (!isLoading && splashState === SplashStatus.FADING_IN_DONE) {
       dispatch(setSplashFadingOut());
 
-      if (userQuery) dispatch(setUserInfo(userQuery));
+      if (userQuery?.data) dispatch(setUserInfo(userQuery.data));
     }
   }, [splashState, isLoading]);
 

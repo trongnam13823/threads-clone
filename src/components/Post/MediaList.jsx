@@ -2,14 +2,15 @@ import { useCallback, memo } from 'react';
 import { useDragScroll } from '@/hooks/useDragScroll';
 import { VideoItem } from './VideoItem';
 import { ImageItem } from './ImageItem';
+import { cn } from '@/lib/utils';
 
 /**
- * MediaGallery component - Displays a gallery of images and videos
+ * MediaList component - Displays a gallery of images and videos
  * @param {Array} mediaList - Array of media URLs
  */
-export const MediaGallery = memo(({ mediaList = [] }) => {
+export const MediaList = memo(({ mediaList = [] }) => {
   // Hook kéo thả để cuộn gallery hình ảnh
-  const { containerRef: mediaGalleryRef } = useDragScroll({
+  const { containerRef: mediaListRef } = useDragScroll({
     direction: 'horizontal',
     dragThreshold: 5,
     sensitivity: 1,
@@ -30,8 +31,11 @@ export const MediaGallery = memo(({ mediaList = [] }) => {
 
   return (
     <div
-      ref={mediaGalleryRef}
-      className='mt-2 -mr-[24px] -ml-[76px] flex gap-1.5 overflow-x-hidden pr-[24px] pl-[76px]'
+      ref={mediaListRef}
+      className={cn(
+        'mt-2 flex gap-1.5 overflow-x-hidden',
+        !isSingleMedia && '-mr-[24px] -ml-[76px] pr-[24px] pl-[76px]'
+      )}
     >
       {mediaList.map((mediaUrl, index) =>
         isVideo(mediaUrl) ? (
@@ -43,3 +47,5 @@ export const MediaGallery = memo(({ mediaList = [] }) => {
     </div>
   );
 });
+
+export default MediaList;

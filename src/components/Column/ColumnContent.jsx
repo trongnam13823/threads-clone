@@ -2,10 +2,6 @@ import { memo } from 'react';
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import useDragSwap from '@/contexts/dragSwap/hooks/useDragSwap';
-import CreateFeedMenuItem from '@/components/Column/CreateFeedMenuItem';
-import PinColumn from '@/components/Column/PinColumn';
-import MoreDropdown from '@/components/Column/MoreDropdown';
-import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 
 const ColumnContent = memo(({ children, className, dropdownElement }) => {
   const { isDraggable } = useDragSwap();
@@ -28,5 +24,7 @@ const ColumnContent = memo(({ children, className, dropdownElement }) => {
     </>
   );
 });
+
+ColumnContent.displayName = 'ColumnContent';
 
 export default ColumnContent;

@@ -6,24 +6,17 @@ import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import Link from '@/contexts/pageStack/components/Link';
 import { ReplyBox } from './ReplyBox';
-import { MediaGallery } from './MediaGallery';
+import MediaList from './MediaList';
+import VerifiedBadge from '../User/VerifiedBadge';
+import { formatRelativeTime, formatNumber } from '@/utils/formatTime';
 
-export const PostCard = memo(() => {
+export const PostCard = memo(({ post }) => {
   const [showReply, setShowReply] = useState(false);
-  const [liked, setLiked] = useState(false);
-  const [likes, setLikes] = useState(1);
+  const [liked, setLiked] = useState(post?.is_liked_by_auth || false);
+  const [likes, setLikes] = useState(post?.likes_count || 0);
 
-  // Danh sách media (ảnh hoặc video) với các kích thước khác nhau
-  const mediaList = [
-    'https://picsum.photos/id/1018/600/400', // Landscape - Cây trong sương mù
-    'https://picsum.photos/id/1015/400/600', // Portrait - Núi tuyết
-    'https://picsum.photos/id/1025/500/500', // Square - Chú chó
-    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-    'https://picsum.photos/id/1019/700/400', // Wide landscape - Bờ biển
-    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-    'https://picsum.photos/id/1036/400/700', // Tall portrait - Cầu thang
-    'https://picsum.photos/id/1040/800/500', // Wide - Thành phố
-  ];
+  // Safety check
+  if (!post) return null;
 
   const handleLike = useCallback(() => {
     setLikes((prev) => prev + (liked ? -1 : 1));
@@ -49,8 +42,8 @@ export const PostCard = memo(() => {
         <div className='flex w-9 flex-col items-center gap-4'>
           {/* AUTHOR AVATAR */}
           <Avatar className='size-9 cursor-pointer'>
-            <AvatarImage src={null} alt={'namdeptrai'} />
-            <AvatarFallback>namdeptrai</AvatarFallback>
+            <AvatarImage src={post.user.avatar_url} alt={post.user.username} />
+            <AvatarFallback>{post.user.username.slice(0, 2).toUpperCase()}</AvatarFallback>
           </Avatar>
 
           {/* LINE REPLY */}
@@ -64,11 +57,18 @@ export const PostCard = memo(() => {
           {/* HEADER */}
           <div className='flex items-center'>
             {/* AUTHOR NAME */}
-            <Link to={paths.profile('namdeptrai')} className={cn('font-bold', 'hover:underline')}>
-              <span>namdeptrai</span>
+            <Link
+              to={paths.profile(post.user.username)}
+              className={cn('font-bold', 'hover:underline')}
+            >
+              <span>{post.user.username}</span>
             </Link>
+            {/* VERIFIED BADGE */}
+            {post.user.verified && <VerifiedBadge className='ml-0.5 size-4' />}
             {/* CREATED AT */}
-            <span className='ml-1.5 text-(--text-secondary)'>1 giờ</span>
+            <span className='ml-1.5 text-(--text-secondary)'>
+              {formatRelativeTime(post.created_at)}
+            </span>
             {/* MORE BTN */}
             <Button
               variant='ghost'
@@ -83,17 +83,19 @@ export const PostCard = memo(() => {
           <div
             onClick={() => handlePostClick()}
             className={cn(
-              'mt-1 cursor-pointer',
+              'mt-1 cursor-pointer wrap-break-word whitespace-pre-wrap',
               'text-(--text-primary)',
               '[&>*:not(:first-child)]:mt-2.5'
             )}
             dangerouslySetInnerHTML={{
-              __html: 'Có những nỗi nhớ không cần lý do, chỉ cần một bản nhạc.',
+              __html: post.content,
             }}
           />
 
           {/* MEDIA */}
-          <MediaGallery mediaList={mediaList} />
+          {post.media_urls && post.media_urls.length > 0 && (
+            <MediaList mediaList={post.media_urls} />
+          )}
 
           {/* ACTION BTNS */}
           <div className='mt-1.5 -mb-1 -ml-3 flex items-center'>
@@ -108,7 +110,7 @@ export const PostCard = memo(() => {
               onClick={handleLike}
             >
               <HeartIcon className={cn('size-4.5', liked && 'fill-current')} />
-              {likes}
+              {formatNumber(likes)}
             </Button>
 
             {/* REPLY BTN */}
@@ -118,17 +120,26 @@ export const PostCard = memo(() => {
               className='h-9 gap-1 px-3 text-[13px] tabular-nums'
               onClick={handleToggleReply}
             >
-              <MessageCircleIcon className='size-4.5' /> {4}
+              <MessageCircleIcon className='size-4.5' />
+              {post.replies_count > 0 && formatNumber(post.replies_count)}
             </Button>
 
             {/* REPOST BTN */}
-            <Button variant='ghost' size='icon' className='h-9 gap-1 px-3 text-[13px] tabular-nums'>
-              <Repeat2Icon size={24} strokeWidth={1.5} className='size-6 stroke-[1.5]' /> {45}
+            <Button
+              variant='ghost'
+              size='icon'
+              className={cn(
+                'h-9 gap-1 px-3 text-[13px] tabular-nums',
+                post.is_reposted_by_auth && 'text-green-600'
+              )}
+            >
+              <Repeat2Icon size={24} strokeWidth={1.5} className='size-6 stroke-[1.5]' />
+              {post.reposts_and_quotes_count > 0 && formatNumber(post.reposts_and_quotes_count)}
             </Button>
 
             {/* SHARE BTN */}
             <Button variant='ghost' size='icon' className='h-9 gap-1 px-3 text-[13px] tabular-nums'>
-              <SendIcon className='size-4.5' /> {14}
+              <SendIcon className='size-4.5' />
             </Button>
           </div>
         </div>
@@ -139,3 +150,5 @@ export const PostCard = memo(() => {
     </div>
   );
 });
+
+PostCard.displayName = 'PostCard';

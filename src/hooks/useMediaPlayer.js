@@ -9,10 +9,10 @@ import { useEffect, useRef, useState } from 'react';
  *
  * @param {Object} [options] - Tùy chọn
  * @param {'image' | 'video'} [options.type='image'] - Loại media
- * @param {string} [options.lazyRootMargin='100px'] - Load media trước bao nhiêu px
+ * @param {string} [options.lazyRootMargin='100%'] - Load media trước (hỗ trợ px và %, default: 100%)
  * @param {Function} [options.onPlaybackChange] - Callback khi visibility thay đổi (entry, media) => void (chỉ cho video)
  * @param {number} [options.playbackThreshold=0.5] - % video visible để trigger callback (0-1, chỉ cho video)
- * @param {string} [options.playbackRootMargin='0px'] - Margin cho playback observer (chỉ cho video)
+ * @param {string} [options.playbackRootMargin='0%'] - Margin cho playback observer (hỗ trợ px và %, chỉ cho video)
  *
  * @returns {Object} Hook returns
  * @returns {Object} returns.containerRef - Ref cho container element (để lazy load)
@@ -23,14 +23,14 @@ import { useEffect, useRef, useState } from 'react';
  * // Image - chỉ lazy load
  * const { containerRef, mediaRef, shouldLoad } = useMediaPlayer({
  *   type: 'image',
- *   lazyRootMargin: '100px',
+ *   lazyRootMargin: '100%', // hoặc '100px'
  * });
  *
  * @example
  * // Video - với default play/pause
  * const { containerRef, mediaRef, shouldLoad } = useMediaPlayer({
  *   type: 'video',
- *   lazyRootMargin: '200px',
+ *   lazyRootMargin: '150%', // hoặc '200px'
  *   onPlaybackChange: (entry, video) => {
  *     if (entry.isIntersecting) {
  *       video.play().catch(() => {});
@@ -57,10 +57,10 @@ import { useEffect, useRef, useState } from 'react';
  */
 export const useMediaPlayer = ({
   type = 'image',
-  lazyRootMargin = '100px',
+  lazyRootMargin = '100%',
   onPlaybackChange,
   playbackThreshold = 0.5,
-  playbackRootMargin = '0px',
+  playbackRootMargin = '0%',
 } = {}) => {
   const containerRef = useRef(null);
   const mediaRef = useRef(null);
@@ -126,4 +126,3 @@ export const useMediaPlayer = ({
     shouldLoad,
   };
 };
-

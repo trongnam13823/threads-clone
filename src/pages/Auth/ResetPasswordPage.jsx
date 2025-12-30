@@ -65,7 +65,7 @@ const ResetPasswordPage = () => {
     toast.error(errors[Object.keys(errors)[0]]?.message);
   };
 
-  return data?.valid ? (
+  return data?.data?.valid ? (
     <div className="flex w-full max-w-92.5 flex-col gap-4">
       <h1 className="text-center text-base font-bold">Đặt lại mật khẩu</h1>
 
@@ -142,7 +142,7 @@ const ResetPasswordPage = () => {
         {isLoading ? (
           <span>Đang xác thực...</span>
         ) : (
-          !data?.valid && <span className="text-(--error-text)">Xác thực thất bại</span>
+          !data?.data?.valid && <span className="text-(--error-text)">Xác thực thất bại</span>
         )}
       </h1>
 
@@ -150,7 +150,7 @@ const ResetPasswordPage = () => {
         {isLoading ? (
           <span>Vui lòng chờ trong giây lát</span>
         ) : (
-          !data?.valid && <span className="text-(--error-text)">Liên kết đã hết hạn hoặc không hợp lệ.</span>
+          !data?.data?.valid && <span className="text-(--error-text)">Liên kết đã hết hạn hoặc không hợp lệ.</span>
         )}
       </p>
 

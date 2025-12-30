@@ -1,55 +1,76 @@
-import { CreatePostBox } from '@/components/Post/CreatePostBox';
 import ColumnContent from '@/components/Column/ColumnContent';
-import { PostCard } from '@/components/Post/PostCard';
-import CreateFeedMenuItem from '@/components/Column/CreateFeedMenuItem';
-import PinColumn from '@/components/Column/PinColumn';
 import MoreDropdown from '@/components/Column/MoreDropdown';
+import PinColumn from '@/components/Column/PinColumn';
+import { CreatePostBox } from '@/components/Post/CreatePostBox';
+import { PostCard } from '@/components/Post/PostCard';
+import { useGetPostsFeedQuery } from '@/services/posts/postsApi';
+import { FEED_TYPES } from '@/constants/feedTypes';
+import { Spinner } from '@/components/ui/spinner';
+import { cn } from '@/lib/utils';
+import { useInfiniteQueryList } from '@/hooks/useInfiniteQueryList';
+import CreateFeedMenuItem from '@/components/Column/CreateFeedMenuItem';
 import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import useDragSwap from '@/contexts/dragSwap/hooks/useDragSwap';
 
-const FollowingPage = () => {
+const FollowingPage = ({ dropdownElement }) => {
   const { isDraggable } = useDragSwap();
+  const { items, isLoading, isReloading, loadMoreRef, hasMore } = useInfiniteQueryList({
+    listKey: FEED_TYPES.FOLLOWING,
+    useQuery: useGetPostsFeedQuery,
+    queryArgs: {
+      type: FEED_TYPES.FOLLOWING,
+    },
+  });
 
   return (
     <ColumnContent
       dropdownElement={
-        <MoreDropdown>
-          <PinColumn />
-          {!isDraggable && (
-            <>
-              <DropdownMenuSeparator />
-              <CreateFeedMenuItem />
-            </>
-          )}
-        </MoreDropdown>
+        dropdownElement || (
+          <MoreDropdown>
+            <PinColumn />
+            {!isDraggable && (
+              <>
+                <DropdownMenuSeparator />
+                <CreateFeedMenuItem />
+              </>
+            )}
+          </MoreDropdown>
+        )
       }
     >
-      <div className='flex-1 *:border-b *:border-(--primary-column-outline) [&>*:last-child]:border-none'>
+      <div className='flex h-full flex-1 flex-col *:border-b *:border-(--primary-column-outline) [&>*:last-child]:border-none'>
         <CreatePostBox className='pt-6 max-md:hidden' />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
+
+        {isLoading ? (
+          <div className='flex flex-1 items-center justify-center'>
+            <Spinner className='size-10' />
+          </div>
+        ) : items.length === 0 ? (
+          <div className='flex flex-1 items-center justify-center'>
+            <p className='text-lg text-(--text-secondary)'>Chưa có bài viết nào</p>
+          </div>
+        ) : (
+          <>
+            <div
+              className={cn(
+                'flex min-h-20 flex-1 items-center justify-center overflow-hidden border-b-0! transition-[min-height]',
+                isReloading ? 'max-h-20 min-h-20' : 'max-h-0 min-h-0'
+              )}
+            >
+              <Spinner className='size-5' />
+            </div>
+
+            {items.map((post) => (
+              <PostCard key={post.id} post={post} />
+            ))}
+
+            {hasMore && (
+              <div ref={loadMoreRef} className='flex min-h-20 flex-1 items-center justify-center'>
+                <Spinner className='size-5' />
+              </div>
+            )}
+          </>
+        )}
       </div>
     </ColumnContent>
   );

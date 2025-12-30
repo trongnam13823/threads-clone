@@ -76,6 +76,6 @@ export function createBaseQuery(path) {
       result = await rawBaseQuery(args, api, extraOptions);
     }
 
-    return result.data ?? result;
+    return result;
   };
 }

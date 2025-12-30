@@ -15,11 +15,3 @@ export const FEED_UI_TYPE = {
   ADD_COLUMN: 'add_column',
   SUB_MENU: 'sub_menu',
 };
-
-/**
- * Default pagination settings
- */
-export const PAGINATION = {
-  DEFAULT_PAGE: 1,
-  DEFAULT_PER_PAGE: 15,
-};

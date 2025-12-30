@@ -1,13 +1,66 @@
+import { useState, useEffect } from 'react';
+import { useDebounce } from 'use-debounce';
 import ColumnHeader from '@/components/Column/ColumnHeader';
 import ColumnLayout from '@/components/Column/ColumnLayout';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPage, triggerReload } from '@/features/InfiniteList/infiniteListSlice';
+import { SEARCH_TYPES } from '@/constants/searchType';
+import MoreDropdown from '@/components/Column/MoreDropdown';
+import PinColumn from '@/components/Column/PinColumn';
+import SearchInput from '@/components/Search/SearchInput';
+import ColumnContent from '@/components/Column/ColumnContent';
+import { setText } from '@/features/search/searchSlice';
 
 const SearchLayout = ({ children, className, pageStackName }) => {
+  const dispatch = useDispatch();
+  const searchText = useSelector((state) => state.search.text);
+  const [inputValue, setInputValue] = useState(searchText);
+  const [debouncedValue] = useDebounce(inputValue, 500);
+
+  // Sync local state với Redux state khi Redux state thay đổi từ bên ngoài
+  useEffect(() => {
+    setInputValue(searchText);
+  }, [searchText]);
+
+  // Dispatch vào Redux khi debounced value thay đổi
+  useEffect(() => {
+    if (debouncedValue !== searchText) {
+      dispatch(setText(debouncedValue));
+      dispatch(setPage({ key: SEARCH_TYPES.GLOBAL_SEARCH, page: 1 }));
+    }
+  }, [debouncedValue, searchText, dispatch]);
+
+  const handleReload = () => {
+    dispatch(triggerReload(SEARCH_TYPES.USER_SUGGESTIONS));
+    dispatch(triggerReload(SEARCH_TYPES.GLOBAL_SEARCH));
+  };
+
   return (
     <ColumnLayout className={className} pageStackName={pageStackName}>
-      <ColumnHeader className='font-bold max-md:hidden'>Tìm kiếm</ColumnHeader>
+      <ColumnHeader className='max-md:hidden'>
+        <button onClick={handleReload} type='button' className='cursor-pointer font-bold'>
+          Tìm kiếm
+        </button>
+      </ColumnHeader>
 
       {/* ColumnContent */}
-      {children}
+      <ColumnContent
+        dropdownElement={
+          <MoreDropdown>
+            <PinColumn />
+          </MoreDropdown>
+        }
+      >
+        <div className='flex h-full flex-1 flex-col'>
+          <SearchInput
+            value={inputValue}
+            onChange={(e) => {
+              setInputValue(e.target.value);
+            }}
+          />
+          {children}
+        </div>
+      </ColumnContent>
     </ColumnLayout>
   );
 };

@@ -19,9 +19,9 @@ export const VideoItem = memo(({ videoUrl, isSingleMedia }) => {
     shouldLoad,
   } = useMediaPlayer({
     type: 'video',
-    lazyRootMargin: '200px', // Video nặng → load trước 200px
+    lazyRootMargin: '150%', // Video nặng → load trước 150%
     playbackThreshold: 0.5, // Video phải hiển thị ít nhất 50% để trigger callback
-    playbackRootMargin: '0px',
+    playbackRootMargin: '0%',
     onPlaybackChange: useCallback((entry, video) => {
       if (entry.isIntersecting) {
         // Video vào viewport → play

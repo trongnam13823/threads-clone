@@ -6,20 +6,31 @@ const postsApi = createApi({
   baseQuery: createBaseQuery('/posts'),
   tagTypes: ['Post'],
   endpoints: (builder) => ({
-    // Get posts feed (for_you, following, ghost)
     getPostsFeed: builder.query({
       query: ({ type = 'for_you', page = 1, per_page = 15 }) => ({
         url: '/feed',
-        method: 'GET',
         params: { type, page, per_page },
       }),
-      providesTags: (result, error, { type, page }) =>
-        result
+      serializeQueryArgs: ({ endpointName, queryArgs }) => `${endpointName}-${queryArgs.type}`,
+      merge: (currentCache, newData, { arg }) => {
+        if (arg.page === 1) return newData;
+        currentCache.data.push(...newData.data);
+        currentCache.pagination = newData.pagination;
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        if (!previousArg) return false;
+        return currentArg.page !== previousArg.page;
+      },
+      providesTags: (result, error, { type }) =>
+        result?.data
           ? [
-              ...result.data.map(({ id }) => ({ type: 'Post', id })),
-              { type: 'Post', id: `${type}-${page}` },
+              ...result.data.map((post) => ({
+                type: 'Post',
+                id: post.id,
+              })),
+              { type: 'Post', id: type },
             ]
-          : [{ type: 'Post', id: `${type}-${page}` }],
+          : [{ type: 'Post', id: type }],
     }),
   }),
 });

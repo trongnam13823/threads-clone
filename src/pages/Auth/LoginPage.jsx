@@ -42,7 +42,8 @@ export default function LoginPage() {
     if (isLoading) return;
 
     try {
-      const { user, access_token, refresh_token } = await login(values).unwrap();
+      const response = await login(values).unwrap();
+      const { user, access_token, refresh_token } = response.data;
 
       dispatch(setToken({ access_token, refresh_token }));
       dispatch(setUserInfo(user));

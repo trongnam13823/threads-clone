@@ -14,7 +14,7 @@ export const ImageItem = memo(({ imageUrl, isSingleMedia }) => {
   // Lazy load cho image
   const { containerRef: ref, shouldLoad } = useMediaPlayer({
     type: 'image',
-    lazyRootMargin: '100px', // Image nhẹ hơn → load trước 100px
+    lazyRootMargin: '100%', // Image nhẹ hơn → load trước 100%
   });
 
   const handleLoad = useCallback(() => {
@@ -26,7 +26,7 @@ export const ImageItem = memo(({ imageUrl, isSingleMedia }) => {
   }, []);
 
   return (
-    <div ref={ref} className='relative flex shrink-0 rounded-lg'>
+    <div ref={ref} className={cn('relative flex rounded-lg', !isSingleMedia && 'shrink-0')}>
       {shouldLoad && (
         <img
           src={imageUrl}

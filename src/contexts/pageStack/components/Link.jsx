@@ -1,16 +1,20 @@
 import { cn } from '@/lib/utils';
 import usePageStack from '../hooks/usePageStack';
 
-export default function Link({ children, to, replace, className, ...props }) {
+export default function Link({ children, to, replace, className, onClick, ...props }) {
   const { pushPath, replacePath } = usePageStack();
 
-  const handleClick = () => {
+  const handleClick = (e) => {
     if (replace) {
       replacePath(to);
-      return;
+    } else {
+      pushPath(to);
     }
 
-    pushPath(to);
+    // Call custom onClick handler if provided
+    if (onClick) {
+      onClick(e);
+    }
   };
 
   return (

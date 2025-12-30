@@ -567,6 +567,8 @@ export function useDragSwap({
         zIndex: isDragging || isDropping ? 1000 : 1,
         position: isDragging ? 'relative' : undefined,
         willChange: isDragging || isDropping ? 'transform' : undefined,
+        pointerEvents: isDragging || isDropping ? 'none' : 'auto',
+        cursor: isDragging || isDropping ? 'grabbing' : 'grab',
       };
     },
     [draggingId, noTransition, transitionStyle, isHorizontal, updateTrigger]

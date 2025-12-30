@@ -11,9 +11,11 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { cn } from '@/lib/utils';
+import useNavigate from '@/contexts/pageStack/hooks/useNavigate';
 
 const PinMenu = memo(() => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const userInfo = useSelector((s) => s.auth.userInfo);
   const columns = useSelector((s) => s.auth.columns);
@@ -25,8 +27,9 @@ const PinMenu = memo(() => {
   const handleAddColumn = useCallback(
     (path) => {
       dispatch(pinColumn(path));
+      navigate(paths.home, { replace: true });
     },
-    [dispatch]
+    [dispatch, navigate]
   );
 
   return (
