@@ -16,8 +16,7 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { useState } from 'react';
-import FeedDropdownContent from '../Column/FeedDropdownContent';
-import { FEED_UI_TYPE } from '@/constants/feedTypes';
+import FeedDropdownContent, { FEED_UI_TYPE } from '../Column/FeedDropdownContent';
 
 export const SUB_MENU = {
   EMPTY: 'empty',

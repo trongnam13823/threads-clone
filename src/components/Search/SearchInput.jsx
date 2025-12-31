@@ -14,6 +14,7 @@ export default function SearchInput({ value, onChange, onClick }) {
           value={value}
           autoFocus={true}
           onChange={onChange}
+          autoComplete='off'
           className='flex-1 text-(--text-primary) outline-none placeholder:text-(--text-secondary)'
           placeholder='Tìm kiếm'
         />

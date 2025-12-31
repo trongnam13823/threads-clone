@@ -1,69 +1,64 @@
-import { useRef, useEffect } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 
-const getScrollableParent = (element) => {
-  if (!element) return null;
-
-  let parent = element.parentElement;
-
-  while (parent) {
-    const style = window.getComputedStyle(parent);
-    const overflowY = style.overflowY;
-
-    if (overflowY === 'auto' || overflowY === 'scroll') {
-      return parent;
-    }
-
-    parent = parent.parentElement;
-  }
-
-  return window;
-};
-
-const useInfiniteScroll = (callback, options = {}) => {
-  const { threshold = 1.0, rootMargin = '50%', enabled = true } = options;
-
+/**
+ * Custom hook for infinite scroll implementation using Intersection Observer
+ *
+ * @param {Function} onIntersect - Callback function when sentinel element intersects
+ * @param {Object} options - Configuration options
+ * @param {RefObject} options.rootRef - Reference to the scrollable container (null for viewport)
+ * @param {string} options.rootMargin - Margin around root (default: '100%')
+ * @param {number} options.threshold - Intersection threshold 0-1 (default: 0)
+ * @param {boolean} options.enabled - Enable/disable observer (default: true)
+ * @returns {Object} { sentinelRef } - Ref to attach to sentinel element
+ */
+const useInfiniteScroll = (
+  onIntersect,
+  { rootRef = null, rootMargin = '100%', threshold = 0, enabled = true } = {}
+) => {
+  const sentinelRef = useRef(null);
   const observerRef = useRef(null);
-  const targetRef = useRef(null);
-  const scrollParentRef = useRef(null);
+
+  const handleIntersect = useCallback(
+    (entries) => {
+      const [entry] = entries;
+
+      if (entry.isIntersecting && enabled) {
+        onIntersect();
+      }
+    },
+    [onIntersect, enabled]
+  );
 
   useEffect(() => {
-    const target = targetRef.current;
-    if (!target || !enabled) return;
+    // Cleanup previous observer
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+    }
 
-    const root = getScrollableParent(target);
+    // Don't create observer if disabled or no sentinel
+    if (!enabled || !sentinelRef.current) {
+      return;
+    }
 
-    scrollParentRef.current = root;
-
-    observerRef.current = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          callback();
-        }
-      },
-      {
-        root,
-        threshold,
-        rootMargin,
-      }
-    );
-
-    observerRef.current.observe(target);
-
-    return () => {
-      observerRef.current?.disconnect();
-      scrollParentRef.current = null;
+    // Create new Intersection Observer
+    const options = {
+      root: rootRef?.current || null,
+      rootMargin,
+      threshold,
     };
-  }, [callback, threshold, rootMargin, enabled]);
 
-  return {
-    ref: targetRef,
-    tryScrollToTop: () => {
-      const el = scrollParentRef.current;
-      if (!el || el.scrollTop <= 0) return false;
-      el.scrollTop = 0;
-      return true;
-    },
-  };
+    observerRef.current = new IntersectionObserver(handleIntersect, options);
+    observerRef.current.observe(sentinelRef.current);
+
+    // Cleanup function
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, [rootRef, rootMargin, threshold, enabled, handleIntersect]);
+
+  return { sentinelRef };
 };
 
 export default useInfiniteScroll;

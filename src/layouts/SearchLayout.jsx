@@ -3,16 +3,17 @@ import { useDebounce } from 'use-debounce';
 import ColumnHeader from '@/components/Column/ColumnHeader';
 import ColumnLayout from '@/components/Column/ColumnLayout';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPage, triggerReload } from '@/features/InfiniteList/infiniteListSlice';
-import { SEARCH_TYPES } from '@/constants/searchType';
 import MoreDropdown from '@/components/Column/MoreDropdown';
 import PinColumn from '@/components/Column/PinColumn';
 import SearchInput from '@/components/Search/SearchInput';
 import ColumnContent from '@/components/Column/ColumnContent';
 import { setText } from '@/features/search/searchSlice';
+import useInfiniteScroll from '@/contexts/infiniteScroll/hooks/useInfiniteScroll';
+import withInfiniteScroll from '@/contexts/infiniteScroll/hoc/withInfiniteScroll';
 
-const SearchLayout = ({ children, className, pageStackName }) => {
+const SearchLayout = withInfiniteScroll(({ children, className, pageStackName }) => {
   const dispatch = useDispatch();
+  const { reload } = useInfiniteScroll();
   const searchText = useSelector((state) => state.search.text);
   const [inputValue, setInputValue] = useState(searchText);
   const [debouncedValue] = useDebounce(inputValue, 500);
@@ -26,19 +27,13 @@ const SearchLayout = ({ children, className, pageStackName }) => {
   useEffect(() => {
     if (debouncedValue !== searchText) {
       dispatch(setText(debouncedValue));
-      dispatch(setPage({ key: SEARCH_TYPES.GLOBAL_SEARCH, page: 1 }));
     }
   }, [debouncedValue, searchText, dispatch]);
-
-  const handleReload = () => {
-    dispatch(triggerReload(SEARCH_TYPES.USER_SUGGESTIONS));
-    dispatch(triggerReload(SEARCH_TYPES.GLOBAL_SEARCH));
-  };
 
   return (
     <ColumnLayout className={className} pageStackName={pageStackName}>
       <ColumnHeader className='max-md:hidden'>
-        <button onClick={handleReload} type='button' className='cursor-pointer font-bold'>
+        <button onClick={reload} type='button' className='cursor-pointer font-bold'>
           Tìm kiếm
         </button>
       </ColumnHeader>
@@ -63,6 +58,6 @@ const SearchLayout = ({ children, className, pageStackName }) => {
       </ColumnContent>
     </ColumnLayout>
   );
-};
+});
 
 export default SearchLayout;

@@ -1,6 +1,6 @@
 import { useState, useCallback, memo } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { EllipsisIcon, HeartIcon, MessageCircleIcon, Repeat2Icon, SendIcon } from 'lucide-react';
+import { EllipsisIcon, MessageCircleIcon, Repeat2Icon, SendIcon } from 'lucide-react';
 import paths from '@/configs/paths';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
@@ -9,19 +9,10 @@ import { ReplyBox } from './ReplyBox';
 import MediaList from './MediaList';
 import VerifiedBadge from '../User/VerifiedBadge';
 import { formatRelativeTime, formatNumber } from '@/utils/formatTime';
+import { LikeButton } from './LikeButton';
 
 export const PostCard = memo(({ post }) => {
   const [showReply, setShowReply] = useState(false);
-  const [liked, setLiked] = useState(post?.is_liked_by_auth || false);
-  const [likes, setLikes] = useState(post?.likes_count || 0);
-
-  // Safety check
-  if (!post) return null;
-
-  const handleLike = useCallback(() => {
-    setLikes((prev) => prev + (liked ? -1 : 1));
-    setLiked((prev) => !prev);
-  }, [liked]);
 
   const handleToggleReply = useCallback(() => {
     setShowReply((prev) => !prev);
@@ -33,6 +24,9 @@ export const PostCard = memo(({ post }) => {
       alert('oke oke');
     }
   }, []);
+
+  // Safety check
+  if (!post) return null;
 
   return (
     <div className='flex flex-col gap-4 overflow-hidden px-6 py-3'>
@@ -100,18 +94,11 @@ export const PostCard = memo(({ post }) => {
           {/* ACTION BTNS */}
           <div className='mt-1.5 -mb-1 -ml-3 flex items-center'>
             {/* LIKE BTN */}
-            <Button
-              variant='ghost'
-              size='icon'
-              className={cn(
-                'h-9 gap-1 px-3 text-[13px] tabular-nums',
-                liked && 'text-(--liked-text)'
-              )}
-              onClick={handleLike}
-            >
-              <HeartIcon className={cn('size-4.5', liked && 'fill-current')} />
-              {formatNumber(likes)}
-            </Button>
+            <LikeButton
+              postId={post.id}
+              isLiked={post.is_liked_by_auth}
+              likesCount={post.likes_count}
+            />
 
             {/* REPLY BTN */}
             <Button

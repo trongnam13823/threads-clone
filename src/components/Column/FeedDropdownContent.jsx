@@ -8,7 +8,12 @@ import {
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { CheckIcon, ChevronLeft, CirclePlusIcon } from 'lucide-react';
-import { FEED_UI_TYPE } from '@/constants/feedTypes';
+
+export const FEED_UI_TYPE = {
+  HOME_HEADER: 'home_header',
+  ADD_COLUMN: 'add_column',
+  SUB_MENU: 'sub_menu',
+};
 
 const FeedDropdownContent = ({ type = FEED_UI_TYPE.HOME_HEADER, onBack, ...props }) => {
   return (

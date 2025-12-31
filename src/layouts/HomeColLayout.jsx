@@ -5,17 +5,18 @@ import ColumnHeader from '@/components/Column/ColumnHeader';
 import ColumnLayout from '@/components/Column/ColumnLayout';
 import FeedDropdownContent from '@/components/Column/FeedDropdownContent';
 import usePageStack from '@/contexts/pageStack/hooks/usePageStack';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ChevronDownIcon } from 'lucide-react';
 import { DropdownMenu, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { triggerReload } from '@/features/InfiniteList/infiniteListSlice';
-import { FEED_TYPES } from '@/constants/feedTypes';
+import useInfiniteScroll from '@/contexts/infiniteScroll/hooks/useInfiniteScroll';
+import withInfiniteScroll from '@/contexts/infiniteScroll/hoc/withInfiniteScroll';
 
-const HomeColLayout = ({ children, className, pageStackName }) => {
+const HomeColLayout = withInfiniteScroll(({ children, className, pageStackName }) => {
+  const { reload } = useInfiniteScroll();
+
   const columns = useSelector((state) => state.auth.columns);
   const hasColumns = columns.length > 1;
-  const dispatch = useDispatch();
 
   const { pages, history } = usePageStack();
   const initPath = pages[0].path;
@@ -25,17 +26,14 @@ const HomeColLayout = ({ children, className, pageStackName }) => {
     {
       path: hasColumns ? paths.forYou : paths.home,
       name: 'Dành cho bạn',
-      handleReload: () => dispatch(triggerReload(FEED_TYPES.FOR_YOU)),
     },
     {
       path: paths.following,
       name: 'Đang theo dõi',
-      handleReload: () => dispatch(triggerReload(FEED_TYPES.FOLLOWING)),
     },
     {
       path: paths.ghostPosts,
       name: 'Bài viết tự hủy',
-      handleReload: () => dispatch(triggerReload(FEED_TYPES.GHOST)),
     },
   ];
 
@@ -46,7 +44,7 @@ const HomeColLayout = ({ children, className, pageStackName }) => {
     <ColumnLayout className={className} pageStackName={pageStackName}>
       {hasColumns && initPath === paths.home ? (
         <ColumnHeader className='flex items-center justify-center gap-4 select-none'>
-          <span className='cursor-pointer font-bold' onClick={() => currentNavLink.handleReload()}>
+          <span className='cursor-pointer font-bold' onClick={reload}>
             {currentFeedName}
           </span>
           <DropdownMenu>
@@ -64,23 +62,23 @@ const HomeColLayout = ({ children, className, pageStackName }) => {
         </ColumnHeader>
       ) : (
         <ColumnHeader className='gap-12 text-center max-md:gap-0'>
-          {navLinks.map(({ path, name, handleReload }) => {
+          {navLinks.map(({ path, name }) => {
             return (
               (!hasColumns || path === initPath) && (
                 <NavLink
                   key={path}
                   to={path}
                   replace
-                  onClick={() => path === currentPath && handleReload()}
+                  onClick={reload}
                   className={({ isActive }) =>
                     cn(
-                      'flex items-center justify-center font-bold text-(--text-secondary) select-none active:opacity-65 max-md:h-(--nav-mobile-h) max-md:flex-1 max-md:border-b-2',
+                      'flex shrink-0 items-center justify-center font-bold text-(--text-secondary) select-none active:opacity-65 max-md:h-(--nav-mobile-h) max-md:flex-1 max-md:border-b-2',
                       isActive && 'border-(--text-primary) text-(--text-primary)',
                       path === paths.ghostPosts && 'max-md:hidden'
                     )
                   }
                 >
-                  {name}
+                  <span>{name}</span>
                 </NavLink>
               )
             );
@@ -92,6 +90,6 @@ const HomeColLayout = ({ children, className, pageStackName }) => {
       {children}
     </ColumnLayout>
   );
-};
+});
 
 export default HomeColLayout;

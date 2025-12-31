@@ -1,69 +1,70 @@
-import { Spinner } from '@/components/ui/spinner';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import SearchUserItem from './SearchUserItem';
 import SearchTopicItem from './SearchTopicItem';
-import { useInfiniteQueryList } from '@/hooks/useInfiniteQueryList';
-import { useSearchAllQuery } from '@/services/search/searchApi';
-import { SEARCH_TYPES } from '@/constants/searchType';
-import { useSelector } from 'react-redux';
+import searchApi, { useSearchAllQuery } from '@/services/search/searchApi';
+import LoadMoreTrigger from '../Loading/LoadMoreTrigger';
+import ReloadIndicator from '../Loading/ReloadIndicator';
+import InitialLoading from '../Loading/InitialLoading';
+import EmptyResults from '../Loading/EmptyResults';
+import useInfiniteList from '@/hooks/useInfiniteQueryList';
 
 export default function SearchResultsList() {
   const q = useSelector((state) => state.search.text);
   const isSearching = q.length > 1;
+  const trimmedQ = q.trim();
 
-  const {
-    items: searchData,
-    isLoading,
-    isReloading,
-    loadMoreRef,
-    hasMore,
-  } = useInfiniteQueryList({
-    listKey: SEARCH_TYPES.GLOBAL_SEARCH,
-    useQuery: useSearchAllQuery,
-    queryArgs: {
-      q: q.trim(),
-      per_page_topics: 10,
-      per_page_users: 10,
-    },
-    skip: !isSearching,
+  const selectQuery = searchApi.endpoints.searchAll.select({ q: trimmedQ });
+  const queryState = useSelector(selectQuery);
+
+  // Lấy initialPage là giá trị lớn hơn giữa topics và users current_page
+  const topicsPage = queryState?.data?.pagination?.topics?.current_page ?? 0;
+  const usersPage = queryState?.data?.pagination?.users?.current_page ?? 0;
+  const initialPage = Math.max(topicsPage, usersPage, 1);
+
+  const { items, isLoading, isReloading, hasMore, sentinelRef, setPage } = useInfiniteList({
+    queryHook: useSearchAllQuery,
+    queryParams: { q: trimmedQ },
+    queryOptions: { skip: !isSearching || trimmedQ.length <= 1 },
+    initialPage,
     getItems: (data) => ({
       topics: data?.data?.topics ?? [],
       users: data?.data?.users ?? [],
     }),
-    getHasMore: (data, page) => {
-      const { topics: topicsPagination, users: usersPagination } = data?.pagination || {};
+    getPagination: (data) => data?.pagination ?? {},
+    getHasMore: (page, pagination) => {
+      const { topics: topicsPagination, users: usersPagination } = pagination;
       return page < (topicsPagination?.last_page ?? 1) || page < (usersPagination?.last_page ?? 1);
+    },
+    getNextPage: (currentPage, pagination) => {
+      const { topics: topicsPagination, users: usersPagination } = pagination;
+      // Lấy current_page lớn hơn giữa topics và users, rồi + 1
+      const topicsCurrentPage = topicsPagination?.current_page ?? 0;
+      const usersCurrentPage = usersPagination?.current_page ?? 0;
+      const maxCurrentPage = Math.max(topicsCurrentPage, usersCurrentPage, currentPage);
+      return maxCurrentPage + 1;
     },
   });
 
-  const { topics, users } = searchData || { topics: [], users: [] };
+  const { topics, users } = items || { topics: [], users: [] };
 
-  if (!isSearching) {
-    return null;
-  }
+  /**
+   * Reset page when search query changes
+   */
+  useEffect(() => {
+    setPage(1);
+  }, [trimmedQ, setPage]);
 
-  if (isLoading) {
-    return (
-      <div className='flex flex-1 items-center justify-center py-10'>
-        <Spinner className='size-10' />
-      </div>
-    );
-  }
-
-  if (topics.length === 0 && users.length === 0) {
-    return (
-      <div className='flex flex-1 items-center justify-center py-10'>
-        <p className='text-lg text-(--text-secondary)'>Không tìm thấy kết quả</p>
-      </div>
-    );
-  }
+  if (!isSearching) return null;
 
   return (
-    <d>
-      {isReloading && (
-        <div className='flex min-h-20 flex-1 items-center justify-center overflow-hidden border-b-0! transition-[min-height]'>
-          <Spinner className='size-5' />
-        </div>
-      )}
+    <>
+      <InitialLoading isLoading={isLoading} />
+      <ReloadIndicator isReloading={isReloading} />
+      <EmptyResults
+        isEmpty={!isLoading && topics.length === 0 && users.length === 0}
+        message='Không tìm thấy kết quả nào'
+      />
 
       {topics.length > 0 && (
         <>
@@ -87,11 +88,7 @@ export default function SearchResultsList() {
         </>
       )}
 
-      {hasMore && (
-        <div ref={loadMoreRef} className='flex min-h-20 flex-1 items-center justify-center'>
-          <Spinner className='size-5' />
-        </div>
-      )}
-    </d>
+      <LoadMoreTrigger ref={sentinelRef} hasMore={hasMore} />
+    </>
   );
 }

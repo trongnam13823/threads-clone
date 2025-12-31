@@ -10,8 +10,10 @@ import { SquareKanbanIcon, InstagramIcon } from 'lucide-react';
 import MoreDropdown from '@/components/Column/MoreDropdown';
 import PinColumn from '@/components/Column/PinColumn';
 import ColumnContent from '@/components/Column/ColumnContent';
+import FollowList from '@/components/User/FollowList';
+import withInfiniteScroll from '@/contexts/infiniteScroll/hoc/withInfiniteScroll';
 
-const ProfileLayout = ({ children, className, pageStackName }) => {
+const ProfileLayout = withInfiniteScroll(({ children, className, pageStackName }) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
 
   const navLinks = [
@@ -49,8 +51,8 @@ const ProfileLayout = ({ children, className, pageStackName }) => {
               </Avatar>
             </div>
             {/* FOLLOWER */}
-            <div className='mt-3 flex items-center justify-between'>
-              <p className='text-(--text-secondary)'>{0} người theo dõi</p>
+            <div className='flex items-center justify-between'>
+              <FollowList />
 
               <div>
                 <Button variant='ghost' size='icon' className='size-9'>
@@ -104,6 +106,6 @@ const ProfileLayout = ({ children, className, pageStackName }) => {
       </ColumnContent>
     </ColumnLayout>
   );
-};
+});
 
 export default ProfileLayout;
