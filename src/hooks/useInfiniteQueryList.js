@@ -77,6 +77,7 @@ const useInfiniteList = ({
   useEffect(() => {
     if (data && currentPageFromApi < previousPageRef.current) {
       scrollToTop();
+      setPage(1);
     }
     // Cập nhật previousPage sau khi so sánh
     if (data && currentPageFromApi) {

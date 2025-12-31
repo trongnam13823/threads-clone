@@ -21,13 +21,6 @@ export default function FollowListContent({ userId }) {
   const scrollAreaRef = useRef(null);
   const { registerScrollEl } = useInfiniteScroll();
 
-  // Register scrollAreaRef với InfiniteScrollProvider từ bên ngoài
-  useEffect(() => {
-    if (scrollAreaRef.current) {
-      registerScrollEl(scrollAreaRef.current);
-    }
-  }, [registerScrollEl]);
-
   // Get queryState để lấy initialPage và totals
   const selectFollowings = usersApi.endpoints.getFollowings.select({ id: userId });
   const followingsQueryState = useSelector(selectFollowings);
@@ -73,6 +66,13 @@ export default function FollowListContent({ userId }) {
     setActiveTab(tab);
   };
 
+  // Register scrollAreaRef với InfiniteScrollProvider từ bên ngoài
+  useEffect(() => {
+    if (scrollAreaRef.current) {
+      registerScrollEl(scrollAreaRef.current);
+    }
+  }, [registerScrollEl, activeTab]);
+
   return (
     <div className='flex w-full flex-col gap-0'>
       {/* TAB BUTTONS */}
@@ -102,10 +102,9 @@ export default function FollowListContent({ userId }) {
         </button>
       </div>
 
-      {/* TAB CONTENTS */}
-      <ScrollArea ref={scrollAreaRef} className='max-h-[80svh] md:max-h-[calc(100svh-64px-48px)]'>
-        {/* FOLLOWINGS */}
-        {activeTab === TABS.FOLLOWINGS && (
+      {/* FOLLOWINGS */}
+      {activeTab === TABS.FOLLOWINGS && (
+        <ScrollArea ref={scrollAreaRef} className='max-h-[80svh] md:max-h-[calc(100svh-64px-48px)]'>
           <div>
             <InitialLoading isLoading={isLoadingFollowings} />
             <ReloadIndicator isReloading={isReloadingFollowings} />
@@ -123,10 +122,12 @@ export default function FollowListContent({ userId }) {
               </>
             )}
           </div>
-        )}
+        </ScrollArea>
+      )}
 
-        {/* FOLLOWERS */}
-        {activeTab === TABS.FOLLOWERS && (
+      {/* FOLLOWERS */}
+      {activeTab === TABS.FOLLOWERS && (
+        <ScrollArea ref={scrollAreaRef} className='max-h-[80svh] md:max-h-[calc(100svh-64px-48px)]'>
           <div>
             <InitialLoading isLoading={isLoadingFollowers} />
             <ReloadIndicator isReloading={isReloadingFollowers} />
@@ -144,8 +145,8 @@ export default function FollowListContent({ userId }) {
               </>
             )}
           </div>
-        )}
-      </ScrollArea>
+        </ScrollArea>
+      )}
     </div>
   );
 }

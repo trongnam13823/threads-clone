@@ -69,7 +69,7 @@ const HomeColLayout = withInfiniteScroll(({ children, className, pageStackName }
                   key={path}
                   to={path}
                   replace
-                  onClick={reload}
+                  onClick={() => path === currentPath && reload()}
                   className={({ isActive }) =>
                     cn(
                       'flex shrink-0 items-center justify-center font-bold text-(--text-secondary) select-none active:opacity-65 max-md:h-(--nav-mobile-h) max-md:flex-1 max-md:border-b-2',

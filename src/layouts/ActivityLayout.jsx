@@ -11,13 +11,14 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import paths from '@/configs/paths';
+import withInfiniteScroll from '@/contexts/infiniteScroll/hoc/withInfiniteScroll';
 import NavLink from '@/contexts/pageStack/components/NavLink';
 import usePageStack from '@/contexts/pageStack/hooks/usePageStack';
 import { cn } from '@/lib/utils';
 import { CheckIcon, ChevronDownIcon } from 'lucide-react';
 import { Outlet } from 'react-router';
 
-const ActivityLayout = ({ children, className, pageStackName }) => {
+const ActivityLayout = withInfiniteScroll(({ children, className, pageStackName }) => {
   const { history } = usePageStack();
   const currentPath = history.at(-1);
 
@@ -100,6 +101,6 @@ const ActivityLayout = ({ children, className, pageStackName }) => {
       {children}
     </ColumnLayout>
   );
-};
+});
 
 export default ActivityLayout;
