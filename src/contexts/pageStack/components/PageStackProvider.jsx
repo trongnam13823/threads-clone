@@ -17,27 +17,30 @@ export default memo(({ children, path, neverUnmount = [], autoUpdateUrl = true, 
     [autoUpdateUrl]
   );
 
-  const pushPath = useCallback((path) => {
-    if (history.at(-1) === path) return;
+  const pushPath = useCallback(
+    (path) => {
+      if (history.at(-1) === path) return;
 
-    setHistory((prev) => [...prev, path]);
-    setPages((prev) => {
-      const isNeverUnmount = neverUnmount.includes(path);
-      const isNewPath = prev.every((p) => p.path !== path);
+      setHistory((prev) => [...prev, path]);
+      setPages((prev) => {
+        const isNeverUnmount = neverUnmount.includes(path);
+        const isNewPath = prev.every((p) => p.path !== path);
 
-      if (isNeverUnmount && isNewPath) {
-        return [{ id: ++maxId.current, path }, ...prev];
-      }
+        if (isNeverUnmount && isNewPath) {
+          return [{ id: ++maxId.current, path }, ...prev];
+        }
 
-      if (!isNeverUnmount) {
-        return [...prev, { id: ++maxId.current, path }];
-      }
+        if (!isNeverUnmount) {
+          return [...prev, { id: ++maxId.current, path }];
+        }
 
-      return [...prev];
-    });
+        return [...prev];
+      });
 
-    updateUrl(path);
-  }, [history, neverUnmount, updateUrl]);
+      updateUrl(path);
+    },
+    [history, neverUnmount, updateUrl]
+  );
 
   const popPath = useCallback(() => {
     if (history.length === 1) return;
@@ -57,23 +60,28 @@ export default memo(({ children, path, neverUnmount = [], autoUpdateUrl = true, 
     updateUrl(newHistory.at(-1));
   }, [history, neverUnmount, updateUrl]);
 
-  const replacePath = useCallback((path) => {
-    setHistory([path]);
+  const replacePath = useCallback(
+    (path) => {
+      if (history.at(-1) === path) return;
 
-    setPages((prev) => {
-      const isNeverUnmount = neverUnmount.includes(path);
-      let neverUnmountPages = prev.filter((p) => neverUnmount.includes(p.path));
+      setHistory([path]);
 
-      if (isNeverUnmount) {
-        // đã có không thêm vào nữa
-        if (neverUnmountPages.find((p) => p.path === path)) return neverUnmountPages;
-      }
+      setPages((prev) => {
+        const isNeverUnmount = neverUnmount.includes(path);
+        let neverUnmountPages = prev.filter((p) => neverUnmount.includes(p.path));
 
-      return [...neverUnmountPages, { id: ++maxId.current, path }];
-    });
+        if (isNeverUnmount) {
+          // đã có không thêm vào nữa
+          if (neverUnmountPages.find((p) => p.path === path)) return neverUnmountPages;
+        }
 
-    updateUrl(path);
-  }, [neverUnmount, updateUrl]);
+        return [...neverUnmountPages, { id: ++maxId.current, path }];
+      });
+
+      updateUrl(path);
+    },
+    [neverUnmount, updateUrl, history]
+  );
 
   // Memoize context value để tránh re-render tất cả consumers
   const contextValue = useMemo(
