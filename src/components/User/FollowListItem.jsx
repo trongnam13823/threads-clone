@@ -15,7 +15,7 @@ const FollowListItem = memo(({ user }) => {
         <div className='flex flex-col'>
           <div className='flex items-center gap-1.5'>
             <h3 className='font-bold'>{user.username}</h3>
-            {user.verified && <VerifiedBadge className='size-4' />}
+            {/* {user.verified && <VerifiedBadge className='size-4' />} */}
           </div>
           {user.name && <p className='text-(--text-secondary)'>{user.name}</p>}
         </div>

@@ -2,7 +2,7 @@ import routes from '@/configs/routes';
 import { memo } from 'react';
 import { matchRoutes } from 'react-router';
 
-const RouteRenderer = memo(({ path, className, skip = 2, flag }) => {
+const RouteRenderer = memo(({ path, className, skip = 3, flag }) => {
   const matches = matchRoutes(routes, path);
   if (!matches) return null;
 

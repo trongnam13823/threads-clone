@@ -5,7 +5,7 @@ import { Button } from '../ui/button';
 import { formatNumber } from '@/utils/formatTime';
 import { useLikePostMutation } from '@/services/posts/postsApi';
 
-export const LikeButton = memo(({ postId, isLiked, likesCount }) => {
+export const LikeButton = memo(({ postId, isLiked, likesCount, isDataVisible }) => {
   const [likePost] = useLikePostMutation();
 
   const handleLike = useCallback(async () => {
@@ -20,11 +20,14 @@ export const LikeButton = memo(({ postId, isLiked, likesCount }) => {
     <Button
       variant='ghost'
       size='icon'
-      className={cn('h-9 gap-1 px-3 text-[13px] tabular-nums', isLiked && 'text-(--liked-text)')}
+      className={cn(
+        'h-9 gap-1 px-3 text-[13px] tabular-nums',
+        isLiked && isDataVisible && 'text-(--liked-text)'
+      )}
       onClick={handleLike}
     >
-      <HeartIcon className={cn('size-4.5', isLiked && 'fill-current')} />
-      {formatNumber(likesCount)}
+      <HeartIcon className={cn('size-4.5', isLiked && isDataVisible && 'fill-current')} />
+      {isDataVisible ? formatNumber(likesCount) : null}
     </Button>
   );
 });

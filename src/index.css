@@ -104,12 +104,16 @@
   --elevated-tertiary-background: rgb(255, 255, 255);
   --box-shadow-04: rgba(0, 0, 0, 0.04);
   --box-shadow-08: rgba(0, 0, 0, 0.08);
+  --notification-badge-background: rgb(255, 48, 64);
+  --radio-border-color-selected: hsl(214, 89%, 52%);
   --icon-primary: rgb(0, 0, 0);
   --secondary-icon: rgb(153, 153, 153);
   --navigation-icon: rgb(184, 184, 184);
+  --background-inverse: rgb(16, 16, 16);
   --background-primary: rgb(255, 255, 255);
   --background-secondary: rgb(250, 250, 250);
   --background-tertiary: rgb(245, 245, 245);
+  --icon-inverse: rgba(255, 255, 255, 1);
   --elevated-background: rgb(255, 255, 255);
   --hovered-background: rgba(0, 0, 0, 0.04);
   --header-background: rgba(255, 255, 255, 0.85);

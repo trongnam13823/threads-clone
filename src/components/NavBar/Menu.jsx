@@ -17,6 +17,8 @@ import {
 } from '../ui/dropdown-menu';
 import { useState } from 'react';
 import FeedDropdownContent, { FEED_UI_TYPE } from '../Column/FeedDropdownContent';
+import { logoutThunk } from '@/features/auth/authThunks';
+import { useDispatch } from 'react-redux';
 
 export const SUB_MENU = {
   EMPTY: 'empty',
@@ -33,7 +35,7 @@ const THEME = {
 function Menu({ className }) {
   const [subMenu, setSubMenu] = useState(SUB_MENU.EMPTY);
   const [theme, setTheme] = useState(THEME.SYSTEM);
-
+  const dispatch = useDispatch();
   const handleBack = () => {
     setSubMenu(SUB_MENU.EMPTY);
   };
@@ -77,7 +79,12 @@ function Menu({ className }) {
           <DropdownMenuItem>Đã thích</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>Báo cáo sự cố</DropdownMenuItem>
-          <DropdownMenuItem className='text-(--error-text) hover:text-(--error-text)!'>
+          <DropdownMenuItem
+            className='text-(--error-text) hover:text-(--error-text)!'
+            onClick={() => {
+              dispatch(logoutThunk());
+            }}
+          >
             Đăng xuất
           </DropdownMenuItem>
         </DropdownMenuContent>

@@ -6,7 +6,7 @@ import Menu from './Menu';
 import { useSelector } from 'react-redux';
 import NavLink from '@/contexts/pageStack/components/NavLink';
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '../ui/dialog';
-import { CreatePostPanel } from '../Post/CreatePostPanel';
+import { PostPanel } from '../Post/PostPanel';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -68,7 +68,7 @@ const NavBar = () => {
           <DialogContent>
             <DialogTitle className='hidden' />
             <DialogDescription className='hidden' />
-            <CreatePostPanel onClose={() => setOpen(false)} />
+            <PostPanel onClose={() => setOpen(false)} />
           </DialogContent>
         </Dialog>
 

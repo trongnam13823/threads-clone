@@ -15,7 +15,7 @@ export const SearchUserItem = memo(({ user }) => {
         <div className='flex items-center justify-between'>
           <div className='flex items-center gap-1'>
             <h3 className='font-bold'>{user.username}</h3>
-            {user.verified && <VerifiedBadge className='ml-0.5 size-4' />}
+            {/* {user.verified && <VerifiedBadge className='ml-0.5 size-4' />} */}
           </div>
 
           <FollowButton user={user} isFollowing={user.is_following} />

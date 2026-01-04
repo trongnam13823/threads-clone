@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { PlusIcon, XIcon } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { CreatePostPanel } from './CreatePostPanel';
+import { PostPanel } from './PostPanel';
 import { useState } from 'react';
 
 export const CreatePostFAB = () => {
@@ -29,7 +29,7 @@ export const CreatePostFAB = () => {
           event.preventDefault();
         }}
       >
-        <CreatePostPanel
+        <PostPanel
           className='max-w-[496px]'
           classMainContent='md:max-h-[calc(80vh-56px-80px-48px)]'
           CloseElement={

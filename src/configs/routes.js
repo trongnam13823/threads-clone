@@ -29,143 +29,165 @@ import ActivityMentionsPage from '@/pages/Activity/ActivityMentionsPage';
 import ActivityQuotesPage from '@/pages/Activity/ActivityQuotesPage';
 import ActivityRepostsPage from '@/pages/Activity/ActivityRepostsPage';
 import ActivityVerifiedPage from '@/pages/Activity/ActivityVerifiedPage';
+import PostEmbedPage from '@/pages/Embed/PostEmbedPage';
+import RootLayout from '@/layouts/RootLayout';
+import PostDetailLayout from '@/layouts/PostDetailLayout';
+import PostDetailPage from '@/pages/Post/PostDetailPage';
 
 export default [
   {
-    Component: AuthLayout,
+    Component: RootLayout,
     children: [
       {
-        path: paths.verifyEmail,
-        Component: VerifyEmailPage,
+        path: paths.postEmbed(':postId'),
+        Component: PostEmbedPage,
       },
-      {
-        path: paths.resetPassword,
-        Component: ResetPasswordPage,
-      },
-    ],
-  },
-
-  {
-    Component: GuestLayout,
-    children: [
       {
         Component: AuthLayout,
         children: [
           {
-            path: paths.login,
-            Component: LoginPage,
+            path: paths.verifyEmail,
+            Component: VerifyEmailPage,
           },
           {
-            path: paths.register,
-            Component: RegisterPage,
-          },
-
-          {
-            path: paths.forgotPassword,
-            Component: ForgotPasswordPage,
+            path: paths.resetPassword,
+            Component: ResetPasswordPage,
           },
         ],
       },
-    ],
-  },
 
-  {
-    Component: ProtectedLayout,
-    children: [
       {
-        Component: AuthLayout,
+        Component: GuestLayout,
         children: [
           {
-            path: paths.sendVerifyEmail,
-            Component: SendVerifyEmailPage,
+            Component: AuthLayout,
+            children: [
+              {
+                path: paths.login,
+                Component: LoginPage,
+              },
+              {
+                path: paths.register,
+                Component: RegisterPage,
+              },
+
+              {
+                path: paths.forgotPassword,
+                Component: ForgotPasswordPage,
+              },
+            ],
           },
         ],
       },
+
       {
-        Component: DefaultLayout,
+        Component: ProtectedLayout,
         children: [
           {
-            Component: HomeLayout,
+            Component: AuthLayout,
             children: [
               {
-                path: paths.home,
-                Component: HomePage,
-              },
-              {
-                path: paths.following,
-                Component: FollowingPage,
-              },
-              {
-                path: paths.forYou,
-                Component: ForYouPage,
-              },
-              {
-                path: paths.ghostPosts,
-                Component: GhostPosts,
+                path: paths.sendVerifyEmail,
+                Component: SendVerifyEmailPage,
               },
             ],
           },
           {
-            Component: SearchLayout,
+            Component: DefaultLayout,
             children: [
               {
-                path: paths.search,
-                Component: SearchPage,
+                Component: HomeLayout,
+                children: [
+                  {
+                    path: paths.home,
+                    Component: HomePage,
+                  },
+                  {
+                    path: paths.following,
+                    Component: FollowingPage,
+                  },
+                  {
+                    path: paths.forYou,
+                    Component: ForYouPage,
+                  },
+                  {
+                    path: paths.ghostPosts,
+                    Component: GhostPosts,
+                  },
+                ],
               },
-            ],
-          },
+              {
+                Component: SearchLayout,
+                children: [
+                  {
+                    path: paths.search,
+                    Component: SearchPage,
+                  },
+                ],
+              },
 
-          {
-            Component: ActivityLayout,
-            children: [
               {
-                path: paths.activity,
-                Component: ActivityPage,
+                Component: ActivityLayout,
+                children: [
+                  {
+                    path: paths.activity,
+                    Component: ActivityPage,
+                  },
+                  {
+                    path: paths.activityFollows,
+                    Component: ActivityFollowsPage,
+                  },
+                  {
+                    path: paths.activityReplies,
+                    Component: ActivityRepliesPage,
+                  },
+                  {
+                    path: paths.activityMentions,
+                    Component: ActivityMentionsPage,
+                  },
+                  {
+                    path: paths.activityQuotes,
+                    Component: ActivityQuotesPage,
+                  },
+                  {
+                    path: paths.activityReposts,
+                    Component: ActivityRepostsPage,
+                  },
+                  {
+                    path: paths.activityVerified,
+                    Component: ActivityVerifiedPage,
+                  },
+                ],
               },
               {
-                path: paths.activityFollows,
-                Component: ActivityFollowsPage,
+                Component: ProfileLayout,
+                children: [
+                  {
+                    path: paths.profile(':username'),
+                    Component: ProfilePage,
+                  },
+                  {
+                    path: paths.profileReplies(':username'),
+                    Component: ProfileRepliesPage,
+                  },
+                  {
+                    path: paths.profileMedia(':username'),
+                    Component: ProfileMediaPage,
+                  },
+                  {
+                    path: paths.profileReposts(':username'),
+                    Component: ProfileRepostsPage,
+                  },
+                ],
               },
               {
-                path: paths.activityReplies,
-                Component: ActivityRepliesPage,
-              },
-              {
-                path: paths.activityMentions,
-                Component: ActivityMentionsPage,
-              },
-              {
-                path: paths.activityQuotes,
-                Component: ActivityQuotesPage,
-              },
-              {
-                path: paths.activityReposts,
-                Component: ActivityRepostsPage,
-              },
-              {
-                path: paths.activityVerified,
-                Component: ActivityVerifiedPage,
-              },
-            ],
-          },
-          {
-            Component: ProfileLayout,
-            children: [
-              {
-                path: paths.profile(':username'),
-                Component: ProfilePage,
-              },
-              {
-                path: paths.profileReplies(':username'),
-                Component: ProfileRepliesPage,
-              },
-              {
-                path: paths.profileMedia(':username'),
-                Component: ProfileMediaPage,
-              },
-              {
-                path: paths.profileReposts(':username'),
-                Component: ProfileRepostsPage,
+                Component: PostDetailLayout,
+                children: [
+                  {
+                    path: paths.postDetail(':postId'),
+                    Component: PostDetailPage,
+                  },
+                ],
               },
             ],
           },

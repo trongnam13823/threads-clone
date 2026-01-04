@@ -1,10 +1,13 @@
 import { cloneElement, isValidElement } from 'react';
 import usePageStack from '../hooks/usePageStack';
+import useNavigate from '../hooks/useNavigate';
+import paths from '@/configs/paths';
 
-export default function Back({ children }) {
+export default function Back({ children, showBack = false }) {
   const { history, popPath } = usePageStack();
+  const navigate = useNavigate();
 
-  if (!history || history.length <= 1) return null;
+  if ((!history || history.length <= 1) && !showBack) return null;
 
   if (!isValidElement(children)) {
     console.warn('<Back /> chỉ nhận 1 React element làm children');
@@ -12,7 +15,13 @@ export default function Back({ children }) {
   }
 
   const handleClick = (e) => {
-    children.props.onClick?.(e); // giữ onClick cũ nếu có
+    children.props.onClick?.(e);
+
+    if (showBack && history.length <= 1) {
+      navigate(paths.home, { replace: true });
+      return;
+    }
+
     popPath();
   };
 

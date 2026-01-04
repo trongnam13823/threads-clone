@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dialog';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { CreatePostPanel } from './CreatePostPanel';
+import { PostPanel } from './PostPanel';
 
 export const CreatePostBox = ({ className }) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -43,7 +43,7 @@ export const CreatePostBox = ({ className }) => {
       <DialogContent>
         <DialogTitle className='hidden' />
         <DialogDescription className='hidden' />
-        <CreatePostPanel onClose={() => setOpen(false)} />
+        <PostPanel onClose={() => setOpen(false)} />
       </DialogContent>
     </Dialog>
   );

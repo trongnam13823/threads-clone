@@ -1,34 +1,49 @@
-const activity = '/activity';
-const profile = '/@';
-
 export const API_URL = import.meta.env.VITE_API_URL;
 
+// Các base path tái sử dụng
+const BASE_PATHS = {
+  activity: '/activity',
+  profile: '/@',
+  auth: '/auth', // nếu muốn gom các endpoint auth
+  post: '/post',
+};
+
+// Helper functions
+const profilePath = (username) => `${BASE_PATHS.profile}/${username}`;
+const activityPath = (type) => `${BASE_PATHS.activity}${type ? `/${type}` : ''}`;
+
 export default {
-  register: '/register',
-  sendVerifyEmail: '/send-verify-email',
-  verifyEmail: '/verify-email',
-  login: '/login',
-  forgotPassword: '/forgot-password',
-  resetPassword: '/reset-password',
+  // Auth
+  register: `${BASE_PATHS.auth}/register`,
+  sendVerifyEmail: `${BASE_PATHS.auth}/send-verify-email`,
+  verifyEmail: `${BASE_PATHS.auth}/verify-email`,
+  login: `${BASE_PATHS.auth}/login`,
+  forgotPassword: `${BASE_PATHS.auth}/forgot-password`,
+  resetPassword: `${BASE_PATHS.auth}/reset-password`,
 
+  // Pages
   home: '/',
-
   forYou: '/for-you',
   following: '/following',
   ghostPosts: '/ghost-posts',
-
   search: '/search',
 
-  activity,
-  activityFollows: activity + '/follows',
-  activityReplies: activity + '/replies',
-  activityMentions: activity + '/mentions',
-  activityQuotes: activity + '/quotes',
-  activityReposts: activity + '/reposts',
-  activityVerified: activity + '/verified',
+  // Activity
+  activity: BASE_PATHS.activity,
+  activityFollows: activityPath('follows'),
+  activityReplies: activityPath('replies'),
+  activityMentions: activityPath('mentions'),
+  activityQuotes: activityPath('quotes'),
+  activityReposts: activityPath('reposts'),
+  activityVerified: activityPath('verified'),
 
-  profile: (username) => profile + `/${username}`,
-  profileReplies: (username) => profile + `/${username}/replies`,
-  profileMedia: (username) => profile + `/${username}/media`,
-  profileReposts: (username) => profile + `/${username}/reposts`,
+  // Profile
+  profile: profilePath,
+  profileReplies: (username) => `${profilePath(username)}/replies`,
+  profileMedia: (username) => `${profilePath(username)}/media`,
+  profileReposts: (username) => `${profilePath(username)}/reposts`,
+
+  // Post Detail
+  postDetail: (postId) => `${BASE_PATHS.post}/${postId}`,
+  postEmbed: (postId) => `${BASE_PATHS.post}/${postId}/embed`,
 };

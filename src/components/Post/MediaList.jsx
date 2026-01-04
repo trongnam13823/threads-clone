@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
  * MediaList component - Displays a gallery of images and videos
  * @param {Array} mediaList - Array of media URLs
  */
-export const MediaList = memo(({ mediaList = [] }) => {
+export const MediaList = memo(({ mediaList = [], className }) => {
   // Hook kéo thả để cuộn gallery hình ảnh
   const { containerRef: mediaListRef } = useDragScroll({
     direction: 'horizontal',
@@ -34,7 +34,8 @@ export const MediaList = memo(({ mediaList = [] }) => {
       ref={mediaListRef}
       className={cn(
         'mt-2 flex gap-1.5 overflow-x-hidden',
-        !isSingleMedia && '-mr-[24px] -ml-[76px] pr-[24px] pl-[76px]'
+        !isSingleMedia && '-mr-[24px] -ml-[76px] pr-[24px] pl-[76px]',
+        className
       )}
     >
       {mediaList.map((mediaUrl, index) =>
