@@ -14,11 +14,7 @@ import PinColumn from '@/components/Column/PinColumn';
 
 export default function PostDetailPage() {
   const { postId } = useParams();
-  const {
-    data: postDetail,
-    isLoading: isPostDetailLoading,
-    isFetching: isPostDetailFetching,
-  } = useGetPostDetailQuery(postId);
+  const { data: postDetail, isLoading: isPostDetailLoading } = useGetPostDetailQuery(postId);
 
   const selectReplies = postsApi.endpoints.getPostReplies.select({ id: postId });
   const queryState = useSelector(selectReplies);
@@ -26,7 +22,6 @@ export default function PostDetailPage() {
   const {
     items: replies,
     isLoading: isRepliesLoading,
-    isFetching: isRepliesFetching,
     isReloading: isRepliesReloading,
     hasMore,
     sentinelRef,
@@ -36,8 +31,8 @@ export default function PostDetailPage() {
     initialPage: queryState?.data?.pagination?.current_page ?? 1,
   });
 
-  const isLoading =
-    isPostDetailLoading || isPostDetailFetching || isRepliesLoading || isRepliesFetching;
+  // Chỉ hiển thị InitialLoading khi load lần đầu, không hiển thị khi đang fetch thêm (load more)
+  const isInitialLoading = isPostDetailLoading || isRepliesLoading;
 
   return (
     <ColumnContent
@@ -48,8 +43,8 @@ export default function PostDetailPage() {
         </MoreDropdown>
       }
     >
-      {isLoading ? (
-        <InitialLoading isLoading={isLoading} />
+      {isInitialLoading ? (
+        <InitialLoading isLoading={isInitialLoading} />
       ) : (
         <>
           <div className='pt-2'>
