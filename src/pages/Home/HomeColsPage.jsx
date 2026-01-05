@@ -20,8 +20,7 @@ export default function HomeColsPage({ className, pageStackName }) {
     [dispatch]
   );
 
-  const { getItemProps, containerRef, getHandleProps, isDragging, draggingId } = useDragSwap({
-    items: columns,
+  const { getItemProps, getHandleProps, isDraggingRef } = useDragSwap(columns, {
     onReorder: handleReorder,
     gap: 12,
   });
@@ -32,7 +31,6 @@ export default function HomeColsPage({ className, pageStackName }) {
       className={cn('absolute inset-0 ml-(--nav-desktop-w) bg-(--background-secondary)', className)}
     >
       <ul
-        ref={containerRef}
         className={cn(
           'relative flex h-full gap-3 overflow-x-auto overflow-y-hidden pr-[calc(var(--nav-desktop-w)+20px)] pl-5 *:first-of-type:ml-auto *:last-of-type:mr-auto'
         )}
@@ -40,14 +38,13 @@ export default function HomeColsPage({ className, pageStackName }) {
         {columns.map((column, index) => (
           <li
             key={column.id}
-            {...getItemProps(column, index)}
+            {...getItemProps(index)}
             className='relative w-full max-w-(--column-max-w) min-w-(--column-min-w)'
           >
             <DragSwapProvider
-              getHandleProps={getHandleProps}
+              getHandleProps={() => getHandleProps(index)}
               data={column}
-              isDragging={isDragging}
-              draggingId={draggingId}
+              isDraggingRef={isDraggingRef}
             >
               <PageStackProvider
                 flag={false}

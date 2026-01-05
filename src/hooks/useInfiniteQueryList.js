@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import useInfiniteScrollContext from '@/contexts/infiniteScroll/hooks/useInfiniteScroll';
+import useDragSwap from '@/contexts/dragSwap/hooks/useDragSwap';
 
 /**
  * Hook tổng quát cho infinite scroll list với pagination và reload
@@ -51,6 +52,11 @@ const useInfiniteList = ({
 
   // Scroll context
   const { getScrollEl, isAtTop, scrollToTop, registerReload } = useInfiniteScrollContext();
+
+  // Drag swap context (optional - có thể không có trong một số trường hợp)
+  const dragSwapContext = useDragSwap();
+  const isDraggingRef =
+    dragSwapContext && typeof dragSwapContext === 'object' ? dragSwapContext.isDraggingRef : null;
 
   // Query data
   const { data, isLoading, isFetching, refetch } = queryHook(
@@ -123,6 +129,9 @@ const useInfiniteList = ({
    * Reload handler
    */
   const handleReload = useCallback(async () => {
+    // Không reload nếu đang drag
+    if (isDraggingRef?.current) return;
+
     if (isAtTop()) {
       setIsReloading(true);
       if (page === 1) {
@@ -133,7 +142,7 @@ const useInfiniteList = ({
     } else {
       scrollToTop();
     }
-  }, [page, isAtTop, scrollToTop, refetch]);
+  }, [page, isAtTop, scrollToTop, refetch, isDraggingRef]);
 
   /**
    * Register reload callback

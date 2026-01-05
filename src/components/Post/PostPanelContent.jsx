@@ -4,7 +4,15 @@ import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
 import { POST_PANEL_TYPES } from './PostPanel';
 
-export function PostPanelContent({ userInfo, content, onContentChange, onRemove, index, type }) {
+export function PostPanelContent({
+  userInfo,
+  content,
+  onContentChange,
+  onRemove,
+  index,
+  type,
+  placeholder = 'Có gì mới?',
+}) {
   return (
     <div className='flex gap-3 pb-[5px]'>
       <div className='flex flex-col items-center gap-3'>
@@ -30,7 +38,7 @@ export function PostPanelContent({ userInfo, content, onContentChange, onRemove,
           autoFocus
           value={content}
           onChange={(e) => onContentChange(e.target.value)}
-          placeholder='Có gì mới?'
+          placeholder={index === 0 ? placeholder : 'Bạn nói gì thêm đi...'}
         />
 
         <div

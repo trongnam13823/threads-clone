@@ -33,6 +33,29 @@ const postsApi = createApi({
       },
     }),
     // ------------------------------------------------------------
+    // REPLY POST
+    // ------------------------------------------------------------
+    replyPost: builder.mutation({
+      query: (data) => {
+        const formData = new FormData();
+        formData.append('_method', 'POST');
+
+        if (data.content) formData.append('content', data.content);
+
+        if (data.replyPermission) formData.append('reply_permission', data.replyPermission);
+
+        if (data.media && data.media.length) {
+          data.media.forEach((file) => formData.append('media[]', file));
+        }
+
+        return {
+          url: `/${data.id}/reply`,
+          method: 'POST',
+          body: formData,
+        };
+      },
+    }),
+    // ------------------------------------------------------------
     // EDIT POST
     // ------------------------------------------------------------
     editPost: builder.mutation({
@@ -311,6 +334,7 @@ export const {
   useGetPostDetailQuery,
   useGetPostRepliesQuery,
   useCreatePostMutation,
+  useReplyPostMutation,
   useDeletePostMutation,
   useEditPostMutation,
 } = postsApi;

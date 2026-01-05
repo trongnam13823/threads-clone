@@ -8,7 +8,8 @@ import Menu from '../NavBar/Menu';
 import useDragSwap from '@/contexts/dragSwap/hooks/useDragSwap';
 
 const ColumnHeader = memo(({ children, className, showBack = false }) => {
-  const { data, getHandleProps, isDraggable } = useDragSwap();
+  const { getHandleProps, isDraggable } = useDragSwap();
+
   return (
     <>
       {/* header mobile */}
@@ -26,7 +27,7 @@ const ColumnHeader = memo(({ children, className, showBack = false }) => {
 
       {/* header column */}
       <header
-        {...getHandleProps?.(data?.id)}
+        {...getHandleProps?.()}
         className={cn(
           'top-0 z-10 mx-auto flex h-(--header-h) w-full shrink-0 items-center justify-center bg-(--background-secondary) focus-visible:outline-0 max-md:bg-(--elevated-background) md:sticky md:max-w-(--column-max-w)',
           isDraggable && 'bg-transparent',

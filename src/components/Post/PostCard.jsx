@@ -1,14 +1,11 @@
-import { useState, useCallback, memo, Fragment } from 'react';
+import { useCallback, memo } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { EllipsisIcon, MessageCircleIcon } from 'lucide-react';
 import paths from '@/configs/paths';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import Link from '@/contexts/pageStack/components/Link';
-import { ReplyBox } from './ReplyBox';
 import MediaList from './MediaList';
-import VerifiedBadge from '../User/VerifiedBadge';
-import { formatRelativeTime, formatNumber } from '@/utils/formatTime';
+import { formatRelativeTime } from '@/utils/formatTime';
 import { LikeButton } from './LikeButton';
 import { RepostButton } from './RepostButton';
 import { ShareButton } from './ShareButton';
@@ -17,21 +14,18 @@ import PostMenu from './PostMenu';
 import copy from 'copy-to-clipboard';
 import { toast } from 'sonner';
 import useNavigate from '@/contexts/pageStack/hooks/useNavigate';
+import ReplyButton from './ReplyButton';
 
 export const POST_CARD_TYPES = {
   DEFAULT: 'default',
   IMAGE: 'image',
   EMBED: 'embed',
+  REPLY: 'reply',
 };
 
 export const PostCard = memo(
   ({ post = {}, type = POST_CARD_TYPES.DEFAULT, isDataVisible = true }) => {
-    const [showReply, setShowReply] = useState(false);
     const navigate = useNavigate();
-
-    const handleToggleReply = useCallback(() => {
-      setShowReply((prev) => !prev);
-    }, []);
 
     const handlePostClick = useCallback(() => {
       const selection = window.getSelection();
@@ -57,7 +51,8 @@ export const PostCard = memo(
           type === POST_CARD_TYPES.IMAGE &&
             'pointer-events-none rounded-[inherit] bg-(--elevated-background) p-4 pb-[28px]',
           type === POST_CARD_TYPES.EMBED &&
-            'pointer-events-none rounded-xl border border-(--lines-primary) bg-(--elevated-background) px-5 pt-4 pb-8'
+            'pointer-events-none rounded-xl border border-(--lines-primary) bg-(--elevated-background) px-5 pt-4 pb-8',
+          type === POST_CARD_TYPES.REPLY && 'p-0 pb-3'
         )}
       >
         <Logo hidden={type !== POST_CARD_TYPES.IMAGE} className='absolute right-2 bottom-1 w-6' />
@@ -77,8 +72,8 @@ export const PostCard = memo(
         <div className='flex gap-4'>
           {/* LEFT */}
           <div
-            hidden={type !== POST_CARD_TYPES.DEFAULT}
-            className='flex w-9 flex-col items-center gap-4'
+            hidden={type !== POST_CARD_TYPES.DEFAULT && type !== POST_CARD_TYPES.REPLY}
+            className='flex w-9 flex-col items-center gap-3'
           >
             {/* AUTHOR AVATAR */}
             <Avatar className='size-9 cursor-pointer'>
@@ -89,9 +84,9 @@ export const PostCard = memo(
             {/* LINE REPLY */}
             <div
               className={cn(
-                'w-0.5 flex-1',
+                'hidden min-h-3 w-0.5 flex-1',
                 'bg-(--primary-outline)',
-                showReply ? 'block' : 'hidden'
+                type === POST_CARD_TYPES.REPLY && 'block'
               )}
             ></div>
           </div>
@@ -100,7 +95,10 @@ export const PostCard = memo(
           <div className='flex-1'>
             {/* HEADER */}
             <div className='flex items-center'>
-              <div hidden={type === POST_CARD_TYPES.DEFAULT} className='mr-2'>
+              <div
+                hidden={type === POST_CARD_TYPES.DEFAULT || type === POST_CARD_TYPES.REPLY}
+                className='mr-2'
+              >
                 <Avatar className='size-9 cursor-pointer'>
                   <AvatarImage src={post.user.avatar_url} alt={post.user.username} />
                   <AvatarFallback>{post.user.username}</AvatarFallback>
@@ -114,8 +112,7 @@ export const PostCard = memo(
               >
                 <span>{post.user.username}</span>
               </Link>
-              {/* VERIFIED BADGE */}
-              {/* {post.user.verified && <VerifiedBadge className='ml-0.5 size-4' />} */}
+
               {/* CREATED AT */}
               <span
                 className={cn(
@@ -136,10 +133,11 @@ export const PostCard = memo(
             <div
               onClick={() => handlePostClick()}
               className={cn(
-                'mt-1 cursor-pointer wrap-break-word whitespace-pre-wrap',
+                'mt-1 cursor-pointer wrap-break-word break-all whitespace-normal',
                 'text-(--text-primary)',
                 '[&>*:not(:first-child)]:mt-2.5',
-                type === POST_CARD_TYPES.IMAGE && 'mt-3'
+                type === POST_CARD_TYPES.IMAGE && 'mt-3',
+                type === POST_CARD_TYPES.REPLY && 'pointer-events-none'
               )}
               dangerouslySetInnerHTML={{
                 __html: post.content,
@@ -152,7 +150,12 @@ export const PostCard = memo(
             )}
 
             {/* ACTION BTNS */}
-            <div className='mt-1.5 -mb-1 -ml-3 flex items-center'>
+            <div
+              className={cn(
+                'mt-1.5 -mb-1 -ml-3 flex items-center',
+                type === POST_CARD_TYPES.REPLY && 'hidden'
+              )}
+            >
               {/* LIKE BTN */}
               <LikeButton
                 postId={post.id}
@@ -162,15 +165,7 @@ export const PostCard = memo(
               />
 
               {/* REPLY BTN */}
-              <Button
-                variant='ghost'
-                size='icon'
-                className='h-9 gap-1 px-3 text-[13px] tabular-nums'
-                onClick={handleToggleReply}
-              >
-                <MessageCircleIcon className='size-4.5' />
-                {isDataVisible ? post.replies_count > 0 && formatNumber(post.replies_count) : null}
-              </Button>
+              <ReplyButton isDataVisible={isDataVisible} post={post} />
 
               {/* REPOST BTN */}
               <RepostButton
@@ -185,9 +180,6 @@ export const PostCard = memo(
             </div>
           </div>
         </div>
-
-        {/* REPLY Box */}
-        {showReply && <ReplyBox />}
       </div>
     );
   }
