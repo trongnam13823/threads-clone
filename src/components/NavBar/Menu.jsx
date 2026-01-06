@@ -1,6 +1,7 @@
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import {
+  CheckIcon,
   ChevronLeft,
   ChevronRightIcon,
   MenuIcon,
@@ -20,20 +21,29 @@ import FeedDropdownContent, { FEED_UI_TYPE } from '../Column/FeedDropdownContent
 import { logoutThunk } from '@/features/auth/authThunks';
 import { useDispatch } from 'react-redux';
 import { useTheme } from '@/hooks/useTheme';
+import { useTranslation } from 'react-i18next';
+import i18n from '@/i18n';
 
 export const SUB_MENU = {
   EMPTY: 'empty',
   FEED: 'feed',
   THEME: 'theme',
+  LANGUAGE: 'language',
 };
 
 function Menu({ className }) {
   const [subMenu, setSubMenu] = useState(SUB_MENU.EMPTY);
   const { theme, setTheme } = useTheme();
+  const { t, i18n: i18nInstance } = useTranslation();
+  const currentLanguage = i18nInstance.language || 'vi';
 
   const dispatch = useDispatch();
   const handleBack = () => {
     setSubMenu(SUB_MENU.EMPTY);
+  };
+
+  const handleLanguageChange = (lang) => {
+    i18n.changeLanguage(lang);
   };
 
   return (
@@ -56,11 +66,20 @@ function Menu({ className }) {
               setSubMenu(SUB_MENU.THEME);
             }}
           >
-            <span>Giao diện</span>
+            <span>{t('menu.theme')}</span>
             <ChevronRightIcon className='size-5 text-(--text-secondary)' />
           </DropdownMenuItem>
-          <DropdownMenuItem>Thông tin chi tiết</DropdownMenuItem>
-          <DropdownMenuItem>Cài đặt</DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={(e) => {
+              e.preventDefault();
+              setSubMenu(SUB_MENU.LANGUAGE);
+            }}
+          >
+            <span>{t('menu.language')}</span>
+            <ChevronRightIcon className='size-5 text-(--text-secondary)' />
+          </DropdownMenuItem>
+          <DropdownMenuItem>{t('menu.details')}</DropdownMenuItem>
+          <DropdownMenuItem>{t('menu.settings')}</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={(e) => {
@@ -68,20 +87,20 @@ function Menu({ className }) {
               setSubMenu(SUB_MENU.FEED);
             }}
           >
-            <span>Bảng feed</span>
+            <span>{t('menu.feedBoard')}</span>
             <ChevronRightIcon className='size-5 text-(--text-secondary)' />
           </DropdownMenuItem>
-          <DropdownMenuItem>Đã lưu</DropdownMenuItem>
-          <DropdownMenuItem>Đã thích</DropdownMenuItem>
+          <DropdownMenuItem>{t('menu.saved')}</DropdownMenuItem>
+          <DropdownMenuItem>{t('menu.liked')}</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Báo cáo sự cố</DropdownMenuItem>
+          <DropdownMenuItem>{t('menu.reportIssue')}</DropdownMenuItem>
           <DropdownMenuItem
             className='text-(--error-text) hover:text-(--error-text)!'
             onClick={() => {
               dispatch(logoutThunk());
             }}
           >
-            Đăng xuất
+            {t('menu.logout')}
           </DropdownMenuItem>
         </DropdownMenuContent>
       )}
@@ -101,7 +120,7 @@ function Menu({ className }) {
             <Button variant='none' size='icon' className='group' onClick={handleBack}>
               <ChevronLeft className='size-6 text-(--text-primary) group-hover:scale-110' />
             </Button>
-            <span className='mx-auto font-bold'>Giao diện</span>
+            <span className='mx-auto font-bold'>{t('menu.theme')}</span>
           </div>
 
           <ul className='mt-2 flex items-center gap-4 rounded-xl bg-(--background-secondary) text-(--text-secondary)'>
@@ -136,6 +155,36 @@ function Menu({ className }) {
               <MonitorIcon className='size-4.5' />
             </li>
           </ul>
+        </DropdownMenuContent>
+      )}
+
+      {subMenu === SUB_MENU.LANGUAGE && (
+        <DropdownMenuContent align='start' sideOffset={0}>
+          <div className='flex h-[35px] items-center gap-4 px-3'>
+            <Button variant='none' size='icon' className='group' onClick={handleBack}>
+              <ChevronLeft className='size-6 text-(--text-primary) group-hover:scale-110' />
+            </Button>
+            <span className='mx-auto font-bold'>{t('menu.language')}</span>
+          </div>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            className='flex size-full items-center justify-between'
+            onClick={() => handleLanguageChange('vi')}
+          >
+            <span>{t('menu.vietnamese')}</span>
+            <CheckIcon
+              className={cn('size-4 text-inherit', currentLanguage === 'vi' ? 'block' : 'hidden')}
+            />
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className='flex size-full items-center justify-between'
+            onClick={() => handleLanguageChange('en')}
+          >
+            <span>{t('menu.english')}</span>
+            <CheckIcon
+              className={cn('size-4 text-inherit', currentLanguage === 'en' ? 'block' : 'hidden')}
+            />
+          </DropdownMenuItem>
         </DropdownMenuContent>
       )}
     </DropdownMenu>

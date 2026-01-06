@@ -8,8 +8,10 @@ import ReloadIndicator from '../Loading/ReloadIndicator';
 import InitialLoading from '../Loading/InitialLoading';
 import EmptyResults from '../Loading/EmptyResults';
 import useInfiniteList from '@/hooks/useInfiniteQueryList';
+import { useTranslation } from 'react-i18next';
 
 export default function SearchResultsList() {
+  const { t } = useTranslation();
   const q = useSelector((state) => state.search.text);
   const isSearching = q.length > 1;
   const trimmedQ = q.trim();
@@ -63,12 +65,12 @@ export default function SearchResultsList() {
       <ReloadIndicator isReloading={isReloading} />
       <EmptyResults
         isEmpty={!isLoading && topics.length === 0 && users.length === 0}
-        message='Không tìm thấy kết quả nào'
+        message={t('search.noResults')}
       />
 
       {topics.length > 0 && (
         <>
-          <h2 className='px-6 pt-5 pb-1.5 font-bold text-(--text-secondary)'>Topics</h2>
+          <h2 className='px-6 pt-5 pb-1.5 font-bold text-(--text-secondary)'>{t('search.topics')}</h2>
           <div className='flex flex-col'>
             {topics.map((topic) => (
               <SearchTopicItem key={topic.id} topic={topic} />
@@ -79,7 +81,7 @@ export default function SearchResultsList() {
 
       {users.length > 0 && (
         <>
-          <h2 className='px-6 pt-5 pb-1.5 font-bold text-(--text-secondary)'>People</h2>
+          <h2 className='px-6 pt-5 pb-1.5 font-bold text-(--text-secondary)'>{t('search.people')}</h2>
           <div className='flex flex-col'>
             {users.map((user) => (
               <SearchUserItem key={user.id} user={user} />

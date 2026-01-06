@@ -12,21 +12,23 @@ import PinColumn from '@/components/Column/PinColumn';
 import ColumnContent from '@/components/Column/ColumnContent';
 import FollowList from '@/components/User/FollowList';
 import withInfiniteScroll from '@/contexts/infiniteScroll/hoc/withInfiniteScroll';
+import { useTranslation } from 'react-i18next';
 
 const ProfileLayout = withInfiniteScroll(({ children, className, pageStackName }) => {
+  const { t } = useTranslation();
   const userInfo = useSelector((state) => state.auth.userInfo);
 
   const navLinks = [
-    { path: paths.profile(userInfo.username), name: 'Threads' },
-    { path: paths.profileReplies(userInfo.username), name: 'Thread trả lời' },
-    { path: paths.profileMedia(userInfo.username), name: 'File phương tiện' },
-    { path: paths.profileReposts(userInfo.username), name: 'Bài đăng lại' },
+    { path: paths.profile(userInfo.username), name: t('profile.threads') },
+    { path: paths.profileReplies(userInfo.username), name: t('profile.replyThreads') },
+    { path: paths.profileMedia(userInfo.username), name: t('profile.mediaFiles') },
+    { path: paths.profileReposts(userInfo.username), name: t('profile.reposts') },
   ];
 
   return (
     <ColumnLayout className={className} pageStackName={pageStackName}>
       <ColumnHeader className='font-bold max-md:hidden'>
-        <span>Trang cá nhân</span>
+        <span>{t('profile.profile')}</span>
         <MoreDropdown>
           <PinColumn />
         </MoreDropdown>
@@ -68,7 +70,7 @@ const ProfileLayout = withInfiniteScroll(({ children, className, pageStackName }
           {/* EDIT BTN */}
           <div className='px-6 py-3'>
             <Button variant='outline' className='h-8.5 w-full'>
-              Chỉnh sửa trang cá nhân
+              {t('profile.editProfile')}
             </Button>
           </div>
 

@@ -17,19 +17,21 @@ import usePageStack from '@/contexts/pageStack/hooks/usePageStack';
 import { cn } from '@/lib/utils';
 import { CheckIcon, ChevronDownIcon } from 'lucide-react';
 import { Outlet } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 const ActivityLayout = withInfiniteScroll(({ children, className, pageStackName }) => {
+  const { t } = useTranslation();
   const { history } = usePageStack();
   const currentPath = history.at(-1);
 
   const navLinks = [
-    { path: paths.activity, name: 'Tất cả', title: 'Hoạt động' },
-    { path: paths.activityFollows, name: 'Lượt theo dõi' },
-    { path: paths.activityReplies, name: 'Thread trả lời' },
-    { path: paths.activityMentions, name: 'Lượt nhắc' },
-    { path: paths.activityQuotes, name: 'Lượt trích dẫn' },
-    { path: paths.activityReposts, name: 'Bài đăng lại' },
-    { path: paths.activityVerified, name: 'Đã xác minh' },
+    { path: paths.activity, name: t('activity.all'), title: t('activity.activity') },
+    { path: paths.activityFollows, name: t('activity.follows') },
+    { path: paths.activityReplies, name: t('activity.replyThreads') },
+    { path: paths.activityMentions, name: t('activity.mentions') },
+    { path: paths.activityQuotes, name: t('activity.quotes') },
+    { path: paths.activityReposts, name: t('activity.reposts') },
+    { path: paths.activityVerified, name: t('activity.verified') },
   ];
 
   const currentNav = navLinks.find((link) => link.path === currentPath);

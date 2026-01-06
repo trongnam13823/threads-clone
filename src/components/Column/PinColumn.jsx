@@ -7,8 +7,10 @@ import usePageStack from '@/contexts/pageStack/hooks/usePageStack';
 import paths from '@/configs/paths';
 import useNavigate from '@/contexts/pageStack/hooks/useNavigate';
 import useDragSwap from '@/contexts/dragSwap/hooks/useDragSwap';
+import { useTranslation } from 'react-i18next';
 
 const PinColumn = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { history } = usePageStack();
   const currentPath = history.at(-1);
@@ -32,7 +34,7 @@ const PinColumn = () => {
       className='flex size-full items-center justify-between'
       onSelect={handleClick}
     >
-      <span>{isDraggable ? 'Bỏ ghim' : 'Ghim lên trang chủ'}</span>
+      <span>{isDraggable ? t('pin.unpin') : t('pin.pinToHome')}</span>
       <Button variant='none' size='icon'>
         {isDraggable ? (
           <PinOffIcon className='size-5 text-(--text-primary) hover:scale-105' />

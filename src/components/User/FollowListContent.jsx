@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import FollowListItem from './FollowListItem';
 import usersApi, { useGetFollowersQuery, useGetFollowingsQuery } from '@/services/users/usersApi';
 import useInfiniteQueryList from '@/hooks/useInfiniteQueryList';
@@ -17,6 +18,7 @@ const TABS = {
 };
 
 export default function FollowListContent({ userId }) {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(TABS.FOLLOWINGS);
   const scrollAreaRef = useRef(null);
   const { registerScrollEl } = useInfiniteScroll();
@@ -85,7 +87,7 @@ export default function FollowListContent({ userId }) {
             activeTab === 'followings' && 'border-(--text-primary) text-(--text-primary)'
           )}
         >
-          <span className='text-base'>Đang theo dõi</span>
+          <span className='text-base'>{t('followList.following')}</span>
           <span className='text-xs font-normal'>{followingsTotal}</span>
         </button>
 
@@ -97,7 +99,7 @@ export default function FollowListContent({ userId }) {
             activeTab === 'followers' && 'border-(--text-primary) text-(--text-primary)'
           )}
         >
-          <span className='text-base'>Người theo dõi</span>
+          <span className='text-base'>{t('followList.followers')}</span>
           <span className='text-xs font-normal'>{followersTotal}</span>
         </button>
       </div>
@@ -110,7 +112,7 @@ export default function FollowListContent({ userId }) {
             <ReloadIndicator isReloading={isReloadingFollowings} />
             <EmptyResults
               isEmpty={!isLoadingFollowings && followings.length === 0}
-              message='Chưa theo dõi ai'
+              message={t('followList.notFollowingAnyone')}
             />
 
             {followings.length > 0 && (
@@ -133,7 +135,7 @@ export default function FollowListContent({ userId }) {
             <ReloadIndicator isReloading={isReloadingFollowers} />
             <EmptyResults
               isEmpty={!isLoadingFollowers && followers.length === 0}
-              message='Chưa có người theo dõi'
+              message={t('followList.noFollowers')}
             />
 
             {followers.length > 0 && (

@@ -15,9 +15,11 @@ import loginSchema from "@/schemas/auth/loginSchema";
 import { useState } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { Alert, AlertTitle } from "@/components/ui/alert";
+import { useTranslation } from "react-i18next";
 
 /* ================== Page ================== */
 export default function LoginPage() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -49,7 +51,7 @@ export default function LoginPage() {
       dispatch(setUserInfo(user));
       navigate(paths.home);
     } catch {
-      toast.error("Thông tin đăng nhập không chính xác");
+      toast.error(t("auth.loginError"));
     }
   };
 
@@ -59,17 +61,17 @@ export default function LoginPage() {
 
   return (
     <div className="flex w-full max-w-92.5 flex-col gap-4">
-      <h1 className="text-center text-base font-bold">Đăng nhập</h1>
+      <h1 className="text-center text-base font-bold">{t("auth.login")}</h1>
 
       {isVerified && (
         <Alert className="text-(--success-text)">
-          <AlertTitle>Đã xác minh tài khoản thành công, vui lòng đăng nhập!</AlertTitle>
+          <AlertTitle>{t("auth.accountVerified")}</AlertTitle>
         </Alert>
       )}
 
       {isReset && (
         <Alert className="text-(--success-text)">
-          <AlertTitle>Tạo mật khẩu mới thành công, vui lòng đăng nhập!</AlertTitle>
+          <AlertTitle>{t("auth.newPasswordCreated")}</AlertTitle>
         </Alert>
       )}
 
@@ -82,7 +84,7 @@ export default function LoginPage() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input autoFocus {...field} className="auth__input" placeholder="Tên người dùng hoặc email" />
+                  <Input autoFocus {...field} className="auth__input" placeholder={t("auth.usernameOrEmail")} />
                 </FormControl>
               </FormItem>
             )}
@@ -99,7 +101,7 @@ export default function LoginPage() {
                     type={isShowPassword ? "text" : "password"}
                     {...field}
                     className={cn("auth__input", "pr-14")}
-                    placeholder="Mật khẩu"
+                    placeholder={t("auth.password")}
                   />
                 </FormControl>
 
@@ -116,21 +118,21 @@ export default function LoginPage() {
           />
 
           <Link to={paths.forgotPassword} className="my-1 text-right text-(--text-secondary) hover:underline">
-            Quên mật khẩu?
+            {t("auth.forgotPassword")}
           </Link>
 
           <Button type="submit" className={cn("auth__btn-submit", !formState.isValid && "cursor-not-allowed")}>
             <span className={cn(!formState.isValid && "opacity-50")}>
-              {isLoading ? <Spinner className="size-6" /> : "Đăng nhập"}
+              {isLoading ? <Spinner className="size-6" /> : t("auth.login")}
             </span>
           </Button>
         </form>
       </Form>
 
       <p className="text-center text-(--text-secondary)">
-        Bạn chưa có tài khoản?{" "}
+        {t("auth.noAccount")}{" "}
         <Link to={paths.register} className="text-(--text-primary) underline">
-          Đăng ký
+          {t("authRegister.registerLink")}
         </Link>
       </p>
     </div>

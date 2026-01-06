@@ -1,5 +1,6 @@
 import { formatDistanceToNowStrict, parseISO } from 'date-fns';
-import { vi } from 'date-fns/locale';
+import { vi, enUS } from 'date-fns/locale';
+import i18n from '@/i18n';
 
 /**
  * Format date thành relative time (vd: "2h", "3n", "5t")
@@ -9,7 +10,9 @@ export const formatRelativeTime = (dateString) => {
 
   try {
     const date = parseISO(dateString);
-    return formatDistanceToNowStrict(date, { addSuffix: false, locale: vi });
+    const currentLanguage = i18n.language || 'vi';
+    const locale = currentLanguage === 'en' ? enUS : vi;
+    return formatDistanceToNowStrict(date, { addSuffix: false, locale });
   } catch {
     return '';
   }

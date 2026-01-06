@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import ColumnContent from '@/components/Column/ColumnContent';
 import MoreDropdown from '@/components/Column/MoreDropdown';
 import PinColumn from '@/components/Column/PinColumn';
@@ -15,6 +16,7 @@ import useInfiniteList from '@/hooks/useInfiniteQueryList';
 import { useSelector } from 'react-redux';
 
 const FollowingPage = ({ dropdownElement }) => {
+  const { t } = useTranslation();
   const { isDraggable } = useDragSwap();
   const selectFeed = postsApi.endpoints.getPostsFeed.select({ type: 'following' });
   const queryState = useSelector(selectFeed);
@@ -46,7 +48,7 @@ const FollowingPage = ({ dropdownElement }) => {
 
         <InitialLoading isLoading={isLoading} />
         <ReloadIndicator isReloading={isReloading} />
-        <EmptyResults isEmpty={!isLoading && items.length === 0} message='Chưa có bài viết nào' />
+        <EmptyResults isEmpty={!isLoading && items.length === 0} message={t('home.noPosts')} />
 
         {items.length > 0 && (
           <>

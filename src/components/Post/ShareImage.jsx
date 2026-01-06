@@ -7,8 +7,10 @@ import { toBlob, toPng } from 'html-to-image';
 import { copyBlobToClipboard } from 'copy-image-clipboard';
 import { toast } from 'sonner';
 import { useTheme } from '@/hooks/useTheme';
+import { useTranslation } from 'react-i18next';
 
 export const ShareImage = memo(({ post }) => {
+  const { t } = useTranslation();
   const { theme } = useTheme();
   const [isDataVisible, setIsDataVisible] = useState(true);
 
@@ -33,11 +35,11 @@ export const ShareImage = memo(({ post }) => {
       });
 
       await copyBlobToClipboard(blob);
-      toast.success('Đã sao chép hình ảnh');
+      toast.success(t('share.imageCopied'));
     } catch {
-      toast.error('Lỗi khi sao chép hình ảnh');
+      toast.error(t('common.error'));
     }
-  }, [post.id]);
+  }, [post.id, t]);
 
   const handleDownloadImage = useCallback(async () => {
     if (!imageContainerRef.current) return;
@@ -52,11 +54,11 @@ export const ShareImage = memo(({ post }) => {
       link.href = dataUrl;
       link.click();
 
-      toast.success('Đã tải hình ảnh');
+      toast.success(t('share.imageDownloaded'));
     } catch {
-      toast.error('Lỗi khi tải hình ảnh');
+      toast.error(t('common.error'));
     }
-  }, [post.id]);
+  }, [post.id, t]);
 
   return (
     <div
@@ -105,7 +107,7 @@ export const ShareImage = memo(({ post }) => {
             />
           </div>
 
-          <span className='text-(--text-primary)'>Hiển thị số liệu</span>
+          <span className='text-(--text-primary)'>{t('share.showData')}</span>
         </div>
         <div className='flex gap-2'>
           <Button
@@ -117,12 +119,11 @@ export const ShareImage = memo(({ post }) => {
             <DownloadIcon className='size-5' />
           </Button>
           <Button className='h-[34px] rounded-[10px] font-bold' onClick={handleCopyImage}>
-            Sao chép
+            {t('share.copy')}
           </Button>
         </div>
       </div>
     </div>
   );
 });
-
 ShareImage.displayName = 'ShareImage';

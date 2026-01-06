@@ -11,9 +11,11 @@ import { DropdownMenu, DropdownMenuTrigger } from '@/components/ui/dropdown-menu
 import { Button } from '@/components/ui/button';
 import useInfiniteScroll from '@/contexts/infiniteScroll/hooks/useInfiniteScroll';
 import withInfiniteScroll from '@/contexts/infiniteScroll/hoc/withInfiniteScroll';
+import { useTranslation } from 'react-i18next';
 
 const HomeColLayout = withInfiniteScroll(({ children, className, pageStackName }) => {
   const { reload } = useInfiniteScroll();
+  const { t } = useTranslation();
 
   const columns = useSelector((state) => state.auth.columns);
   const hasColumns = columns.length > 1;
@@ -25,20 +27,20 @@ const HomeColLayout = withInfiniteScroll(({ children, className, pageStackName }
   const navLinks = [
     {
       path: hasColumns ? paths.forYou : paths.home,
-      name: 'Dành cho bạn',
+      name: t('feed.forYou'),
     },
     {
       path: paths.following,
-      name: 'Đang theo dõi',
+      name: t('feed.following'),
     },
     {
       path: paths.ghostPosts,
-      name: 'Bài viết tự hủy',
+      name: t('feed.ghostPosts'),
     },
   ];
 
   const currentNavLink = navLinks.find((link) => link.path === currentPath) ?? navLinks[0];
-  const currentFeedName = currentNavLink?.name || 'Dành cho bạn';
+  const currentFeedName = currentNavLink?.name || t('feed.forYou');
 
   return (
     <ColumnLayout className={className} pageStackName={pageStackName}>

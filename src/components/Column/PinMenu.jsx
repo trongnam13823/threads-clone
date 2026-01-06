@@ -1,4 +1,5 @@
 import { useCallback, memo } from 'react';
+import { useTranslation } from 'react-i18next';
 import paths from '@/configs/paths';
 import usePageStack from '@/contexts/pageStack/hooks/usePageStack';
 import { ListPlusIcon } from 'lucide-react';
@@ -14,6 +15,7 @@ import { cn } from '@/lib/utils';
 import useNavigate from '@/contexts/pageStack/hooks/useNavigate';
 
 const PinMenu = memo(() => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -50,22 +52,22 @@ const PinMenu = memo(() => {
 
         <DropdownMenuContent align='end' sideOffset={6}>
           <DropdownMenuItem onClick={() => handleAddColumn(paths.forYou)}>
-            Dành cho bạn
+            {t('pin.forYou')}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => handleAddColumn(paths.following)}>
-            Đang theo dõi
+            {t('pin.following')}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => handleAddColumn(paths.ghostPosts)}>
-            Bài viết tự hủy
+            {t('pin.ghostPosts')}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => handleAddColumn(paths.search)}>
-            Tìm kiếm
+            {t('pin.search')}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => handleAddColumn(paths.activity)}>
-            Hoạt động
+            {t('pin.activity')}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => handleAddColumn(paths.profile(userInfo.username))}>
-            Trang cá nhân
+            {t('pin.profile')}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

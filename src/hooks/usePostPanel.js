@@ -6,10 +6,12 @@ import {
   useReplyPostMutation,
 } from '@/services/posts/postsApi';
 import { POST_PANEL_TYPES } from '@/components/Post/PostPanel';
-import { createRepliesChain } from '@/components/Post/utils/createRepliesChain';
-import { createToastConfig } from '@/components/Post/utils/createToastConfig.jsx';
+import { createRepliesChain } from '@/components/Post/helper/createRepliesChain';
+import { createToastConfig } from '@/components/Post/helper/createToastConfig.jsx';
+import { useTranslation } from 'react-i18next';
 
 export function usePostPanel(type, post, onClose) {
+  const { t } = useTranslation();
   const [posts, setPosts] = useState([
     { content: type === POST_PANEL_TYPES.EDIT_POST ? post?.content || '' : '' },
   ]);
@@ -44,7 +46,7 @@ export function usePostPanel(type, post, onClose) {
 
     const firstPostId = firstPostResult.data?.id;
     if (!firstPostId) {
-      throw new Error('Không thể lấy ID của post đầu tiên');
+      throw new Error(t('postPanel.cannotGetFirstPostId'));
     }
 
     // Tạo các reply posts (từ index 1 trở đi) - tuần tự vì mỗi reply cần reply vào reply trước đó
@@ -67,7 +69,7 @@ export function usePostPanel(type, post, onClose) {
 
     const firstReplyId = firstReplyResult.data?.id;
     if (!firstReplyId) {
-      throw new Error('Không thể lấy ID của reply đầu tiên');
+      throw new Error(t('postPanel.cannotGetFirstReplyId'));
     }
 
     // Tạo các reply posts (từ index 1 trở đi) - tuần tự vì mỗi reply cần reply vào reply trước đó
@@ -93,7 +95,7 @@ export function usePostPanel(type, post, onClose) {
 
     if (type === POST_PANEL_TYPES.REPLY_POST) {
       if (!post?.id) {
-        toast.error('Không tìm thấy post để trả lời');
+        toast.error(t('postPanel.postNotFound'));
         return;
       }
 
@@ -126,4 +128,3 @@ export function usePostPanel(type, post, onClose) {
     handleSubmit,
   };
 }
-

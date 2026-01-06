@@ -1,12 +1,13 @@
 import z from "zod";
 import { email, password } from "./common";
+import i18n from "@/i18n";
 
 export default z
   .object({
     username: z
       .string()
-      .min(3, "Tên người dùng tối thiểu 3 ký tự")
-      .regex(/^[a-zA-Z0-9_-]+$/, "Tên người dùng chỉ được chứa chữ cái, số, dấu gạch ngang (-) và gạch dưới (_)"),
+      .min(3, () => i18n.t("validation.usernameMinLength"))
+      .regex(/^[a-zA-Z0-9_-]+$/, () => i18n.t("validation.usernamePattern")),
 
     email,
 
@@ -16,5 +17,5 @@ export default z
   })
   .refine((d) => d.password_confirmation === d.password, {
     path: ["password_confirmation"],
-    message: "Xác nhận mật khẩu không khớp",
+    message: () => i18n.t("validation.passwordMismatch"),
   });

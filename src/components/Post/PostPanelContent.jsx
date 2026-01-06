@@ -1,4 +1,5 @@
 import { FilmIcon, ImageIcon, MapPinIcon, SmileIcon, SquareMenuIcon, XIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
@@ -11,8 +12,10 @@ export function PostPanelContent({
   onRemove,
   index,
   type,
-  placeholder = 'Có gì mới?',
+  placeholder,
 }) {
+  const { t } = useTranslation();
+  const defaultPlaceholder = placeholder || t('postPanel.whatsNew');
   return (
     <div className='flex gap-3 pb-[5px]'>
       <div className='flex flex-col items-center gap-3'>
@@ -38,7 +41,7 @@ export function PostPanelContent({
           autoFocus
           value={content}
           onChange={(e) => onContentChange(e.target.value)}
-          placeholder={index === 0 ? placeholder : 'Bạn nói gì thêm đi...'}
+          placeholder={index === 0 ? defaultPlaceholder : t('postPanel.whatElseToSay')}
           className='mt-1'
         />
 

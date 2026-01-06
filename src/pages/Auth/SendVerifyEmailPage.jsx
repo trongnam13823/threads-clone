@@ -6,8 +6,10 @@ import { useDispatch } from "react-redux";
 import { logoutThunk } from "@/features/auth/authThunks";
 import { useNavigate } from "react-router";
 import paths from "@/configs/paths";
+import { useTranslation } from "react-i18next";
 
 const SendVerifyEmailPage = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [resend, { isLoading: isResending }] = useResendVerificationEmailMutation();
@@ -18,24 +20,22 @@ const SendVerifyEmailPage = () => {
     try {
       await resend().unwrap();
 
-      toast.success("Email xác thực đã được gửi thành công");
+      toast.success(t("auth.verificationEmailSent"));
     } catch {
-      toast.error("Không thể gửi email xác thực. Vui lòng thử lại sau.");
+      toast.error(t("auth.cannotSendVerification"));
     }
   };
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-center text-base font-bold">Xác thực email</h1>
+      <h1 className="text-center text-base font-bold">{t("auth.verifyEmail")}</h1>
 
       <p className="text-sm text-(--text-secondary)">
-        Chúng tôi đã gửi một liên kết xác thực tới email của bạn.
-        <br />
-        Vui lòng kiểm tra email để xác thực tài khoản.
+        {t("auth.verifyEmailDescription")}
       </p>
 
       <Button type="submit" className="auth__btn-submit" onClick={handleResend}>
-        <span>{isResending ? <Spinner className="size-6" /> : "Gửi lại"}</span>
+        <span>{isResending ? <Spinner className="size-6" /> : t("auth.resend")}</span>
       </Button>
 
       <Button
@@ -46,7 +46,7 @@ const SendVerifyEmailPage = () => {
           navigate(paths.login);
         }}
       >
-        Đăng xuất
+        {t("auth.logout")}
       </Button>
     </div>
   );

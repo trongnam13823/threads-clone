@@ -1,4 +1,5 @@
-import z from "zod";
+import z from 'zod';
+import i18n from '@/i18n';
 
-export const email = z.email("Email không hợp lệ");
-export const password = z.string().min(8, "Mật khẩu tối thiểu 8 ký tự");
+export const email = z.email(() => i18n.t('validation.emailInvalid'));
+export const password = z.string().min(8, () => i18n.t('validation.passwordMinLength'));

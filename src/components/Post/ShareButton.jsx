@@ -1,4 +1,5 @@
 import { memo, useState, useMemo, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { SendIcon, LinkIcon, ImageIcon, CodeIcon } from 'lucide-react';
 import { Button } from '../ui/button';
 import {
@@ -28,6 +29,7 @@ const DIALOG_CLASSNAMES = {
 };
 
 export const ShareButton = memo(({ post, onCopyLink }) => {
+  const { t } = useTranslation();
   const [dialogType, setDialogType] = useState(SHARE_DIALOG_TYPES.IMAGE);
   const [isAnimationEnd, setIsAnimationEnd] = useState(false);
   const dialogClassName = useMemo(() => DIALOG_CLASSNAMES[dialogType], [dialogType]);
@@ -47,7 +49,7 @@ export const ShareButton = memo(({ post, onCopyLink }) => {
 
         <DropdownMenuContent align='start' sideOffset={4} className='min-w-56'>
           <DropdownMenuItem onClick={onCopyLink} className='gap-3'>
-            <span>Sao chép liên kết</span>
+            <span>{t('share.copyLink')}</span>
             <LinkIcon className='size-5 text-inherit' />
           </DropdownMenuItem>
 
@@ -56,7 +58,7 @@ export const ShareButton = memo(({ post, onCopyLink }) => {
               className='gap-3'
               onClick={() => setDialogType(SHARE_DIALOG_TYPES.IMAGE)}
             >
-              <span>Sao chép dưới dạng hình ảnh</span>
+              <span>{t('share.copyAsImage')}</span>
               <ImageIcon className='size-5 text-inherit' />
             </DropdownMenuItem>
           </DialogTrigger>
@@ -66,7 +68,7 @@ export const ShareButton = memo(({ post, onCopyLink }) => {
               className='gap-3'
               onClick={() => setDialogType(SHARE_DIALOG_TYPES.EMBED)}
             >
-              <span>Lấy mã nhúng</span>
+              <span>{t('share.getEmbedCode')}</span>
               <CodeIcon className='size-5 text-inherit' />
             </DropdownMenuItem>
           </DialogTrigger>

@@ -1,5 +1,6 @@
 import z from "zod";
 import { email, password } from "./common";
+import i18n from "@/i18n";
 
 export default z
   .object({
@@ -10,5 +11,5 @@ export default z
   })
   .refine((d) => d.password_confirmation === d.password, {
     path: ["password_confirmation"],
-    message: "Xác nhận mật khẩu không khớp",
+    message: () => i18n.t("validation.passwordMismatch"),
   });

@@ -1,7 +1,9 @@
 import { SearchIcon, SlidersHorizontalIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useTranslation } from 'react-i18next';
 
 export default function SearchInput({ value, onChange, onClick }) {
+  const { t } = useTranslation();
   return (
     <div className='px-6 pt-6' onClick={onClick}>
       <div className='flex h-11 items-center gap-2 rounded-2xl border border-(--lines-primary) bg-(--background-secondary) px-4'>
@@ -16,7 +18,7 @@ export default function SearchInput({ value, onChange, onClick }) {
           onChange={onChange}
           autoComplete='off'
           className='flex-1 text-(--text-primary) outline-none placeholder:text-(--text-secondary)'
-          placeholder='Tìm kiếm'
+          placeholder={t('search.search')}
         />
         <Button variant='ghost' size='icon' className='p-2'>
           <SlidersHorizontalIcon className='size-5 text-(--navigation-icon)' />

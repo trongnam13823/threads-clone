@@ -31,6 +31,7 @@ import {
 import { toast } from 'sonner';
 import { PostPanel } from './PostPanel';
 import { POST_PANEL_TYPES } from './PostPanel';
+import { useTranslation } from 'react-i18next';
 
 const DIALOG_TYPES = {
   DELETE_POST: 'DELETE_POST',
@@ -39,6 +40,7 @@ const DIALOG_TYPES = {
 };
 
 export default function PostMenu({ hidden, post, onCopyLink }) {
+  const { t } = useTranslation();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const isOwner = userInfo.id === post.user_id;
   const [open, setOpen] = useState(false);
@@ -51,9 +53,9 @@ export default function PostMenu({ hidden, post, onCopyLink }) {
     try {
       await deletePost(post.id).unwrap();
       setOpen(false);
-      toast.success('Đã xóa');
+      toast.success(t('postMenu.deleted'));
     } catch {
-      toast.error('Lỗi khi xóa bài viết');
+      toast.error(t('postMenu.deleteError'));
     }
   };
 
@@ -69,9 +71,9 @@ export default function PostMenu({ hidden, post, onCopyLink }) {
     try {
       await reportPost({ id: post.id, reason, description }).unwrap();
       setOpen(false);
-      toast.success('Đã gửi báo cáo');
+      toast.success(t('postMenu.reported'));
     } catch {
-      toast.error('Lỗi khi gửi báo cáo');
+      toast.error(t('postMenu.reportError'));
     }
   };
   return (
@@ -89,7 +91,7 @@ export default function PostMenu({ hidden, post, onCopyLink }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end' alignOffset={-10}>
           <DropdownMenuItem onClick={handleSavePost}>
-            <span>{post.is_saved_by_auth ? 'Bỏ lưu' : 'Lưu'}</span>
+            <span>{post.is_saved_by_auth ? t('postMenu.unsave') : t('postMenu.save')}</span>
             {post.is_saved_by_auth ? (
               <BookmarkXIcon className='size-5 text-inherit' />
             ) : (
@@ -99,20 +101,20 @@ export default function PostMenu({ hidden, post, onCopyLink }) {
           {!isOwner && (
             <>
               <DropdownMenuItem className='opacity-50'>
-                <span>Không quan tâm</span>
+                <span>{t('postMenu.notInterested')}</span>
                 <EyeOffIcon className='size-5 text-inherit' />
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem className='opacity-50'>
-                <span>Tắt thông báo</span>
+                <span>{t('postMenu.turnOffNotifications')}</span>
                 <BellOffIcon className='size-5 text-inherit' />
               </DropdownMenuItem>
               <DropdownMenuItem className='opacity-50'>
-                <span>Hạn chế</span>
+                <span>{t('postMenu.restrict')}</span>
                 <UserRoundMinusIcon className='size-5 text-inherit' />
               </DropdownMenuItem>
               <DropdownMenuItem className='text-(--error-text)! opacity-50'>
-                <span>Chặn</span>
+                <span>{t('postMenu.block')}</span>
                 <UserRoundXIcon className='size-5 text-inherit' />
               </DropdownMenuItem>
               <DropdownMenuItem
@@ -122,7 +124,7 @@ export default function PostMenu({ hidden, post, onCopyLink }) {
                   setOpen(true);
                 }}
               >
-                <span>Báo cáo</span>
+                <span>{t('postMenu.report')}</span>
                 <MessageSquareWarningIcon className='size-5 text-inherit' />
               </DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -136,7 +138,7 @@ export default function PostMenu({ hidden, post, onCopyLink }) {
                   setOpen(true);
                 }}
               >
-                <span>Chỉnh sửa</span>
+                <span>{t('postMenu.edit')}</span>
                 <PencilIcon className='size-5 text-inherit' />
               </DropdownMenuItem>
               <DropdownMenuItem
@@ -146,14 +148,14 @@ export default function PostMenu({ hidden, post, onCopyLink }) {
                   setOpen(true);
                 }}
               >
-                <span>Xóa</span>
+                <span>{t('postMenu.delete')}</span>
                 <TrashIcon className='size-5 text-inherit' />
               </DropdownMenuItem>
               <DropdownMenuSeparator />
             </>
           )}
           <DropdownMenuItem onClick={onCopyLink}>
-            <span>Sao chép liên kết</span>
+            <span>{t('postMenu.copyLink')}</span>
             <LinkIcon className='size-5 text-inherit' />
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -178,12 +180,13 @@ export default function PostMenu({ hidden, post, onCopyLink }) {
 }
 
 function DeletePostConfirmDialog({ onClose, onDelete }) {
+  const { t } = useTranslation();
   return (
     <div className='w-full rounded-2xl border border-(--lines-primary) bg-(--elevated-background) text-center md:w-[280px]'>
       <div className='p-6'>
-        <p className='font-bold'>Xóa bài viết?</p>
+        <p className='font-bold'>{t('postMenu.deleteConfirm')}</p>
         <p className='mt-5 text-(--text-secondary)'>
-          Nếu xóa bài viết này, bạn sẽ không khôi phục được nữa.
+          {t('postMenu.deleteWarning')}
         </p>
       </div>
 
@@ -191,71 +194,72 @@ function DeletePostConfirmDialog({ onClose, onDelete }) {
         <div className='absolute left-1/2 h-full w-px -translate-x-1/2 bg-(--lines-primary)' />
 
         <button className='h-[54px] flex-1 focus-visible:outline-0' onClick={onClose}>
-          Hủy
+          {t('postMenu.cancel')}
         </button>
 
         <button
           className='h-[54px] flex-1 font-bold text-(--error-text) focus-visible:outline-0'
           onClick={onDelete}
         >
-          Xóa
+          {t('postMenu.delete')}
         </button>
       </div>
     </div>
   );
 }
 
-const REPORT_REASONS = [
-  {
-    id: 1,
-    reason: 'spam',
-    title: 'Chỉ là tôi không thích nội dung này',
-  },
-  {
-    id: 2,
-    reason: 'spam',
-    title: 'Bắt nạt hoặc liên hệ theo cách không mong muốn',
-  },
-  {
-    id: 3,
-    reason: 'spam',
-    title: 'Tự tử, tự gây thương tích hoặc ăn uống thất thường',
-  },
-  {
-    id: 4,
-    reason: 'spam',
-    title: 'Bạo lực, thù ghét hoặc bóc lột',
-  },
-  {
-    id: 5,
-    reason: 'spam',
-    title: 'Bán hoặc quảng cáo mặt hàng bị hạn chế',
-  },
-  {
-    id: 6,
-    reason: 'spam',
-    title: 'Ảnh khỏa thân hoặc hoạt động tình dục',
-  },
-  {
-    id: 7,
-    reason: 'spam',
-    title: 'Lừa đảo, gian lận hoặc spam',
-  },
-  {
-    id: 8,
-    reason: 'spam',
-    title: 'Thông tin sai sự thật',
-  },
-  {
-    id: 9,
-    reason: 'spam',
-    title: 'Quyền sở hữu trí tuệ',
-  },
-];
-
 function ReportPostDialog({ onClose, onReport }) {
+  const { t } = useTranslation();
   const [selectedReasonId, setSelectedReasonId] = useState(null);
   const [description, setDescription] = useState('');
+
+  const REPORT_REASONS = [
+    {
+      id: 1,
+      reason: 'spam',
+      titleKey: 'postMenu.reportReasons.notLike',
+    },
+    {
+      id: 2,
+      reason: 'spam',
+      titleKey: 'postMenu.reportReasons.bullying',
+    },
+    {
+      id: 3,
+      reason: 'spam',
+      titleKey: 'postMenu.reportReasons.selfHarm',
+    },
+    {
+      id: 4,
+      reason: 'spam',
+      titleKey: 'postMenu.reportReasons.violence',
+    },
+    {
+      id: 5,
+      reason: 'spam',
+      titleKey: 'postMenu.reportReasons.restricted',
+    },
+    {
+      id: 6,
+      reason: 'spam',
+      titleKey: 'postMenu.reportReasons.nudity',
+    },
+    {
+      id: 7,
+      reason: 'spam',
+      titleKey: 'postMenu.reportReasons.spam',
+    },
+    {
+      id: 8,
+      reason: 'spam',
+      titleKey: 'postMenu.reportReasons.falseInfo',
+    },
+    {
+      id: 9,
+      reason: 'spam',
+      titleKey: 'postMenu.reportReasons.intellectualProperty',
+    },
+  ];
 
   const handleReasonClick = (reason) => {
     setSelectedReasonId(reason);
@@ -270,10 +274,9 @@ function ReportPostDialog({ onClose, onReport }) {
   return (
     <div className='w-full rounded-2xl border border-(--lines-primary) bg-(--elevated-background) md:w-[560px]'>
       <div className='p-8 text-center'>
-        <h2 className='text-lg font-bold'>Tại sao bạn báo cáo bài viết này?</h2>
+        <h2 className='text-lg font-bold'>{t('postMenu.reportTitle')}</h2>
         <p className='mt-3 text-sm text-(--text-secondary)'>
-          Báo cáo của bạn sẽ được ẩn danh. Nếu ai đó đang gặp nguy hiểm, đừng chần chừ mà hãy báo
-          ngay cho dịch vụ khẩn cấp tại địa phương.
+          {t('postMenu.reportDescription')}
         </p>
       </div>
 
@@ -289,7 +292,7 @@ function ReportPostDialog({ onClose, onReport }) {
               key={reasonItem.id}
               onClick={() => handleReasonClick(reasonItem.id)}
             >
-              {reasonItem.title}
+              {t(reasonItem.titleKey)}
             </li>
           );
         })}
@@ -301,7 +304,7 @@ function ReportPostDialog({ onClose, onReport }) {
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder='Mô tả thêm (tùy chọn)'
+              placeholder={t('postMenu.additionalDescription')}
               autoFocus
               autoComplete='off'
               className='w-full resize-none rounded-lg border border-(--lines-primary) bg-(--elevated-background) px-4 py-3 text-sm focus:outline-0'
@@ -312,14 +315,14 @@ function ReportPostDialog({ onClose, onReport }) {
             <div className='absolute left-1/2 h-full w-px -translate-x-1/2 bg-(--lines-primary)' />
 
             <button className='h-[54px] flex-1 focus-visible:outline-0' onClick={onClose}>
-              Hủy
+              {t('postMenu.cancel')}
             </button>
 
             <button
               className='h-[54px] flex-1 font-bold text-(--error-text) focus-visible:outline-0'
               onClick={handleSubmit}
             >
-              Gửi
+              {t('postMenu.send')}
             </button>
           </div>
         </>

@@ -5,8 +5,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useFollowUserMutation, useUnfollowUserMutation } from '@/services/users/usersApi';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 const FollowButton = memo(({ user, isFollowing: initialFollowing }) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
   const [followUser, { isLoading: followLoading }] = useFollowUserMutation();
@@ -17,9 +19,9 @@ const FollowButton = memo(({ user, isFollowing: initialFollowing }) => {
     if (isLoading) return;
     try {
       await followUser(user.id).unwrap();
-      toast.success('Đã theo dõi');
+      toast.success(t('follow.followed'));
     } catch {
-      toast.error('Thao tác thất bại');
+      toast.error(t('follow.actionFailed'));
     }
   };
 
@@ -27,10 +29,10 @@ const FollowButton = memo(({ user, isFollowing: initialFollowing }) => {
     if (isLoading) return;
     try {
       await unfollowUser(user.id).unwrap();
-      toast.success('Đã bỏ theo dõi');
+      toast.success(t('follow.unfollowed'));
       setOpen(false);
     } catch {
-      toast.error('Thao tác thất bại');
+      toast.error(t('follow.actionFailed'));
     }
   };
 
@@ -53,7 +55,7 @@ const FollowButton = memo(({ user, isFollowing: initialFollowing }) => {
           initialFollowing && 'border-(--lines-primary) text-(--text-secondary)'
         )}
       >
-        {initialFollowing ? 'Đang theo dõi' : 'Theo dõi'}
+        {initialFollowing ? t('follow.following') : t('follow.follow')}
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
@@ -64,14 +66,14 @@ const FollowButton = memo(({ user, isFollowing: initialFollowing }) => {
               <AvatarFallback>{user.name}</AvatarFallback>
             </Avatar>
 
-            <p className='mt-4 font-bold'>Bỏ theo dõi {user.username}?</p>
+            <p className='mt-4 font-bold'>{t('follow.unfollowConfirm', { username: user.username })}</p>
           </div>
 
           <div className='relative flex border-t border-inherit'>
             <div className='absolute left-1/2 h-full w-px -translate-x-1/2 bg-(--lines-primary)' />
 
             <button className='h-[54px] flex-1' onClick={() => setOpen(false)}>
-              Hủy
+              {t('follow.cancel')}
             </button>
 
             <button
@@ -79,7 +81,7 @@ const FollowButton = memo(({ user, isFollowing: initialFollowing }) => {
               disabled={isLoading}
               onClick={handleUnfollow}
             >
-              Bỏ theo dõi
+              {t('follow.unfollow')}
             </button>
           </div>
         </DialogContent>

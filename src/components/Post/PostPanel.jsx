@@ -7,17 +7,18 @@ import { POST_CARD_TYPES, PostCard } from './PostCard';
 import { usePostPanel } from '@/hooks/usePostPanel';
 import { PostPanelHeader } from './PostPanelHeader';
 import { PostPanelFooter } from './PostPanelFooter';
+import { useTranslation } from 'react-i18next';
 
-export const REPLY_PERMISSION_TYPES = [
-  { id: 1, name: 'Bất kỳ ai' },
-  { id: 2, name: 'Người theo dõi của bạn' },
+export const REPLY_PERMISSION_TYPES = (t) => [
+  { id: 1, name: t('postPanel.anyone') },
+  { id: 2, name: t('postPanel.yourFollowers') },
   {
     id: 3,
-    name: 'Trang cá nhân mà bạn theo dõi',
+    name: t('postPanel.profilesYouFollow'),
   },
   {
     id: 4,
-    name: 'Chỉ khi được nhắc đến',
+    name: t('postPanel.onlyWhenMentioned'),
   },
 ];
 
@@ -34,7 +35,9 @@ export function PostPanel({
   type = POST_PANEL_TYPES.CREATE_POST,
   post,
 }) {
-  const [replyPermissionType, setReplyPermissionType] = useState(REPLY_PERMISSION_TYPES[0]);
+  const { t } = useTranslation();
+  const replyPermissionTypes = REPLY_PERMISSION_TYPES(t);
+  const [replyPermissionType, setReplyPermissionType] = useState(replyPermissionTypes[0]);
   const userInfo = useSelector((s) => s.auth.userInfo);
   const {
     posts,
@@ -78,7 +81,7 @@ export function PostPanel({
             type={type}
             placeholder={
               type === POST_PANEL_TYPES.REPLY_POST
-                ? `Trả lời ${post?.user?.username}...`
+                ? t('postPanel.replyTo', { username: post?.user?.username })
                 : undefined
             }
           />
@@ -98,7 +101,7 @@ export function PostPanel({
             className={cn('text-(--text-secondary)', isEmpty && 'cursor-not-allowed')}
             onClick={handleAddPost}
           >
-            Thêm vào thread
+            {t('postPanel.addToThread')}
           </button>
         </div>
       </main>
@@ -106,6 +109,7 @@ export function PostPanel({
       <PostPanelFooter
         replyPermissionType={replyPermissionType}
         setReplyPermissionType={setReplyPermissionType}
+        replyPermissionTypes={replyPermissionTypes}
         isApproved={isApproved}
         setIsApproved={setIsApproved}
         isEmpty={isEmpty}

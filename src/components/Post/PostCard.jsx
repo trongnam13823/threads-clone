@@ -15,6 +15,7 @@ import copy from 'copy-to-clipboard';
 import { toast } from 'sonner';
 import useNavigate from '@/contexts/pageStack/hooks/useNavigate';
 import ReplyButton from './ReplyButton';
+import { useTranslation } from 'react-i18next';
 
 export const POST_CARD_TYPES = {
   DEFAULT: 'default',
@@ -26,6 +27,7 @@ export const POST_CARD_TYPES = {
 export const PostCard = memo(
   ({ post = {}, type = POST_CARD_TYPES.DEFAULT, isDataVisible = true }) => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const handlePostClick = useCallback(() => {
       const selection = window.getSelection();
@@ -38,11 +40,11 @@ export const PostCard = memo(
       try {
         const postUrl = paths.postDetail(post.id);
         copy(window.location.origin + postUrl);
-        toast.success('Đã sao chép liên kết');
+        toast.success(t('postCard.linkCopied'));
       } catch {
-        toast.error('Không thể sao chép liên kết');
+        toast.error(t('postCard.linkCopyFailed'));
       }
-    }, [post.id]);
+    }, [post.id, t]);
 
     return (
       <div
@@ -64,7 +66,7 @@ export const PostCard = memo(
           className='pointer-events-auto absolute right-4 bottom-3 flex h-10 items-center gap-1 rounded-[10px] px-4 py-0 text-xs font-bold'
         >
           <a href={paths.postDetail(post.id)} target='_blank'>
-            <span>Xem trên Threads</span>
+            <span>{t('postCard.viewOnThreads')}</span>
             <Logo className='w-4.5' isLink={false} />
           </a>
         </Button>

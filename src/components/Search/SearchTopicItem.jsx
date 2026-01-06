@@ -1,7 +1,9 @@
 import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { HashIcon } from 'lucide-react';
 
 export const SearchTopicItem = memo(({ topic }) => {
+  const { t } = useTranslation();
   return (
     <div className='flex gap-3 pt-4 pl-6'>
       {/* ICON */}
@@ -18,7 +20,7 @@ export const SearchTopicItem = memo(({ topic }) => {
         {topic.description && <p className='mt-1 mb-4 line-clamp-2 text-(--text-secondary)'>{topic.description}</p>}
 
         <p className='text-(--text-secondary)'>
-          {topic.posts_count.toLocaleString('en-US')} bài viết
+          {topic.posts_count.toLocaleString('en-US')} {t('search.posts')}
         </p>
       </div>
     </div>

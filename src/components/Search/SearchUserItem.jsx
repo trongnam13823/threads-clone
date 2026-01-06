@@ -2,8 +2,10 @@ import { memo } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import VerifiedBadge from '@/components/User/VerifiedBadge';
 import FollowButton from '../User/FollowButton';
+import { useTranslation } from 'react-i18next';
 
 export const SearchUserItem = memo(({ user }) => {
+  const { t } = useTranslation();
   return (
     <div className='flex gap-3 pt-4 pl-6'>
       <Avatar className='size-9 shrink-0 cursor-pointer'>
@@ -26,7 +28,7 @@ export const SearchUserItem = memo(({ user }) => {
         {user.bio && <p className='mt-1 mb-4 line-clamp-2'>{user.bio}</p>}
 
         <p className='text-(--text-secondary)'>
-          {user.followers_count.toLocaleString('en-US')} người theo dõi
+          {user.followers_count.toLocaleString('en-US')} {t('search.followers')}
         </p>
       </div>
     </div>

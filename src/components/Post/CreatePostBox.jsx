@@ -12,9 +12,11 @@ import {
 } from '@/components/ui/dialog';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { PostPanel } from './PostPanel';
 
 export const CreatePostBox = ({ className }) => {
+  const { t } = useTranslation();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const [open, setOpen] = useState(false);
 
@@ -32,11 +34,11 @@ export const CreatePostBox = ({ className }) => {
 
           {/* QUESTION */}
           <p className={cn('flex-1 cursor-text pl-1 text-left', 'text-(--text-secondary)')}>
-            Có gì mới?
+            {t('postPanel.whatsNew')}
           </p>
 
           {/* POST BTN */}
-          <Button variant='outline'>Đăng</Button>
+          <Button variant='outline'>{t('postPanel.post')}</Button>
         </div>
       </DialogTrigger>
 

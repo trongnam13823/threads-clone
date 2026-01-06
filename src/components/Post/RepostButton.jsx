@@ -11,26 +11,24 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 export const RepostButton = memo(({ postId, isReposted, repostsCount, isDataVisible }) => {
+  const { t } = useTranslation();
   const [repostPost] = useRepostPostMutation();
 
   const handleRepost = useCallback(async () => {
     try {
       await repostPost(postId).unwrap();
       if (isReposted) {
-        toast.success('Đã gỡ');
+        toast.success(t('repost.removed'));
       } else {
-        toast.success('Đã đăng lại');
+        toast.success(t('repost.reposted'));
       }
     } catch {
-      if (isReposted) {
-        toast.error('Gỡ thất bại');
-      } else {
-        toast.error('Đăng lại thất bại');
-      }
+      toast.error(t('repost.repostFailed'));
     }
-  }, [repostPost, postId, isReposted]);
+  }, [repostPost, postId, isReposted, t]);
 
   const handleQuote = useCallback(() => {
     // TODO: Implement quote functionality
@@ -61,11 +59,11 @@ export const RepostButton = memo(({ postId, isReposted, repostsCount, isDataVisi
               'text-(--notification-badge-background) hover:text-(--notification-badge-background)!'
           )}
         >
-          <span>{isReposted ? 'Gỡ' : 'Đăng lại'}</span>
+          <span>{isReposted ? t('repost.remove') : t('repost.repost')}</span>
           <Repeat2Icon className='size-5 text-inherit' />
         </DropdownMenuItem>
         <DropdownMenuItem onClick={handleQuote} className='gap-3'>
-          <span>Trích dẫn</span>
+          <span>{t('quote.quote')}</span>
           <MessageSquareQuoteIcon className='size-5' />
         </DropdownMenuItem>
       </DropdownMenuContent>

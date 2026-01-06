@@ -5,8 +5,10 @@ import copy from 'copy-to-clipboard';
 import { toast } from 'sonner';
 import InitialLoading from '../Loading/InitialLoading';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 export const ShareEmbed = memo(({ post, isAnimationEnd }) => {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
   const iframeRef = useRef(null);
   const embedCode = useMemo(() => {
@@ -32,8 +34,8 @@ export const ShareEmbed = memo(({ post, isAnimationEnd }) => {
 
   const handleCopyEmbedCode = useCallback(async () => {
     copy(embedCode);
-    toast.success('Đã sao chép mã nhúng');
-  }, [embedCode]);
+    toast.success(t('share.embedCopied'));
+  }, [embedCode, t]);
 
   return (
     <div className='rounded-2xl bg-(--elevated-background) p-6'>
@@ -52,7 +54,7 @@ export const ShareEmbed = memo(({ post, isAnimationEnd }) => {
         <input className='absolute size-0' />
         <input className='flex-1 focus:outline-0' type='text' readOnly value={embedCode} />
         <Button onClick={handleCopyEmbedCode} className='h-[34px] rounded-[10px] font-bold'>
-          Sao chép
+          {t('share.copy')}
         </Button>
       </div>
     </div>

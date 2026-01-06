@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import ColumnContent from '@/components/Column/ColumnContent';
 import { PostCard } from '@/components/Post/PostCard';
 import postsApi, { useGetPostDetailQuery, useGetPostRepliesQuery } from '@/services/posts/postsApi';
@@ -13,6 +14,7 @@ import MoreDropdown from '@/components/Column/MoreDropdown';
 import PinColumn from '@/components/Column/PinColumn';
 
 export default function PostDetailPage() {
+  const { t } = useTranslation();
   const { postId } = useParams();
   const { data: postDetail, isLoading: isPostDetailLoading } = useGetPostDetailQuery(postId);
 
@@ -52,10 +54,10 @@ export default function PostDetailPage() {
 
             <div className='mx-6 flex items-center justify-between border-t border-(--lines-primary) py-4'>
               <button className='flex items-center gap-1 font-bold text-(--text-primary)'>
-                <span>Hàng đầu</span> <ChevronDownIcon className='size-4 text-(--text-secondary)' />
+                <span>{t('postDetail.top')}</span> <ChevronDownIcon className='size-4 text-(--text-secondary)' />
               </button>
               <button className='flex items-center gap-1 text-(--text-secondary)'>
-                <span>Xem hoạt động</span> <ChevronRightIcon className='mt-0.5 size-4' />
+                <span>{t('postDetail.viewActivity')}</span> <ChevronRightIcon className='mt-0.5 size-4' />
               </button>
             </div>
           </div>
@@ -64,7 +66,7 @@ export default function PostDetailPage() {
             <ReloadIndicator isReloading={isRepliesReloading} />
             <EmptyResults
               isEmpty={!isRepliesLoading && replies.length === 0}
-              message='Chưa có phản hồi nào'
+              message={t('postDetail.noReplies')}
             />
 
             {replies.map((reply) => (

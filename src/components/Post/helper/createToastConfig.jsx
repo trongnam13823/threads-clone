@@ -1,5 +1,6 @@
 import { XIcon, CheckIcon } from 'lucide-react';
 import { Spinner } from '@/components/ui/spinner';
+import i18n from '@/i18n';
 
 /**
  * Tạo cấu hình toast cho các thao tác post
@@ -9,19 +10,19 @@ import { Spinner } from '@/components/ui/spinner';
 export function createToastConfig(action) {
   const messages = {
     edit: {
-      loading: 'Đang chỉnh sửa...',
-      success: 'Đã chỉnh sửa',
-      error: 'Lỗi khi chỉnh sửa',
+      loading: i18n.t('postPanelToast.editing'),
+      success: i18n.t('postPanelToast.edited'),
+      error: i18n.t('postPanelToast.editError'),
     },
     reply: {
-      loading: 'Đang trả lời...',
-      success: 'Đã trả lời',
-      error: 'Lỗi khi trả lời',
+      loading: i18n.t('postPanelToast.replying'),
+      success: i18n.t('postPanelToast.replied'),
+      error: i18n.t('postPanelToast.replyError'),
     },
     create: {
-      loading: 'Đang đăng...',
-      success: 'Đã đăng',
-      error: 'Lỗi khi đăng',
+      loading: i18n.t('postPanelToast.posting'),
+      success: i18n.t('postPanelToast.posted'),
+      error: i18n.t('postPanelToast.postError'),
     },
   };
 
@@ -54,4 +55,3 @@ export function createToastConfig(action) {
     ),
   };
 }
-

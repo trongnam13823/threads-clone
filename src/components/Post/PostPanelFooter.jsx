@@ -10,10 +10,12 @@ import {
 import { Switch } from '../ui/switch';
 import { cn } from '@/lib/utils';
 import { REPLY_PERMISSION_TYPES, POST_PANEL_TYPES } from './PostPanel';
+import { useTranslation } from 'react-i18next';
 
 export function PostPanelFooter({
   replyPermissionType,
   setReplyPermissionType,
+  replyPermissionTypes,
   isApproved,
   setIsApproved,
   isEmpty,
@@ -23,6 +25,7 @@ export function PostPanelFooter({
   type,
   onSubmit,
 }) {
+  const { t } = useTranslation();
   return (
     <footer className='mt-auto flex h-20 shrink-0 items-center justify-between px-6'>
       <DropdownMenu>
@@ -33,17 +36,17 @@ export function PostPanelFooter({
           )}
         >
           <AlignHorizontalDistributeCenterIcon className='size-5' />
-          <span className='font-bold'>Các lựa chọn để kiểm soát câu trả lời</span>
+          <span className='font-bold'>{t('postPanelFooter.replyOptions')}</span>
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align='start'>
           <p className='p-3 pb-0 text-[13px] font-bold text-(--text-secondary)'>
-            Ai có thể trả lời và trích dẫn
+            {t('postPanelFooter.whoCanReply')}
           </p>
-          {REPLY_PERMISSION_TYPES.map((t) => (
-            <DropdownMenuItem key={t.id} onClick={() => setReplyPermissionType(t)}>
-              {t.name}{' '}
-              <CheckIcon className='size-5 text-inherit' hidden={replyPermissionType.id !== t.id} />
+          {replyPermissionTypes.map((permissionType) => (
+            <DropdownMenuItem key={permissionType.id} onClick={() => setReplyPermissionType(permissionType)}>
+              {permissionType.name}{' '}
+              <CheckIcon className='size-5 text-inherit' hidden={replyPermissionType.id !== permissionType.id} />
             </DropdownMenuItem>
           ))}
           <DropdownMenuSeparator />
@@ -53,7 +56,7 @@ export function PostPanelFooter({
               setIsApproved((prev) => !prev);
             }}
           >
-            <span>Xem xét và phê duyệt câu trả lời</span>
+            <span>{t('postPanelFooter.reviewAndApprove')}</span>
             <Switch className='h-6 w-10' checked={isApproved} />
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -66,9 +69,9 @@ export function PostPanelFooter({
         )}
         onClick={onSubmit}
       >
-        {type === POST_PANEL_TYPES.CREATE_POST && 'Đăng'}
-        {type === POST_PANEL_TYPES.EDIT_POST && 'Xong'}
-        {type === POST_PANEL_TYPES.REPLY_POST && 'Trả lời'}
+        {type === POST_PANEL_TYPES.CREATE_POST && t('postPanelFooter.post')}
+        {type === POST_PANEL_TYPES.EDIT_POST && t('postPanelFooter.done')}
+        {type === POST_PANEL_TYPES.REPLY_POST && t('postPanelFooter.reply')}
       </Button>
     </footer>
   );

@@ -12,8 +12,10 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { CheckCircle2Icon } from "lucide-react";
 import paths from "@/configs/paths";
 import { Link } from "react-router";
+import { useTranslation } from "react-i18next";
 
-export default function ResetPasswordPage() {
+export default function ForgotPasswordPage() {
+  const { t } = useTranslation();
   const form = useForm({
     resolver: zodResolver(forgotPasswordSchema),
     mode: "onSubmit",
@@ -32,7 +34,7 @@ export default function ResetPasswordPage() {
     try {
       await forgotPassword(values).unwrap();
     } catch (error) {
-      toast.error(error?.data?.message || "Có lỗi xảy ra, vui lòng thử lại");
+      toast.error(error?.data?.message || t("common.error"));
     }
   };
 
@@ -43,16 +45,16 @@ export default function ResetPasswordPage() {
   return (
     <div className="flex w-full max-w-92.5 flex-col gap-4">
       <div className="text-center">
-        <h1 className="text-base font-bold">Quên mật khẩu</h1>
-        <p className="text-sm text-(--text-secondary)">Nhập email của bạn để nhận liên kết đặt lại mật khẩu</p>
+        <h1 className="text-base font-bold">{t("auth.forgotPasswordTitle")}</h1>
+        <p className="text-sm text-(--text-secondary)">{t("auth.forgotPasswordDescription")}</p>
       </div>
 
       {!isLoading && isSuccess && (
         <Alert className="text-(--success-text)">
           <CheckCircle2Icon className="h-5 w-5" />
-          <AlertTitle className="font-bold">Email đã được gửi</AlertTitle>
+          <AlertTitle className="font-bold">{t("auth.emailSent")}</AlertTitle>
           <AlertDescription className="text-inherit">
-            Liên kết đặt lại mật khẩu đã được gửi tới email của bạn.
+            {t("auth.resetPasswordLinkSent")}
           </AlertDescription>
         </Alert>
       )}
@@ -65,7 +67,7 @@ export default function ResetPasswordPage() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input autoFocus {...field} className="auth__input" placeholder="Email" />
+                  <Input autoFocus {...field} className="auth__input" placeholder={t("auth.email")} />
                 </FormControl>
               </FormItem>
             )}
@@ -73,16 +75,16 @@ export default function ResetPasswordPage() {
 
           <Button type="submit" className={cn("auth__btn-submit", !formState.isValid && "cursor-not-allowed")}>
             <span className={cn(!formState.isValid && "opacity-50")}>
-              {isLoading ? <Spinner className="size-6" /> : "Đặt lại mật khẩu"}
+              {isLoading ? <Spinner className="size-6" /> : t("auth.resetPassword")}
             </span>
           </Button>
         </form>
       </Form>
 
       <p className="text-center text-(--text-secondary)">
-        Đi tới trang{" "}
+        {t("auth.goToLogin")}{" "}
         <Link to={paths.login} className="text-(--text-primary) underline">
-          đăng nhập
+          {t("auth.goToLoginLink")}
         </Link>
       </p>
     </div>

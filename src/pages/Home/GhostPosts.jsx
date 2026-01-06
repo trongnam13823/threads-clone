@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import ColumnContent from '@/components/Column/ColumnContent';
 import MoreDropdown from '@/components/Column/MoreDropdown';
 import PinColumn from '@/components/Column/PinColumn';
@@ -12,6 +13,7 @@ import GhostIcon from '@/assets/GhostIcon.svg?react';
 import { useSelector } from 'react-redux';
 
 const GhostPosts = ({ dropdownElement }) => {
+  const { t } = useTranslation();
   const selectFeed = postsApi.endpoints.getPostsFeed.select({ type: 'ghost' });
   const queryState = useSelector(selectFeed);
 
@@ -40,11 +42,8 @@ const GhostPosts = ({ dropdownElement }) => {
         {!isLoading && items.length === 0 && (
           <div className='flex h-full flex-col items-center justify-center p-8 text-center text-balance text-(--secondary-icon)'>
             <GhostIcon />
-            <p className='mt-5 text-2xl font-bold'>Chưa có bài viết bài viết tự biến mất nào</p>
-            <p className='mt-4'>
-              Hệ thống sẽ lưu trữ bài viết tự hủy sau 24 giờ và chuyển thread trả lời vào tin nhắn.
-              Chỉ mình bạn xem được ai đã thích và trả lời.
-            </p>
+            <p className='mt-5 text-2xl font-bold'>{t('ghostPosts.noPosts')}</p>
+            <p className='mt-4'>{t('ghostPosts.description')}</p>
           </div>
         )}
 
