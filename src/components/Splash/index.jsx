@@ -1,6 +1,10 @@
-import { setSplashFadingInDone, setSplashFadingOutDone, SplashStatus } from "@/features/splash/splashSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { Logo } from "../Logo";
+import {
+  setSplashFadingInDone,
+  setSplashFadingOutDone,
+  SplashStatus,
+} from '@/features/splash/splashSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { Logo } from '../Logo';
 
 const DURATION = 300;
 const ANIMATION = {
@@ -13,7 +17,7 @@ const Splash = () => {
   const splashState = useSelector((state) => state.splash.status);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-white">
+    <div className='fixed inset-0 z-50 flex items-center justify-center bg-(--background-primary)'>
       <Logo
         size={120}
         style={{ animation: ANIMATION[splashState] }}

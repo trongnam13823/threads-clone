@@ -39,6 +39,7 @@ export function PostPanelContent({
           value={content}
           onChange={(e) => onContentChange(e.target.value)}
           placeholder={index === 0 ? placeholder : 'Bạn nói gì thêm đi...'}
+          className='mt-1'
         />
 
         <div

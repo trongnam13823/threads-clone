@@ -85,7 +85,7 @@ export const PostCard = memo(
             <div
               className={cn(
                 'hidden min-h-3 w-0.5 flex-1',
-                'bg-(--primary-outline)',
+                'bg-(--lines-primary)',
                 type === POST_CARD_TYPES.REPLY && 'block'
               )}
             ></div>
@@ -108,7 +108,7 @@ export const PostCard = memo(
               {/* AUTHOR NAME */}
               <Link
                 to={paths.profile(post.user.username)}
-                className={cn('font-bold', 'hover:underline')}
+                className={cn('font-bold', 'text-(--text-primary)', 'hover:underline')}
               >
                 <span>{post.user.username}</span>
               </Link>
@@ -129,20 +129,19 @@ export const PostCard = memo(
               )}
             </div>
 
-            {/* BODY (content html)*/}
+            {/* BODY (content )*/}
             <div
               onClick={() => handlePostClick()}
               className={cn(
-                'mt-1 cursor-pointer wrap-break-word break-all whitespace-normal',
+                'mt-1 cursor-pointer wrap-break-word break-all whitespace-pre-wrap', // <-- pre-wrap giữ newline
                 'text-(--text-primary)',
                 '[&>*:not(:first-child)]:mt-2.5',
                 type === POST_CARD_TYPES.IMAGE && 'mt-3',
                 type === POST_CARD_TYPES.REPLY && 'pointer-events-none'
               )}
-              dangerouslySetInnerHTML={{
-                __html: post.content,
-              }}
-            />
+            >
+              {post.content}
+            </div>
 
             {/* MEDIA */}
             {post.media_urls && post.media_urls.length > 0 && (

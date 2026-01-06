@@ -17,6 +17,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 import splashSlice from './features/splash/splashSlice';
 import searchSlice from './features/search/searchSlice';
+import themeSlice from './features/theme/themeSlice';
 
 const persistConfig = {
   key: 'auth',
@@ -24,13 +25,21 @@ const persistConfig = {
   whitelist: ['accessToken', 'refreshToken'],
 };
 
+const themePersistConfig = {
+  key: 'theme',
+  storage: storage.default || storage,
+  whitelist: ['theme'],
+};
+
 const persistedAuthReducer = persistReducer(persistConfig, authSlice.reducer);
+const persistedThemeReducer = persistReducer(themePersistConfig, themeSlice.reducer);
 
 export const store = configureStore({
   reducer: {
     splash: splashSlice.reducer,
     search: searchSlice.reducer,
     auth: persistedAuthReducer,
+    theme: persistedThemeReducer,
     [authApi.reducerPath]: authApi.reducer,
     [postsApi.reducerPath]: postsApi.reducer,
     [searchApi.reducerPath]: searchApi.reducer,

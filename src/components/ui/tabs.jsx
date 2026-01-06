@@ -28,7 +28,7 @@ function TabsTrigger({ className, ...props }) {
     <TabsPrimitive.Trigger
       data-slot='tabs-trigger'
       className={cn(
-        'h-full flex-1 border-b border-(--primary-outline) font-bold text-(--text-secondary) data-[state=active]:border-(--text-primary) data-[state=active]:text-(--text-primary)',
+        'h-full flex-1 border-b border-(--lines-primary) font-bold text-(--text-secondary) data-[state=active]:border-(--text-primary) data-[state=active]:text-(--text-primary)',
         className
       )}
       {...props}

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 /* ============================================================
    HOOK: useDragSwap - Hỗ trợ cả horizontal và vertical
@@ -19,10 +19,10 @@ import { useEffect, useRef } from "react";
 export function useDragSwap(items, config = {}) {
   const {
     gap = 16,
-    transitionDuration = 300,
-    transitionTimingFunction = "ease-in-out",
+    transitionDuration = 250,
+    transitionTimingFunction = 'ease-in-out',
     threshold = 1,
-    direction = "horizontal", // mặc định là ngang
+    direction = 'horizontal', // mặc định là ngang
     onReorder, // callback để người dùng tự xử lý
   } = config;
 
@@ -33,15 +33,16 @@ export function useDragSwap(items, config = {}) {
   const dropIndex = useRef(null);
   const itemRefs = useRef([]);
   const isDraggingRef = useRef(false); // Track nếu đang drag
+  const dragHandleRef = useRef(null);
 
   /* ---------- Setup Event Listeners ---------- */
   useEffect(() => {
     // Chọn axis dựa vào direction
-    const isHorizontal = direction === "horizontal";
-    const axis = isHorizontal ? "x" : "y"; // x hoặc y
-    const size = isHorizontal ? "width" : "height"; // width hoặc height
-    const position = isHorizontal ? "left" : "top"; // left hoặc top
-    const transformFunc = isHorizontal ? "translateX" : "translateY"; // translateX hoặc translateY
+    const isHorizontal = direction === 'horizontal';
+    const axis = isHorizontal ? 'x' : 'y'; // x hoặc y
+    const size = isHorizontal ? 'width' : 'height'; // width hoặc height
+    const position = isHorizontal ? 'left' : 'top'; // left hoặc top
+    const transformFunc = isHorizontal ? 'translateX' : 'translateY'; // translateX hoặc translateY
 
     /* ---------- Mouse Move Handler ---------- */
     const handleMouseMove = () => {
@@ -60,18 +61,18 @@ export function useDragSwap(items, config = {}) {
       isDraggingRef.current = true;
 
       // Disable text selection
-      document.body.style.userSelect = "none";
+      document.body.style.userSelect = 'none';
 
       // Item đang được kéo
       const dragItem = itemRefs.current[dropIndex.current];
 
       // Style cho item đang kéo (di chuyển tự do theo chuột)
-      dragItem.style.transition = "none";
+      dragItem.style.transition = 'none';
       dragItem.style.transform = `translate(${dx}px, ${dy}px)`;
-      dragItem.style.position = "relative";
+      dragItem.style.position = 'relative';
       dragItem.style.zIndex = 999;
-      dragItem.style.cursor = "grabbing";
-
+      dragItem.style.cursor = 'grabbing';
+      dragHandleRef.current.style.cursor = 'grabbing';
       // Lấy direction theo axis chính (1 = xuống/phải, -1 = lên/trái)
       const dirValue = mouseDir[axis];
 
@@ -93,7 +94,7 @@ export function useDragSwap(items, config = {}) {
           : dragRect[position] + dragRect[size] > swapCenter; // Kéo xuống/phải
 
       // Setup transition cho item bị đẩy
-      swapItem.style.transitionProperty = "transform";
+      swapItem.style.transitionProperty = 'transform';
       swapItem.style.transitionDuration = `${transitionDuration}ms`;
       swapItem.style.transitionTimingFunction = transitionTimingFunction;
 
@@ -103,7 +104,7 @@ export function useDragSwap(items, config = {}) {
         const translate = `${transformFunc}(calc(${-dirValue}*(100% + ${gap}px)))`;
 
         // Toggle transform (có transform thì xóa, chưa có thì thêm)
-        swapItem.style.transform = swapItem.style.transform ? "" : translate;
+        swapItem.style.transform = swapItem.style.transform ? '' : translate;
 
         // Swap DOM refs
         swap(itemRefs.current, dropIndex.current, dropIndex.current + dirValue);
@@ -120,7 +121,7 @@ export function useDragSwap(items, config = {}) {
       const dragItem = itemRefs.current[dropIndex.current];
 
       // Setup transition cho item về vị trí mới
-      dragItem.style.transitionProperty = "transform";
+      dragItem.style.transitionProperty = 'transform';
       dragItem.style.transitionDuration = `${transitionDuration}ms`;
       dragItem.style.transitionTimingFunction = transitionTimingFunction;
 
@@ -138,15 +139,15 @@ export function useDragSwap(items, config = {}) {
       dragDownPos.current = { x: null, y: null };
       dragIndex.current = null;
       dropIndex.current = null;
-      document.body.style.userSelect = "";
+      document.body.style.userSelect = '';
 
       // Reset style sau khi animation hoàn thành
       setTimeout(() => {
         itemRefs.current.forEach((el) => {
-          el.style.transition = "none";
-          el.style.transform = "";
-          el.style.zIndex = "";
-          el.style.cursor = "";
+          el.style.transition = 'none';
+          el.style.transform = '';
+          el.style.zIndex = '';
+          el.style.cursor = '';
         });
 
         // Cập nhật state với thứ tự mới
@@ -155,14 +156,23 @@ export function useDragSwap(items, config = {}) {
       }, transitionDuration);
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [items, mouseRef, gap, transitionDuration, transitionTimingFunction, threshold, direction, onReorder]);
+  }, [
+    items,
+    mouseRef,
+    gap,
+    transitionDuration,
+    transitionTimingFunction,
+    threshold,
+    direction,
+    onReorder,
+  ]);
 
   /* ---------- API ---------- */
   return {
@@ -187,16 +197,11 @@ export function useDragSwap(items, config = {}) {
         dragIndex.current = index;
         dropIndex.current = index;
         isDraggingRef.current = false; // Reset flag khi bắt đầu mousedown
+        dragHandleRef.current = e.target;
       },
-      onClick: (e) => {
-        // Nếu đã drag thì ngăn click event
-        if (isDraggingRef.current) {
-          e.preventDefault();
-          e.stopPropagation();
-          return false;
-        }
+      onMouseEnter: (e) => {
+        e.target.style.cursor = 'grab';
       },
-      style: { cursor: "grab" },
     }),
     isDraggingRef, // Trả ref để truy cập isDraggingRef.current
   };
@@ -250,8 +255,8 @@ function useMouseDirectionRef() {
       prevPosRef.current = { x, y };
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   return mouseRef;

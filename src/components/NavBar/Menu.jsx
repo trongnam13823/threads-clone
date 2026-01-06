@@ -19,6 +19,7 @@ import { useState } from 'react';
 import FeedDropdownContent, { FEED_UI_TYPE } from '../Column/FeedDropdownContent';
 import { logoutThunk } from '@/features/auth/authThunks';
 import { useDispatch } from 'react-redux';
+import { useTheme } from '@/hooks/useTheme';
 
 export const SUB_MENU = {
   EMPTY: 'empty',
@@ -26,15 +27,10 @@ export const SUB_MENU = {
   THEME: 'theme',
 };
 
-const THEME = {
-  LIGHT: 'light',
-  DARK: 'dark',
-  SYSTEM: 'system',
-};
-
 function Menu({ className }) {
   const [subMenu, setSubMenu] = useState(SUB_MENU.EMPTY);
-  const [theme, setTheme] = useState(THEME.SYSTEM);
+  const { theme, setTheme } = useTheme();
+
   const dispatch = useDispatch();
   const handleBack = () => {
     setSubMenu(SUB_MENU.EMPTY);
@@ -112,30 +108,30 @@ function Menu({ className }) {
             <li
               className={cn(
                 'flex h-11 w-24 flex-1 cursor-pointer items-center justify-center rounded-[inherit] border border-transparent',
-                theme === THEME.LIGHT &&
+                theme === 'light' &&
                   'border-(--lines-primary) bg-(--floating-button-background) text-(--icon-primary)'
               )}
-              onClick={() => setTheme(THEME.LIGHT)}
+              onClick={() => setTheme('light')}
             >
               <SunIcon className='size-4.5' />
             </li>
             <li
               className={cn(
                 'flex h-11 w-24 flex-1 cursor-pointer items-center justify-center rounded-[inherit] border border-transparent',
-                theme === THEME.DARK &&
+                theme === 'dark' &&
                   'border-(--lines-primary) bg-(--floating-button-background) text-(--icon-primary)'
               )}
-              onClick={() => setTheme(THEME.DARK)}
+              onClick={() => setTheme('dark')}
             >
               <MoonIcon className='size-4.5' />
             </li>
             <li
               className={cn(
                 'flex h-11 w-24 flex-1 cursor-pointer items-center justify-center rounded-[inherit] border border-transparent',
-                theme === THEME.SYSTEM &&
+                theme === 'system' &&
                   'border-(--lines-primary) bg-(--floating-button-background) text-(--icon-primary)'
               )}
-              onClick={() => setTheme(THEME.SYSTEM)}
+              onClick={() => setTheme('system')}
             >
               <MonitorIcon className='size-4.5' />
             </li>

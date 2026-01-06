@@ -3,12 +3,15 @@ import routes from './configs/routes';
 import { Provider as ReduxProvider } from 'react-redux';
 import { persistor, store } from './store';
 import { PersistGate } from 'redux-persist/integration/react';
+import { ThemeProvider } from './components/Theme/ThemeProvider';
 
 const App = () => {
   return (
     <ReduxProvider store={store}>
       <PersistGate persistor={persistor}>
-        <RouterProvider router={createBrowserRouter(routes)} />
+        <ThemeProvider>
+          <RouterProvider router={createBrowserRouter(routes)} />
+        </ThemeProvider>
       </PersistGate>
     </ReduxProvider>
   );

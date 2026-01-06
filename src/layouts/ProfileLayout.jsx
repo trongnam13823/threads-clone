@@ -85,7 +85,7 @@ const ProfileLayout = withInfiniteScroll(({ children, className, pageStackName }
                 className={({ isActive }) =>
                   cn(
                     'flex flex-1 items-center justify-center border-b p-2',
-                    'border-(--primary-outline) text-(--text-secondary)',
+                    'border-(--lines-primary) text-(--text-secondary)',
                     isActive && 'border-(--text-primary) text-(--text-primary)'
                   )
                 }

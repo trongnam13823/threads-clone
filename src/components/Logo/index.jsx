@@ -8,7 +8,11 @@ export const Logo = ({ size = 34, className, isLink = true, ...props }) => {
     <LinkComponent
       {...props}
       to={paths.home}
-      className={cn('block transition-transform', 'hover:scale-105 active:scale-95', className)}
+      className={cn(
+        'block text-(--text-primary) transition-transform',
+        'hover:scale-105 active:scale-95',
+        className
+      )}
       replace={isLink ? true : null}
     >
       <svg height={size} width={size} role='img' viewBox='0 0 192 192' className={className}>

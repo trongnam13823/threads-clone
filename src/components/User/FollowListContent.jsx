@@ -80,7 +80,7 @@ export default function FollowListContent({ userId }) {
         <button
           onClick={() => handleTabChange(TABS.FOLLOWINGS)}
           className={cn(
-            'h-full flex-1 border-b border-(--primary-outline) font-bold text-(--text-secondary) transition-colors',
+            'h-full flex-1 border-b border-(--lines-primary) font-bold text-(--text-secondary) transition-colors',
             'flex flex-col items-center justify-center gap-0',
             activeTab === 'followings' && 'border-(--text-primary) text-(--text-primary)'
           )}
@@ -92,7 +92,7 @@ export default function FollowListContent({ userId }) {
         <button
           onClick={() => handleTabChange(TABS.FOLLOWERS)}
           className={cn(
-            'h-full flex-1 border-b border-(--primary-outline) font-bold text-(--text-secondary) transition-colors',
+            'h-full flex-1 border-b border-(--lines-primary) font-bold text-(--text-secondary) transition-colors',
             'flex flex-col items-center justify-center gap-0',
             activeTab === 'followers' && 'border-(--text-primary) text-(--text-primary)'
           )}

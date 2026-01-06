@@ -1,4 +1,4 @@
-import { memo, useState, useRef, useCallback } from 'react';
+import { memo, useState, useRef, useCallback, useMemo } from 'react';
 import { DownloadIcon, CheckIcon } from 'lucide-react';
 import { Button } from '../ui/button';
 import { POST_CARD_TYPES, PostCard } from './PostCard';
@@ -6,9 +6,21 @@ import { cn } from '@/lib/utils';
 import { toBlob, toPng } from 'html-to-image';
 import { copyBlobToClipboard } from 'copy-image-clipboard';
 import { toast } from 'sonner';
+import { useTheme } from '@/hooks/useTheme';
 
 export const ShareImage = memo(({ post }) => {
+  const { theme } = useTheme();
   const [isDataVisible, setIsDataVisible] = useState(true);
+
+  // Lấy theme thực tế từ system nếu theme là 'system'
+  const initialTheme = useMemo(() => {
+    if (theme === 'system') {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    return theme;
+  }, [theme]);
+
+  const [imageTheme, setImageTheme] = useState(initialTheme);
   const imageContainerRef = useRef(null);
 
   const handleCopyImage = useCallback(async () => {
@@ -47,14 +59,31 @@ export const ShareImage = memo(({ post }) => {
   }, [post.id]);
 
   return (
-    <div className='overflow-hidden rounded-2xl bg-(--background-tertiary)'>
+    <div
+      className={cn(
+        'overflow-hidden rounded-2xl bg-(--background-tertiary)',
+        imageTheme === 'light' ? 'light' : 'dark'
+      )}
+    >
       <div ref={imageContainerRef} className='rounded-[inherit] p-8'>
         <PostCard post={post} type={POST_CARD_TYPES.IMAGE} isDataVisible={isDataVisible} />
       </div>
 
       <div className='-mt-8 flex items-center gap-2 px-4 py-3'>
-        <div className='size-6 rounded-full border-3 border-(--radio-border-color-selected) bg-[#fafafa]'></div>
-        <div className='size-6 rounded-full border-3 border-transparent bg-[#181818]'></div>
+        <div
+          className={cn(
+            'size-6 cursor-pointer rounded-full border-3 bg-[#fafafa] transition-colors',
+            imageTheme === 'light' ? 'border-(--radio-border-color-selected)' : 'border-transparent'
+          )}
+          onClick={() => setImageTheme('light')}
+        ></div>
+        <div
+          className={cn(
+            'size-6 cursor-pointer rounded-full border-3 bg-[#181818] transition-colors',
+            imageTheme === 'dark' ? 'border-(--radio-border-color-selected)' : 'border-transparent'
+          )}
+          onClick={() => setImageTheme('dark')}
+        ></div>
       </div>
 
       <div className='flex items-center justify-between bg-(--elevated-background) p-4'>
@@ -76,7 +105,7 @@ export const ShareImage = memo(({ post }) => {
             />
           </div>
 
-          <span>Hiển thị số liệu</span>
+          <span className='text-(--text-primary)'>Hiển thị số liệu</span>
         </div>
         <div className='flex gap-2'>
           <Button
@@ -97,4 +126,3 @@ export const ShareImage = memo(({ post }) => {
 });
 
 ShareImage.displayName = 'ShareImage';
-
