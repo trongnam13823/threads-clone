@@ -11,6 +11,8 @@ import InitialLoading from '@/components/Loading/InitialLoading';
 import useInfiniteList from '@/hooks/useInfiniteQueryList';
 import GhostIcon from '@/assets/GhostIcon.svg?react';
 import { useSelector } from 'react-redux';
+import usePageStack from '@/contexts/pageStack/hooks/usePageStack';
+import paths from '@/configs/paths';
 
 const GhostPosts = ({ dropdownElement }) => {
   const { t } = useTranslation();
@@ -23,14 +25,19 @@ const GhostPosts = ({ dropdownElement }) => {
     initialPage: queryState?.data?.pagination?.current_page ?? 1,
   });
 
+  const { pages } = usePageStack();
+  const isRootColumn = pages[0].path === paths.home;
+
   return (
     <ColumnContent
       dropdownElement={
-        dropdownElement || (
-          <MoreDropdown>
-            <PinColumn />
-          </MoreDropdown>
-        )
+        isRootColumn
+          ? null
+          : dropdownElement || (
+              <MoreDropdown>
+                <PinColumn />
+              </MoreDropdown>
+            )
       }
     >
       <div className='flex h-full flex-1 flex-col *:border-b *:border-(--primary-column-outline) [&>*:last-child]:border-none'>

@@ -609,11 +609,20 @@ const resources = {
   },
 };
 
+// Lấy ngôn ngữ từ localStorage hoặc dùng mặc định
+const getStoredLanguage = () => {
+  const stored = localStorage.getItem('i18nextLng');
+  if (stored && (stored === 'en' || stored === 'vi')) {
+    return stored;
+  }
+  return 'en'; // ngôn ngữ mặc định
+};
+
 i18n
   .use(initReactI18next) // kết nối i18next với react-i18next
   .init({
     resources, // dữ liệu dịch
-    lng: 'en', // ngôn ngữ mặc định
+    lng: getStoredLanguage(), // ngôn ngữ từ localStorage hoặc mặc định
     interpolation: {
       escapeValue: false, // React đã an toàn khỏi XSS
     },

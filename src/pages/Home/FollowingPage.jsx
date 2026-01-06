@@ -14,33 +14,38 @@ import InitialLoading from '@/components/Loading/InitialLoading';
 import EmptyResults from '@/components/Loading/EmptyResults';
 import useInfiniteList from '@/hooks/useInfiniteQueryList';
 import { useSelector } from 'react-redux';
+import usePageStack from '@/contexts/pageStack/hooks/usePageStack';
+import paths from '@/configs/paths';
 
 const FollowingPage = ({ dropdownElement }) => {
   const { t } = useTranslation();
   const { isDraggable } = useDragSwap();
   const selectFeed = postsApi.endpoints.getPostsFeed.select({ type: 'following' });
   const queryState = useSelector(selectFeed);
-
   const { items, isLoading, isReloading, hasMore, sentinelRef } = useInfiniteList({
     queryHook: useGetPostsFeedQuery,
     queryParams: { type: 'following' },
     initialPage: queryState?.data?.pagination?.current_page ?? 1,
   });
+  const { pages } = usePageStack();
+  const isRootColumn = pages[0].path === paths.home;
 
   return (
     <ColumnContent
       dropdownElement={
-        dropdownElement || (
-          <MoreDropdown>
-            <PinColumn />
-            {!isDraggable && (
-              <>
-                <DropdownMenuSeparator />
-                <CreateFeedMenuItem />
-              </>
-            )}
-          </MoreDropdown>
-        )
+        isRootColumn
+          ? null
+          : dropdownElement || (
+              <MoreDropdown>
+                <PinColumn />
+                {!isDraggable && (
+                  <>
+                    <DropdownMenuSeparator />
+                    <CreateFeedMenuItem />
+                  </>
+                )}
+              </MoreDropdown>
+            )
       }
     >
       <div className='flex h-full flex-1 flex-col *:border-b *:border-(--primary-column-outline) [&>*:last-child]:border-none'>
