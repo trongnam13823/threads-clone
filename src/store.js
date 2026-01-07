@@ -22,7 +22,7 @@ import themeSlice from './features/theme/themeSlice';
 const persistConfig = {
   key: 'auth',
   storage: storage.default || storage,
-  whitelist: ['accessToken', 'refreshToken'],
+  whitelist: ['accessToken', 'refreshToken', 'columns'],
 };
 
 const themePersistConfig = {

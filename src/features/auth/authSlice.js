@@ -6,7 +6,7 @@ const initialState = {
   accessToken: null,
   refreshToken: null,
   userInfo: null,
-  columns: [{ id: 1, path: paths.home }], // default là trang chủ
+  columns: [{ id: 1, path: paths.home }],
 };
 
 const authSlice = createSlice({

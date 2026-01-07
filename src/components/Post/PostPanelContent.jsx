@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { FilmIcon, ImageIcon, MapPinIcon, SmileIcon, SquareMenuIcon, XIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Textarea } from '../ui/textarea';
 import { Button } from '../ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { EmojiPicker } from '../ui/emoji-picker';
 import { POST_PANEL_TYPES } from './PostPanel';
 
 export function PostPanelContent({
@@ -15,7 +18,13 @@ export function PostPanelContent({
   placeholder,
 }) {
   const { t } = useTranslation();
+  const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
   const defaultPlaceholder = placeholder || t('postPanel.whatsNew');
+
+  const handleEmojiSelect = ({ emoji }) => {
+    onContentChange(content + emoji);
+  };
+
   return (
     <div className='flex gap-3 pb-[5px]'>
       <div className='flex flex-col items-center gap-3'>
@@ -47,7 +56,7 @@ export function PostPanelContent({
 
         <div
           hidden={type === POST_PANEL_TYPES.EDIT_POST}
-          className='mt-1 -ml-2 flex text-(--secondary-icon)'
+          className='mt-1 -ml-2 flex text-(--secondary-icon) select-none'
         >
           <div className='flex cursor-pointer p-2 transition-transform hover:scale-105'>
             <ImageIcon size={20} />
@@ -55,9 +64,16 @@ export function PostPanelContent({
           <div className='flex cursor-pointer p-2 transition-transform hover:scale-105'>
             <FilmIcon size={20} />
           </div>
-          <div className='flex cursor-pointer p-2 transition-transform hover:scale-105'>
-            <SmileIcon size={20} />
-          </div>
+          <Popover open={isEmojiPickerOpen} onOpenChange={setIsEmojiPickerOpen} modal>
+            <PopoverTrigger asChild>
+              <div className='flex cursor-pointer p-2 transition-transform hover:scale-105'>
+                <SmileIcon size={20} />
+              </div>
+            </PopoverTrigger>
+            <PopoverContent align='start' side='bottom' className='p-0'>
+              <EmojiPicker onEmojiSelect={handleEmojiSelect} />
+            </PopoverContent>
+          </Popover>
           <div className='flex cursor-pointer p-2 transition-transform hover:scale-105'>
             <SquareMenuIcon size={20} />
           </div>
