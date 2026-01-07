@@ -170,7 +170,10 @@ function Menu({ className }) {
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className='flex size-full items-center justify-between'
-            onClick={() => handleLanguageChange('vi')}
+            onClick={(e) => {
+              e.preventDefault();
+              handleLanguageChange('vi');
+            }}
           >
             <span>{t('menu.vietnamese')}</span>
             <CheckIcon
@@ -179,7 +182,10 @@ function Menu({ className }) {
           </DropdownMenuItem>
           <DropdownMenuItem
             className='flex size-full items-center justify-between'
-            onClick={() => handleLanguageChange('en')}
+            onClick={(e) => {
+              e.preventDefault();
+              handleLanguageChange('en');
+            }}
           >
             <span>{t('menu.english')}</span>
             <CheckIcon
