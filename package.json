@@ -27,6 +27,7 @@
     "copy-image-clipboard": "^2.1.2",
     "copy-to-clipboard": "^3.3.3",
     "date-fns": "^4.1.0",
+    "frimousse": "^0.3.0",
     "html-to-image": "^1.11.13",
     "i18next": "^25.7.3",
     "lucide-react": "^0.561.0",
