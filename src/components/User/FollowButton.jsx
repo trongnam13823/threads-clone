@@ -2,7 +2,7 @@ import { useState, memo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useFollowUserMutation, useUnfollowUserMutation } from '@/services/users/userService';
+import { useFollowUserMutation, useUnfollowUserMutation } from '@/services/user/userService';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
@@ -66,7 +66,9 @@ const FollowButton = memo(({ user, isFollowing: initialFollowing }) => {
               <AvatarFallback>{user.name}</AvatarFallback>
             </Avatar>
 
-            <p className='mt-4 font-bold'>{t('follow.unfollowConfirm', { username: user.username })}</p>
+            <p className='mt-4 font-bold'>
+              {t('follow.unfollowConfirm', { username: user.username })}
+            </p>
           </div>
 
           <div className='relative flex border-t border-inherit'>

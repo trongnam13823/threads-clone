@@ -4,7 +4,7 @@ import MoreDropdown from '@/components/Column/MoreDropdown';
 import PinColumn from '@/components/Column/PinColumn';
 import { CreatePostBox } from '@/components/post/CreatePostBox';
 import { PostCard } from '@/components/post/PostCard';
-import postService, { useGetPostsFeedQuery } from '@/services/posts/postService';
+import postService, { useGetPostsFeedQuery } from '@/services/post/postService';
 import LoadMoreTrigger from '@/components/Loading/LoadMoreTrigger';
 import ReloadIndicator from '@/components/Loading/ReloadIndicator';
 import InitialLoading from '@/components/Loading/InitialLoading';

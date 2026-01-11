@@ -1,7 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import FollowListItem from './FollowListItem';
-import userService, { useGetFollowersQuery, useGetFollowingsQuery } from '@/services/users/userService';
+import userService, {
+  useGetFollowersQuery,
+  useGetFollowingsQuery,
+} from '@/services/user/userService';
 import useInfiniteQueryList from '@/hooks/useInfiniteQueryList';
 import useInfiniteScroll from '@/contexts/infiniteScroll/hooks/useInfiniteScroll';
 import { ScrollArea } from '@/components/ui/scroll-area';

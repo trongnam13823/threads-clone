@@ -1,5 +1,5 @@
 import { POST_CARD_TYPES, PostCard } from '@/components/post/PostCard';
-import { useGetPostDetailQuery } from '@/services/posts/postService';
+import { useGetPostDetailQuery } from '@/services/post/postService';
 import { useParams } from 'react-router';
 import { useEffect, useRef } from 'react';
 

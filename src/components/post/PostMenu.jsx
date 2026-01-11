@@ -27,7 +27,7 @@ import {
   useDeletePostMutation,
   useSavePostMutation,
   useReportPostMutation,
-} from '@/services/posts/postService';
+} from '@/services/post/postService';
 import { toast } from 'sonner';
 import { PostPanel } from './PostPanel';
 import { POST_PANEL_TYPES } from './PostPanel';
@@ -185,9 +185,7 @@ function DeletePostConfirmDialog({ onClose, onDelete }) {
     <div className='w-full rounded-2xl border border-(--lines-primary) bg-(--elevated-background) text-center md:w-[280px]'>
       <div className='p-6'>
         <p className='font-bold'>{t('postMenu.deleteConfirm')}</p>
-        <p className='mt-5 text-(--text-secondary)'>
-          {t('postMenu.deleteWarning')}
-        </p>
+        <p className='mt-5 text-(--text-secondary)'>{t('postMenu.deleteWarning')}</p>
       </div>
 
       <div className='relative flex border-t border-inherit'>
@@ -275,9 +273,7 @@ function ReportPostDialog({ onClose, onReport }) {
     <div className='w-full rounded-2xl border border-(--lines-primary) bg-(--elevated-background) md:w-[560px]'>
       <div className='p-8 text-center'>
         <h2 className='text-lg font-bold'>{t('postMenu.reportTitle')}</h2>
-        <p className='mt-3 text-sm text-(--text-secondary)'>
-          {t('postMenu.reportDescription')}
-        </p>
+        <p className='mt-3 text-sm text-(--text-secondary)'>{t('postMenu.reportDescription')}</p>
       </div>
 
       <ul className='pb-4'>

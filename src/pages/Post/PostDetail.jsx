@@ -1,7 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import ColumnContent from '@/components/Column/ColumnContent';
 import { PostCard } from '@/components/post/PostCard';
-import postService, { useGetPostDetailQuery, useGetPostRepliesQuery } from '@/services/posts/postService';
+import postService, {
+  useGetPostDetailQuery,
+  useGetPostRepliesQuery,
+} from '@/services/post/postService';
 import { ChevronDownIcon, ChevronRightIcon } from 'lucide-react';
 import LoadMoreTrigger from '@/components/Loading/LoadMoreTrigger';
 import ReloadIndicator from '@/components/Loading/ReloadIndicator';

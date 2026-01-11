@@ -4,7 +4,7 @@ import {
   useCreatePostMutation,
   useEditPostMutation,
   useReplyPostMutation,
-} from '@/services/posts/postService';
+} from '@/services/post/postService';
 import { POST_PANEL_TYPES } from '@/components/post/PostPanel';
 import { createRepliesChain } from '@/components/post/helper/createRepliesChain';
 import { createToastConfig } from '@/components/post/helper/createToastConfig.jsx';

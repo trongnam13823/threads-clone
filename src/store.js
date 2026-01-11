@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authSlice from './features/auth/authSlice';
 import authService from './services/auth/authService';
-import postService from './services/posts/postService';
+import postService from './services/post/postService';
 import searchService from './services/search/searchService';
-import userService from './services/users/userService';
+import userService from './services/user/userService';
 import {
   persistStore,
   persistReducer,

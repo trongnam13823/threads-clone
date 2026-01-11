@@ -4,7 +4,7 @@ import MoreDropdown from '@/components/Column/MoreDropdown';
 import PinColumn from '@/components/Column/PinColumn';
 import { CreatePostBox } from '@/components/post/CreatePostBox';
 import { PostCard } from '@/components/post/PostCard';
-import postService, { useGetPostsFeedQuery } from '@/services/posts/postService';
+import postService, { useGetPostsFeedQuery } from '@/services/post/postService';
 import CreateFeedMenuItem from '@/components/Column/CreateFeedMenuItem';
 import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import useDragSwap from '@/contexts/dragSwap/hooks/useDragSwap';

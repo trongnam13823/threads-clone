@@ -3,7 +3,7 @@ import { HeartIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { formatNumber } from '@/utils/formatTime';
-import { useLikePostMutation } from '@/services/posts/postService';
+import { useLikePostMutation } from '@/services/post/postService';
 
 export const LikeButton = memo(({ postId, isLiked, likesCount, isDataVisible }) => {
   const [likePost] = useLikePostMutation();
