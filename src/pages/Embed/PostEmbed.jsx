@@ -1,9 +1,9 @@
-import { POST_CARD_TYPES, PostCard } from '@/components/Post/PostCard';
-import { useGetPostDetailQuery } from '@/services/posts/postsApi';
+import { POST_CARD_TYPES, PostCard } from '@/components/post/PostCard';
+import { useGetPostDetailQuery } from '@/services/posts/postService';
 import { useParams } from 'react-router';
 import { useEffect, useRef } from 'react';
 
-export default function PostEmbedPage() {
+export default function PostEmbed() {
   const { postId } = useParams();
   const { data: postDetail } = useGetPostDetailQuery(postId);
   const observerRef = useRef(null);

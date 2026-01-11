@@ -3,7 +3,7 @@ import { Link, useNavigate, useSearchParams } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useResetPasswordMutation, useValidateResetTokenQuery } from "@/services/auth/authApi";
+import { useResetPasswordMutation, useValidateResetTokenQuery } from "@/services/auth/authService";
 import paths from "@/configs/paths";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,7 +16,7 @@ import { logoutThunk } from "@/features/auth/authThunks";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 
-const ResetPasswordPage = () => {
+const ResetPassword = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
@@ -167,4 +167,4 @@ const ResetPasswordPage = () => {
   );
 };
 
-export default ResetPasswordPage;
+export default ResetPassword;

@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import { useWatch } from "react-hook-form";
-import { useDebounce } from "use-debounce";
+import { useEffect, useRef, useState } from 'react';
+import { useWatch } from 'react-hook-form';
+import { useDebounce } from 'use-debounce';
 
 export function useCheckAvailable({ name, control, trigger, mutation, delay = 500 }) {
   const value = useWatch({ control, name });
@@ -46,7 +46,7 @@ export function useCheckAvailable({ name, control, trigger, mutation, delay = 50
         // chỉ request cuối được setState
         if (!active || currentRequestId !== requestIdRef.current) return;
 
-        setIsAvailable(res?.available);
+        setIsAvailable(res?.data?.available);
       } catch {
         if (!active || currentRequestId !== requestIdRef.current) return;
         setIsAvailable(null);

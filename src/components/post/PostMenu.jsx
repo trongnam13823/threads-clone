@@ -27,7 +27,7 @@ import {
   useDeletePostMutation,
   useSavePostMutation,
   useReportPostMutation,
-} from '@/services/posts/postsApi';
+} from '@/services/posts/postService';
 import { toast } from 'sonner';
 import { PostPanel } from './PostPanel';
 import { POST_PANEL_TYPES } from './PostPanel';

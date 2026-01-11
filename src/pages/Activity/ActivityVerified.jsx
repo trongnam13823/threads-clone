@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import ColumnContent from '@/components/Column/ColumnContent';
 
-const ActivityVerifiedPage = () => {
+const ActivityVerified = () => {
   const { t } = useTranslation();
   return (
     <ColumnContent>
@@ -12,4 +12,4 @@ const ActivityVerifiedPage = () => {
   );
 };
 
-export default ActivityVerifiedPage;
+export default ActivityVerified;

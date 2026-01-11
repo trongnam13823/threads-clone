@@ -1,4 +1,4 @@
-import { useResendVerificationEmailMutation } from "@/services/auth/authApi";
+import { useResendVerificationEmailMutation } from "@/services/auth/authService";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
@@ -8,7 +8,7 @@ import { useNavigate } from "react-router";
 import paths from "@/configs/paths";
 import { useTranslation } from "react-i18next";
 
-const SendVerifyEmailPage = () => {
+const SendVerifyEmail = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -52,4 +52,4 @@ const SendVerifyEmailPage = () => {
   );
 };
 
-export default SendVerifyEmailPage;
+export default SendVerifyEmail;

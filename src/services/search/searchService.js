@@ -1,8 +1,8 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { createBaseQuery } from '../createBaseQuery';
 
-const searchApi = createApi({
-  reducerPath: 'searchApi',
+const searchService = createApi({
+  reducerPath: 'searchService',
   baseQuery: createBaseQuery(''),
   endpoints: (builder) => ({
     // ------------------------------------------------------------
@@ -61,6 +61,6 @@ export const {
   useLazySearchTopicsQuery,
   useSearchAllQuery,
   useLazySearchAllQuery,
-} = searchApi;
+} = searchService;
 
-export default searchApi;
+export default searchService;

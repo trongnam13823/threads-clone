@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
-import { useVerifyEmailMutation } from "@/services/auth/authApi";
+import { useVerifyEmailMutation } from "@/services/auth/authService";
 import paths from "@/configs/paths";
 import { Button } from "@/components/ui/button";
 import { useDispatch } from "react-redux";
 import { logoutThunk } from "@/features/auth/authThunks";
 
-const VerifyEmailPage = () => {
+const VerifyEmail = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
@@ -63,4 +63,4 @@ const VerifyEmailPage = () => {
   );
 };
 
-export default VerifyEmailPage;
+export default VerifyEmail;

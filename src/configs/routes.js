@@ -2,37 +2,37 @@ import DefaultLayout from '@/layouts/DefaultLayout';
 import paths from './paths';
 import ActivityLayout from '@/layouts/ActivityLayout';
 import ActivityPage from '@/pages/Activity';
-import ActivityFollowsPage from '@/pages/Activity/ActivityFollowsPage';
+import ActivityFollows from '@/pages/Activity/ActivityFollows';
 import SearchPage from '@/pages/Search';
 import ProfileLayout from '@/layouts/ProfileLayout';
 import ProfilePage from '@/pages/Profile';
-import ProfileRepliesPage from '@/pages/Profile/ProfileRepliesPage';
-import ProfileMediaPage from '@/pages/Profile/ProfileMediaPage';
-import ProfileRepostsPage from '@/pages/Profile/ProfileRepostsPage';
-import ForYouPage from '@/pages/Home/ForYouPage';
+import ProfileReplies from '@/pages/Profile/ProfileReplies';
+import ProfileMedia from '@/pages/Profile/ProfileMedia';
+import ProfileReposts from '@/pages/Profile/ProfileReposts';
+import ForYou from '@/pages/Home/ForYou';
 import AuthLayout from '@/layouts/AuthLayout';
-import LoginPage from '@/pages/Auth/LoginPage';
-import RegisterPage from '@/pages/Auth/RegisterPage';
-import ForgotPasswordPage from '@/pages/Auth/ForgotPasswordPage';
-import ResetPasswordPage from '@/pages/Auth/ResetPasswordPage';
-import VerifyEmailPage from '@/pages/Auth/VerifyEmailPage';
-import SendVerifyEmailPage from '@/pages/Auth/SendVerifyEmailPage';
+import Login from '@/pages/Auth/Login';
+import Register from '@/pages/Auth/Register';
+import ForgotPassword from '@/pages/Auth/ForgotPassword';
+import ResetPassword from '@/pages/Auth/ResetPassword';
+import VerifyEmail from '@/pages/Auth/VerifyEmail';
+import SendVerifyEmail from '@/pages/Auth/SendVerifyEmail';
 import GuestLayout from '@/layouts/GuestLayout';
 import ProtectedLayout from '@/layouts/ProtectedLayout';
 import SearchLayout from '@/layouts/SearchLayout';
-import FollowingPage from '@/pages/Home/FollowingPage';
+import Following from '@/pages/Home/Following';
 import HomePage from '@/pages/Home';
 import GhostPosts from '@/pages/Home/GhostPosts';
 import HomeLayout from '@/layouts/HomeLayout';
-import ActivityRepliesPage from '@/pages/Activity/ActivityRepliesPage';
-import ActivityMentionsPage from '@/pages/Activity/ActivityMentionsPage';
-import ActivityQuotesPage from '@/pages/Activity/ActivityQuotesPage';
-import ActivityRepostsPage from '@/pages/Activity/ActivityRepostsPage';
-import ActivityVerifiedPage from '@/pages/Activity/ActivityVerifiedPage';
-import PostEmbedPage from '@/pages/Embed/PostEmbedPage';
+import ActivityReplies from '@/pages/Activity/ActivityReplies';
+import ActivityMentions from '@/pages/Activity/ActivityMentions';
+import ActivityQuotes from '@/pages/Activity/ActivityQuotes';
+import ActivityReposts from '@/pages/Activity/ActivityReposts';
+import ActivityVerified from '@/pages/Activity/ActivityVerified';
+import PostEmbed from '@/pages/Embed/PostEmbed';
 import RootLayout from '@/layouts/RootLayout';
 import PostDetailLayout from '@/layouts/PostDetailLayout';
-import PostDetailPage from '@/pages/Post/PostDetailPage';
+import PostDetail from '@/pages/Post/PostDetail';
 
 export default [
   {
@@ -40,18 +40,18 @@ export default [
     children: [
       {
         path: paths.postEmbed(':postId'),
-        Component: PostEmbedPage,
+        Component: PostEmbed,
       },
       {
         Component: AuthLayout,
         children: [
           {
             path: paths.verifyEmail,
-            Component: VerifyEmailPage,
+            Component: VerifyEmail,
           },
           {
             path: paths.resetPassword,
-            Component: ResetPasswordPage,
+            Component: ResetPassword,
           },
         ],
       },
@@ -64,16 +64,16 @@ export default [
             children: [
               {
                 path: paths.login,
-                Component: LoginPage,
+                Component: Login,
               },
               {
                 path: paths.register,
-                Component: RegisterPage,
+                Component: Register,
               },
 
               {
                 path: paths.forgotPassword,
-                Component: ForgotPasswordPage,
+                Component: ForgotPassword,
               },
             ],
           },
@@ -88,7 +88,7 @@ export default [
             children: [
               {
                 path: paths.sendVerifyEmail,
-                Component: SendVerifyEmailPage,
+                Component: SendVerifyEmail,
               },
             ],
           },
@@ -104,11 +104,11 @@ export default [
                   },
                   {
                     path: paths.following,
-                    Component: FollowingPage,
+                    Component: Following,
                   },
                   {
                     path: paths.forYou,
-                    Component: ForYouPage,
+                    Component: ForYou,
                   },
                   {
                     path: paths.ghostPosts,
@@ -135,27 +135,27 @@ export default [
                   },
                   {
                     path: paths.activityFollows,
-                    Component: ActivityFollowsPage,
+                    Component: ActivityFollows,
                   },
                   {
                     path: paths.activityReplies,
-                    Component: ActivityRepliesPage,
+                    Component: ActivityReplies,
                   },
                   {
                     path: paths.activityMentions,
-                    Component: ActivityMentionsPage,
+                    Component: ActivityMentions,
                   },
                   {
                     path: paths.activityQuotes,
-                    Component: ActivityQuotesPage,
+                    Component: ActivityQuotes,
                   },
                   {
                     path: paths.activityReposts,
-                    Component: ActivityRepostsPage,
+                    Component: ActivityReposts,
                   },
                   {
                     path: paths.activityVerified,
-                    Component: ActivityVerifiedPage,
+                    Component: ActivityVerified,
                   },
                 ],
               },
@@ -168,15 +168,15 @@ export default [
                   },
                   {
                     path: paths.profileReplies(':username'),
-                    Component: ProfileRepliesPage,
+                    Component: ProfileReplies,
                   },
                   {
                     path: paths.profileMedia(':username'),
-                    Component: ProfileMediaPage,
+                    Component: ProfileMedia,
                   },
                   {
                     path: paths.profileReposts(':username'),
-                    Component: ProfileRepostsPage,
+                    Component: ProfileReposts,
                   },
                 ],
               },
@@ -185,7 +185,7 @@ export default [
                 children: [
                   {
                     path: paths.postDetail(':postId'),
-                    Component: PostDetailPage,
+                    Component: PostDetail,
                   },
                 ],
               },

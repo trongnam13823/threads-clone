@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import FollowListItem from './FollowListItem';
-import usersApi, { useGetFollowersQuery, useGetFollowingsQuery } from '@/services/users/usersApi';
+import userService, { useGetFollowersQuery, useGetFollowingsQuery } from '@/services/users/userService';
 import useInfiniteQueryList from '@/hooks/useInfiniteQueryList';
 import useInfiniteScroll from '@/contexts/infiniteScroll/hooks/useInfiniteScroll';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -24,11 +24,11 @@ export default function FollowListContent({ userId }) {
   const { registerScrollEl } = useInfiniteScroll();
 
   // Get queryState để lấy initialPage và totals
-  const selectFollowings = usersApi.endpoints.getFollowings.select({ id: userId });
+  const selectFollowings = userService.endpoints.getFollowings.select({ id: userId });
   const followingsQueryState = useSelector(selectFollowings);
   const followingsTotal = followingsQueryState?.data?.pagination?.total ?? 0;
 
-  const selectFollowers = usersApi.endpoints.getFollowers.select({ id: userId });
+  const selectFollowers = userService.endpoints.getFollowers.select({ id: userId });
   const followersQueryState = useSelector(selectFollowers);
   const followersTotal = followersQueryState?.data?.pagination?.total ?? 0;
 

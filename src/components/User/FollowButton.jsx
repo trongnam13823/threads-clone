@@ -2,7 +2,7 @@ import { useState, memo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useFollowUserMutation, useUnfollowUserMutation } from '@/services/users/usersApi';
+import { useFollowUserMutation, useUnfollowUserMutation } from '@/services/users/userService';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';

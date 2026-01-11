@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import ColumnContent from '@/components/Column/ColumnContent';
-import { PostCard } from '@/components/Post/PostCard';
-import postsApi, { useGetPostDetailQuery, useGetPostRepliesQuery } from '@/services/posts/postsApi';
+import { PostCard } from '@/components/post/PostCard';
+import postService, { useGetPostDetailQuery, useGetPostRepliesQuery } from '@/services/posts/postService';
 import { ChevronDownIcon, ChevronRightIcon } from 'lucide-react';
 import LoadMoreTrigger from '@/components/Loading/LoadMoreTrigger';
 import ReloadIndicator from '@/components/Loading/ReloadIndicator';
@@ -13,12 +13,12 @@ import useParams from '@/contexts/pageStack/components/useParams';
 import MoreDropdown from '@/components/Column/MoreDropdown';
 import PinColumn from '@/components/Column/PinColumn';
 
-export default function PostDetailPage() {
+export default function PostDetail() {
   const { t } = useTranslation();
   const { postId } = useParams();
   const { data: postDetail, isLoading: isPostDetailLoading } = useGetPostDetailQuery(postId);
 
-  const selectReplies = postsApi.endpoints.getPostReplies.select({ id: postId });
+  const selectReplies = postService.endpoints.getPostReplies.select({ id: postId });
   const queryState = useSelector(selectReplies);
 
   const {
@@ -54,10 +54,12 @@ export default function PostDetailPage() {
 
             <div className='mx-6 flex items-center justify-between border-t border-(--lines-primary) py-4'>
               <button className='flex items-center gap-1 font-bold text-(--text-primary)'>
-                <span>{t('postDetail.top')}</span> <ChevronDownIcon className='size-4 text-(--text-secondary)' />
+                <span>{t('postDetail.top')}</span>{' '}
+                <ChevronDownIcon className='size-4 text-(--text-secondary)' />
               </button>
               <button className='flex items-center gap-1 text-(--text-secondary)'>
-                <span>{t('postDetail.viewActivity')}</span> <ChevronRightIcon className='mt-0.5 size-4' />
+                <span>{t('postDetail.viewActivity')}</span>{' '}
+                <ChevronRightIcon className='mt-0.5 size-4' />
               </button>
             </div>
           </div>

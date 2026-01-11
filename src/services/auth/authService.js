@@ -1,8 +1,8 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { createBaseQuery } from '../createBaseQuery';
 
-const authApi = createApi({
-  reducerPath: 'authApi',
+const authService = createApi({
+  reducerPath: 'authService',
   baseQuery: createBaseQuery('/auth'),
   endpoints: (builder) => ({
     validateUsername: builder.mutation({
@@ -98,6 +98,6 @@ export const {
   useResetPasswordMutation,
   useUserInfoQuery,
   useLazyUserInfoQuery,
-} = authApi;
+} = authService;
 
-export default authApi;
+export default authService;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '../ui/dialog';
-import { useGetFollowersQuery } from '@/services/users/usersApi';
+import { useGetFollowersQuery } from '@/services/users/userService';
 import { useSelector } from 'react-redux';
 import FollowListContent from './FollowListContent';
 

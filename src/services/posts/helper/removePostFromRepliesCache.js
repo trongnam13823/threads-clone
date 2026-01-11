@@ -1,17 +1,17 @@
-import postsApi from '../postsApi';
+import postService from '../postService';
 
 export default function removePostFromRepliesCache(dispatch, getState, postId) {
   const patchResults = [];
 
-  Object.keys(getState().postsApi.queries).forEach((key) => {
-    const queryCache = getState().postsApi.queries[key];
+  Object.keys(getState().postService.queries).forEach((key) => {
+    const queryCache = getState().postService.queries[key];
     if (
       queryCache &&
       queryCache.endpointName === 'getPostReplies' &&
       queryCache.status === 'fulfilled'
     ) {
       const patch = dispatch(
-        postsApi.util.updateQueryData('getPostReplies', queryCache.originalArgs, (draft) => {
+        postService.util.updateQueryData('getPostReplies', queryCache.originalArgs, (draft) => {
           draft.data = draft.data.filter((post) => post.id !== postId);
         })
       );

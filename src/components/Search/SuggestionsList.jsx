@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import SearchUserItem from './SearchUserItem';
-import searchApi, { useGetUserSuggestionQuery } from '@/services/search/searchApi';
+import searchService, { useGetUserSuggestionQuery } from '@/services/search/searchService';
 import LoadMoreTrigger from '../Loading/LoadMoreTrigger';
 import ReloadIndicator from '../Loading/ReloadIndicator';
 import InitialLoading from '../Loading/InitialLoading';
@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 
 export default function SuggestionsList() {
   const { t } = useTranslation();
-  const selectQuery = searchApi.endpoints.getUserSuggestion.select({});
+  const selectQuery = searchService.endpoints.getUserSuggestion.select({});
   const queryState = useSelector(selectQuery);
 
   const { items, isLoading, isReloading, hasMore, sentinelRef } = useInfiniteList({

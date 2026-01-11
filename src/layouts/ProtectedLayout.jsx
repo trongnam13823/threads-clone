@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router";
-import { useUserInfoQuery } from "@/services/auth/authApi";
+import { useUserInfoQuery } from "@/services/auth/authService";
 import { SplashStatus, setSplashFadingOut } from "@/features/splash/splashSlice";
 import { useEffect } from "react";
 import { setUserInfo } from "@/features/auth/authSlice";

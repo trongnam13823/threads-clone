@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-const ProfileRepostsPage = () => {
+const ProfileReplies = () => {
   const { t } = useTranslation();
   return (
     <>
@@ -11,4 +11,4 @@ const ProfileRepostsPage = () => {
   );
 };
 
-export default ProfileRepostsPage;
+export default ProfileReplies;

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import ColumnContent from '@/components/Column/ColumnContent';
 
-const ActivityRepliesPage = () => {
+const ActivityMentions = () => {
   const { t } = useTranslation();
   return (
     <ColumnContent>
@@ -12,4 +12,4 @@ const ActivityRepliesPage = () => {
   );
 };
 
-export default ActivityRepliesPage;
+export default ActivityMentions;

@@ -3,7 +3,7 @@ import { Repeat2Icon, MessageSquareQuoteIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { formatNumber } from '@/utils/formatTime';
-import { useRepostPostMutation } from '@/services/posts/postsApi';
+import { useRepostPostMutation } from '@/services/posts/postService';
 import {
   DropdownMenu,
   DropdownMenuContent,

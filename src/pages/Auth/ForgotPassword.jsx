@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useForgotPasswordMutation } from "@/services/auth/authApi";
+import { useForgotPasswordMutation } from "@/services/auth/authService";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Spinner } from "@/components/ui/spinner";
@@ -14,7 +14,7 @@ import paths from "@/configs/paths";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 
-export default function ForgotPasswordPage() {
+export default function ForgotPassword() {
   const { t } = useTranslation();
   const form = useForm({
     resolver: zodResolver(forgotPasswordSchema),

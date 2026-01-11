@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { CreatePostBox } from '@/components/Post/CreatePostBox';
+import { CreatePostBox } from '@/components/post/CreatePostBox';
 
 const ProfilePage = () => {
   const { t } = useTranslation();

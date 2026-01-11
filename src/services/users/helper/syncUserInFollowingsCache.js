@@ -1,13 +1,13 @@
-import usersApi from '../usersApi';
+import userService from '../userService';
 
 function togglePivotInFollowingsCache(dispatch, getState, userId) {
   const state = getState();
-  const followingsCache = state.usersApi.queries;
+  const followingsCache = state.userService.queries;
 
   Object.keys(followingsCache).forEach((key) => {
     if (key.startsWith('getFollowings')) {
       dispatch(
-        usersApi.util.updateQueryData(
+        userService.util.updateQueryData(
           'getFollowings',
           followingsCache[key].originalArgs,
           (draft) => {

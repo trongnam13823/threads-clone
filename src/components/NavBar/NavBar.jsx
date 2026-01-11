@@ -6,7 +6,7 @@ import Menu from './Menu';
 import { useSelector } from 'react-redux';
 import NavLink from '@/contexts/pageStack/components/NavLink';
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '../ui/dialog';
-import { PostPanel } from '../Post/PostPanel';
+import { PostPanel } from '../post/PostPanel';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 

@@ -8,7 +8,7 @@ import paths from '@/configs/paths';
 import PageStackProvider from '@/contexts/pageStack/components/PageStackProvider';
 import PinMenu from '@/components/Column/PinMenu';
 
-export default function HomeColsPage({ className, pageStackName }) {
+export default function HomeCols({ className, pageStackName }) {
   const dispatch = useDispatch();
   const columns = useSelector((s) => s.auth.columns);
 

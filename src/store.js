@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authSlice from './features/auth/authSlice';
-import authApi from './services/auth/authApi';
-import postsApi from './services/posts/postsApi';
-import searchApi from './services/search/searchApi';
-import usersApi from './services/users/usersApi';
+import authService from './services/auth/authService';
+import postService from './services/posts/postService';
+import searchService from './services/search/searchService';
+import userService from './services/users/userService';
 import {
   persistStore,
   persistReducer,
@@ -40,17 +40,22 @@ export const store = configureStore({
     search: searchSlice.reducer,
     auth: persistedAuthReducer,
     theme: persistedThemeReducer,
-    [authApi.reducerPath]: authApi.reducer,
-    [postsApi.reducerPath]: postsApi.reducer,
-    [searchApi.reducerPath]: searchApi.reducer,
-    [usersApi.reducerPath]: usersApi.reducer,
+    [authService.reducerPath]: authService.reducer,
+    [postService.reducerPath]: postService.reducer,
+    [searchService.reducerPath]: searchService.reducer,
+    [userService.reducerPath]: userService.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(authApi.middleware, postsApi.middleware, searchApi.middleware, usersApi.middleware),
+    }).concat(
+      authService.middleware,
+      postService.middleware,
+      searchService.middleware,
+      userService.middleware
+    ),
 });
 
 export const persistor = persistStore(store);

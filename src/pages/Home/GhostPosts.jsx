@@ -2,9 +2,9 @@ import { useTranslation } from 'react-i18next';
 import ColumnContent from '@/components/Column/ColumnContent';
 import MoreDropdown from '@/components/Column/MoreDropdown';
 import PinColumn from '@/components/Column/PinColumn';
-import { CreatePostBox } from '@/components/Post/CreatePostBox';
-import { PostCard } from '@/components/Post/PostCard';
-import postsApi, { useGetPostsFeedQuery } from '@/services/posts/postsApi';
+import { CreatePostBox } from '@/components/post/CreatePostBox';
+import { PostCard } from '@/components/post/PostCard';
+import postService, { useGetPostsFeedQuery } from '@/services/posts/postService';
 import LoadMoreTrigger from '@/components/Loading/LoadMoreTrigger';
 import ReloadIndicator from '@/components/Loading/ReloadIndicator';
 import InitialLoading from '@/components/Loading/InitialLoading';
@@ -16,7 +16,7 @@ import paths from '@/configs/paths';
 
 const GhostPosts = ({ dropdownElement }) => {
   const { t } = useTranslation();
-  const selectFeed = postsApi.endpoints.getPostsFeed.select({ type: 'ghost' });
+  const selectFeed = postService.endpoints.getPostsFeed.select({ type: 'ghost' });
   const queryState = useSelector(selectFeed);
 
   const { items, isLoading, isReloading, hasMore, sentinelRef } = useInfiniteList({

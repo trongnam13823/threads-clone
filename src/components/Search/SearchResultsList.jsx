@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import SearchUserItem from './SearchUserItem';
 import SearchTopicItem from './SearchTopicItem';
-import searchApi, { useSearchAllQuery } from '@/services/search/searchApi';
+import searchService, { useSearchAllQuery } from '@/services/search/searchService';
 import LoadMoreTrigger from '../Loading/LoadMoreTrigger';
 import ReloadIndicator from '../Loading/ReloadIndicator';
 import InitialLoading from '../Loading/InitialLoading';
@@ -16,7 +16,7 @@ export default function SearchResultsList() {
   const isSearching = q.length > 1;
   const trimmedQ = q.trim();
 
-  const selectQuery = searchApi.endpoints.searchAll.select({ q: trimmedQ });
+  const selectQuery = searchService.endpoints.searchAll.select({ q: trimmedQ });
   const queryState = useSelector(selectQuery);
 
   // Lấy initialPage là giá trị lớn hơn giữa topics và users current_page

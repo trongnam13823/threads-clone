@@ -5,8 +5,8 @@ import removePostFromFeedCache from './helper/removePostFromFeedCache';
 import syncPostInRepliesCache from './helper/syncPostInRepliesCache';
 import removePostFromRepliesCache from './helper/removePostFromRepliesCache';
 
-const postsApi = createApi({
-  reducerPath: 'postsApi',
+const postService = createApi({
+  reducerPath: 'postService',
   baseQuery: createBaseQuery('/posts'),
   endpoints: (builder) => ({
     // ------------------------------------------------------------
@@ -84,7 +84,7 @@ const postsApi = createApi({
 
         // Lưu originalContent từ feed cache hoặc replies cache
         const state = getState();
-        const queries = state.postsApi.queries;
+        const queries = state.postService.queries;
         Object.keys(queries).forEach((key) => {
           if (key.startsWith('getPostsFeed') || key.startsWith('getPostReplies')) {
             const queryCache = queries[key];
@@ -337,6 +337,6 @@ export const {
   useReplyPostMutation,
   useDeletePostMutation,
   useEditPostMutation,
-} = postsApi;
+} = postService;
 
-export default postsApi;
+export default postService;

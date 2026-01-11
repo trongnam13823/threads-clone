@@ -4,10 +4,10 @@ import {
   useCreatePostMutation,
   useEditPostMutation,
   useReplyPostMutation,
-} from '@/services/posts/postsApi';
-import { POST_PANEL_TYPES } from '@/components/Post/PostPanel';
-import { createRepliesChain } from '@/components/Post/helper/createRepliesChain';
-import { createToastConfig } from '@/components/Post/helper/createToastConfig.jsx';
+} from '@/services/posts/postService';
+import { POST_PANEL_TYPES } from '@/components/post/PostPanel';
+import { createRepliesChain } from '@/components/post/helper/createRepliesChain';
+import { createToastConfig } from '@/components/post/helper/createToastConfig.jsx';
 import { useTranslation } from 'react-i18next';
 
 export function usePostPanel(type, post, onClose) {

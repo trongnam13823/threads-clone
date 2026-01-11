@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-const ProfileRepliesPage = () => {
+const ProfileMedia = () => {
   const { t } = useTranslation();
   return (
     <>
@@ -11,4 +11,4 @@ const ProfileRepliesPage = () => {
   );
 };
 
-export default ProfileRepliesPage;
+export default ProfileMedia;

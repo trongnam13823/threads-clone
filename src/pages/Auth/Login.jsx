@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useLoginMutation } from "@/services/auth/authApi";
+import { useLoginMutation } from "@/services/auth/authService";
 import { setToken, setUserInfo } from "@/features/auth/authSlice";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -18,7 +18,7 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 import { useTranslation } from "react-i18next";
 
 /* ================== Page ================== */
-export default function LoginPage() {
+export default function Login() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();

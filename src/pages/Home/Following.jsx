@@ -2,9 +2,9 @@ import { useTranslation } from 'react-i18next';
 import ColumnContent from '@/components/Column/ColumnContent';
 import MoreDropdown from '@/components/Column/MoreDropdown';
 import PinColumn from '@/components/Column/PinColumn';
-import { CreatePostBox } from '@/components/Post/CreatePostBox';
-import { PostCard } from '@/components/Post/PostCard';
-import postsApi, { useGetPostsFeedQuery } from '@/services/posts/postsApi';
+import { CreatePostBox } from '@/components/post/CreatePostBox';
+import { PostCard } from '@/components/post/PostCard';
+import postService, { useGetPostsFeedQuery } from '@/services/posts/postService';
 import CreateFeedMenuItem from '@/components/Column/CreateFeedMenuItem';
 import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import useDragSwap from '@/contexts/dragSwap/hooks/useDragSwap';
@@ -17,10 +17,10 @@ import { useSelector } from 'react-redux';
 import usePageStack from '@/contexts/pageStack/hooks/usePageStack';
 import paths from '@/configs/paths';
 
-const FollowingPage = ({ dropdownElement }) => {
+const Following = ({ dropdownElement }) => {
   const { t } = useTranslation();
   const { isDraggable } = useDragSwap();
-  const selectFeed = postsApi.endpoints.getPostsFeed.select({ type: 'following' });
+  const selectFeed = postService.endpoints.getPostsFeed.select({ type: 'following' });
   const queryState = useSelector(selectFeed);
   const { items, isLoading, isReloading, hasMore, sentinelRef } = useInfiniteList({
     queryHook: useGetPostsFeedQuery,
@@ -68,4 +68,4 @@ const FollowingPage = ({ dropdownElement }) => {
   );
 };
 
-export default FollowingPage;
+export default Following;

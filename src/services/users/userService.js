@@ -2,8 +2,8 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 import { createBaseQuery } from '../createBaseQuery';
 import togglePivotInFollowingsCache from './helper/syncUserInFollowingsCache';
 
-const usersApi = createApi({
-  reducerPath: 'usersApi',
+const userService = createApi({
+  reducerPath: 'userService',
   baseQuery: createBaseQuery('/users'),
   endpoints: (builder) => ({
     // ------------------------------------------------------------
@@ -95,6 +95,6 @@ export const {
   useLazyGetFollowersQuery,
   useGetFollowingsQuery,
   useLazyGetFollowingsQuery,
-} = usersApi;
+} = userService;
 
-export default usersApi;
+export default userService;

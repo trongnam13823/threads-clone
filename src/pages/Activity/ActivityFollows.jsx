@@ -6,7 +6,7 @@ import CreateFeedMenuItem from '@/components/Column/CreateFeedMenuItem';
 import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import useDragSwap from '@/contexts/dragSwap/hooks/useDragSwap';
 
-const ActivityFollowsPage = () => {
+const ActivityFollows = () => {
   const { t } = useTranslation();
   const { isDraggable } = useDragSwap();
 
@@ -31,4 +31,4 @@ const ActivityFollowsPage = () => {
   );
 };
 
-export default ActivityFollowsPage;
+export default ActivityFollows;
