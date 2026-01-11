@@ -1,7 +1,7 @@
-import ColumnHeader from '@/components/Column/ColumnHeader';
-import ColumnLayout from '@/components/Column/ColumnLayout';
-import MoreDropdown from '@/components/Column/MoreDropdown';
-import PinColumn from '@/components/Column/PinColumn';
+import ColumnHeader from '@/components/column/ColumnHeader';
+import ColumnLayout from '@/components/column/ColumnLayout';
+import MoreDropdown from '@/components/column/MoreDropdown';
+import PinColumn from '@/components/column/PinColumn';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,

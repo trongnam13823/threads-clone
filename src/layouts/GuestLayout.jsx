@@ -1,11 +1,11 @@
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, Outlet } from "react-router";
-import { useUserInfoQuery } from "@/services/auth/authService";
-import { SplashStatus, setSplashFadingOut } from "@/features/splash/splashSlice";
-import { setUserInfo } from "@/features/auth/authSlice";
-import { useEffect } from "react";
-import Splash from "../components/Splash";
-import paths from "@/configs/paths";
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate, Outlet } from 'react-router';
+import { useUserInfoQuery } from '@/services/auth/authService';
+import { SplashStatus, setSplashFadingOut } from '@/features/splash/splashSlice';
+import { setUserInfo } from '@/features/auth/authSlice';
+import { useEffect } from 'react';
+import Splash from '../components/splash';
+import paths from '@/configs/paths';
 
 function GuestLayout() {
   const dispatch = useDispatch();

@@ -4,7 +4,7 @@ import {
   SplashStatus,
 } from '@/features/splash/splashSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { Logo } from '../Logo';
+import { Logo } from '../logo';
 
 const DURATION = 300;
 const ANIMATION = {

@@ -1,5 +1,5 @@
-import CreateFeedMenuItem from '@/components/Column/CreateFeedMenuItem';
-import MoreDropdown from '@/components/Column/MoreDropdown';
+import CreateFeedMenuItem from '@/components/column/CreateFeedMenuItem';
+import MoreDropdown from '@/components/column/MoreDropdown';
 import ForYou from './ForYou';
 
 export default function HomePage() {

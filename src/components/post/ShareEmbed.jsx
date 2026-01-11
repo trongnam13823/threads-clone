@@ -3,7 +3,7 @@ import { Button } from '../ui/button';
 import paths from '@/configs/paths';
 import copy from 'copy-to-clipboard';
 import { toast } from 'sonner';
-import InitialLoading from '../Loading/InitialLoading';
+import InitialLoading from '../loading/InitialLoading';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 

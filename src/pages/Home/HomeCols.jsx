@@ -6,7 +6,7 @@ import { useDragSwap } from '@/hooks/useDragSwap';
 import DragSwapProvider from '@/contexts/dragSwap/components/DragSwapProvider';
 import paths from '@/configs/paths';
 import PageStackProvider from '@/contexts/pageStack/components/PageStackProvider';
-import PinMenu from '@/components/Column/PinMenu';
+import PinMenu from '@/components/column/PinMenu';
 
 export default function HomeCols({ className, pageStackName }) {
   const dispatch = useDispatch();

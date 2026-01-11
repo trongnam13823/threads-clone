@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import ColumnContent from '@/components/Column/ColumnContent';
+import ColumnContent from '@/components/column/ColumnContent';
 
 const ActivityReposts = () => {
   const { t } = useTranslation();

@@ -1,4 +1,4 @@
-import { Logo } from '../Logo';
+import { Logo } from '../logo';
 import { Button } from '../ui/button';
 import { HeartIcon, HomeIcon, PlusIcon, SearchIcon, UserIcon } from 'lucide-react';
 import paths from '@/configs/paths';

@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import VerifiedBadge from '@/components/User/VerifiedBadge';
-import FollowButton from '../User/FollowButton';
+import VerifiedBadge from '@/components/user/VerifiedBadge';
+import FollowButton from '../user/FollowButton';
 import { useTranslation } from 'react-i18next';
 
 export const SearchUserItem = memo(({ user }) => {

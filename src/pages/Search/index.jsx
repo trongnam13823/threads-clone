@@ -1,5 +1,5 @@
-import SuggestionsList from '@/components/Search/SuggestionsList';
-import SearchResultsList from '@/components/Search/SearchResultsList';
+import SuggestionsList from '@/components/search/SuggestionsList';
+import SearchResultsList from '@/components/search/SearchResultsList';
 import { useSelector } from 'react-redux';
 
 const SearchPage = () => {

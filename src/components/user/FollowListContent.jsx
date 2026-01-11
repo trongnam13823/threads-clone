@@ -10,10 +10,10 @@ import useInfiniteScroll from '@/contexts/infiniteScroll/hooks/useInfiniteScroll
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { useSelector } from 'react-redux';
-import LoadMoreTrigger from '@/components/Loading/LoadMoreTrigger';
-import InitialLoading from '@/components/Loading/InitialLoading';
-import EmptyResults from '@/components/Loading/EmptyResults';
-import ReloadIndicator from '@/components/Loading/ReloadIndicator';
+import LoadMoreTrigger from '@/components/loading/LoadMoreTrigger';
+import InitialLoading from '@/components/loading/InitialLoading';
+import EmptyResults from '@/components/loading/EmptyResults';
+import ReloadIndicator from '@/components/loading/ReloadIndicator';
 
 const TABS = {
   FOLLOWINGS: 'followings',

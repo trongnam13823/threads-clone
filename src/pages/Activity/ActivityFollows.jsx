@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import ColumnContent from '@/components/Column/ColumnContent';
-import MoreDropdown from '@/components/Column/MoreDropdown';
-import PinColumn from '@/components/Column/PinColumn';
-import CreateFeedMenuItem from '@/components/Column/CreateFeedMenuItem';
+import ColumnContent from '@/components/column/ColumnContent';
+import MoreDropdown from '@/components/column/MoreDropdown';
+import PinColumn from '@/components/column/PinColumn';
+import CreateFeedMenuItem from '@/components/column/CreateFeedMenuItem';
 import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import useDragSwap from '@/contexts/dragSwap/hooks/useDragSwap';
 

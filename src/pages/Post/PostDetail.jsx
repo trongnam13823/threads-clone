@@ -1,20 +1,20 @@
 import { useTranslation } from 'react-i18next';
-import ColumnContent from '@/components/Column/ColumnContent';
+import ColumnContent from '@/components/column/ColumnContent';
 import { PostCard } from '@/components/post/PostCard';
 import postService, {
   useGetPostDetailQuery,
   useGetPostRepliesQuery,
 } from '@/services/post/postService';
 import { ChevronDownIcon, ChevronRightIcon } from 'lucide-react';
-import LoadMoreTrigger from '@/components/Loading/LoadMoreTrigger';
-import ReloadIndicator from '@/components/Loading/ReloadIndicator';
-import InitialLoading from '@/components/Loading/InitialLoading';
-import EmptyResults from '@/components/Loading/EmptyResults';
+import LoadMoreTrigger from '@/components/loading/LoadMoreTrigger';
+import ReloadIndicator from '@/components/loading/ReloadIndicator';
+import InitialLoading from '@/components/loading/InitialLoading';
+import EmptyResults from '@/components/loading/EmptyResults';
 import useInfiniteList from '@/hooks/useInfiniteQueryList';
 import { useSelector } from 'react-redux';
 import useParams from '@/contexts/pageStack/components/useParams';
-import MoreDropdown from '@/components/Column/MoreDropdown';
-import PinColumn from '@/components/Column/PinColumn';
+import MoreDropdown from '@/components/column/MoreDropdown';
+import PinColumn from '@/components/column/PinColumn';
 
 export default function PostDetail() {
   const { t } = useTranslation();

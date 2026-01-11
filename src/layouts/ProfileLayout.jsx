@@ -1,5 +1,5 @@
-import ColumnHeader from '@/components/Column/ColumnHeader';
-import ColumnLayout from '@/components/Column/ColumnLayout';
+import ColumnHeader from '@/components/column/ColumnHeader';
+import ColumnLayout from '@/components/column/ColumnLayout';
 import NavLink from '@/contexts/pageStack/components/NavLink';
 import paths from '@/configs/paths';
 import { cn } from '@/lib/utils';
@@ -7,10 +7,10 @@ import { useSelector } from 'react-redux';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { SquareKanbanIcon, InstagramIcon } from 'lucide-react';
-import MoreDropdown from '@/components/Column/MoreDropdown';
-import PinColumn from '@/components/Column/PinColumn';
-import ColumnContent from '@/components/Column/ColumnContent';
-import FollowList from '@/components/User/FollowList';
+import MoreDropdown from '@/components/column/MoreDropdown';
+import PinColumn from '@/components/column/PinColumn';
+import ColumnContent from '@/components/column/ColumnContent';
+import FollowList from '@/components/user/FollowList';
 import withInfiniteScroll from '@/contexts/infiniteScroll/hoc/withInfiniteScroll';
 import { useTranslation } from 'react-i18next';
 

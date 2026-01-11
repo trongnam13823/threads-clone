@@ -9,7 +9,7 @@ import { formatRelativeTime } from '@/utils/formatTime';
 import { LikeButton } from './LikeButton';
 import { RepostButton } from './RepostButton';
 import { ShareButton } from './ShareButton';
-import { Logo } from '../Logo';
+import { Logo } from '../logo';
 import PostMenu from './PostMenu';
 import copy from 'copy-to-clipboard';
 import { toast } from 'sonner';

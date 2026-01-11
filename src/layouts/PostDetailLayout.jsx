@@ -1,5 +1,5 @@
-import ColumnHeader from '@/components/Column/ColumnHeader';
-import ColumnLayout from '@/components/Column/ColumnLayout';
+import ColumnHeader from '@/components/column/ColumnHeader';
+import ColumnLayout from '@/components/column/ColumnLayout';
 import useInfiniteScroll from '@/contexts/infiniteScroll/hooks/useInfiniteScroll';
 import withInfiniteScroll from '@/contexts/infiniteScroll/hoc/withInfiniteScroll';
 

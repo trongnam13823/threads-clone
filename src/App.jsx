@@ -3,7 +3,7 @@ import routes from './configs/routes';
 import { Provider as ReduxProvider } from 'react-redux';
 import { persistor, store } from './store';
 import { PersistGate } from 'redux-persist/integration/react';
-import { ThemeProvider } from './components/Theme/ThemeProvider';
+import { ThemeProvider } from './components/theme/ThemeProvider';
 
 const App = () => {
   return (

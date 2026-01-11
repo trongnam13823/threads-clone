@@ -1,9 +1,9 @@
 import paths from '@/configs/paths';
 import NavLink from '@/contexts/pageStack/components/NavLink';
 import { cn } from '@/lib/utils';
-import ColumnHeader from '@/components/Column/ColumnHeader';
-import ColumnLayout from '@/components/Column/ColumnLayout';
-import FeedDropdownContent from '@/components/Column/FeedDropdownContent';
+import ColumnHeader from '@/components/column/ColumnHeader';
+import ColumnLayout from '@/components/column/ColumnLayout';
+import FeedDropdownContent from '@/components/column/FeedDropdownContent';
 import usePageStack from '@/contexts/pageStack/hooks/usePageStack';
 import { useSelector } from 'react-redux';
 import { ChevronDownIcon } from 'lucide-react';

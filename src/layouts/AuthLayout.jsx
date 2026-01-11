@@ -1,4 +1,4 @@
-import { Logo } from '@/components/Logo';
+import { Logo } from '@/components/logo';
 import { Outlet } from 'react-router';
 
 const AuthLayout = ({ children }) => {

@@ -3,8 +3,8 @@ import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { ArrowLeftIcon, ChevronLeftIcon } from 'lucide-react';
 import Back from '@/contexts/pageStack/components/Back';
-import { Logo } from '../Logo';
-import Menu from '../NavBar/Menu';
+import { Logo } from '../logo';
+import Menu from '../navBar/Menu';
 import useDragSwap from '@/contexts/dragSwap/hooks/useDragSwap';
 
 const ColumnHeader = memo(({ children, className, showBack = false }) => {

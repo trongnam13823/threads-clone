@@ -17,7 +17,7 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { useState } from 'react';
-import FeedDropdownContent, { FEED_UI_TYPE } from '../Column/FeedDropdownContent';
+import FeedDropdownContent, { FEED_UI_TYPE } from '../column/FeedDropdownContent';
 import { logoutThunk } from '@/features/auth/authThunks';
 import { useDispatch } from 'react-redux';
 import { useTheme } from '@/hooks/useTheme';
