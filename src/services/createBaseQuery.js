@@ -4,7 +4,7 @@ import { API_URL } from '@/configs/paths';
 import { logoutThunk } from '@/features/auth/authThunks';
 import { toast } from 'sonner';
 
-const isRefreshToken = false;
+let isRefreshToken = false;
 const refreshQueue = [];
 
 export function createBaseQuery(path) {
@@ -38,6 +38,7 @@ export function createBaseQuery(path) {
           refreshQueue.push({ resolve, reject });
         });
       } else {
+        isRefreshToken = true;
         const refreshToken = api.getState().auth.refreshToken;
 
         // nếu không có refresh token thì logout luôn
@@ -64,6 +65,10 @@ export function createBaseQuery(path) {
           // thông báo lỗi cho các request trong hàng đợi
           refreshQueue.forEach((p) => p.reject());
 
+          // xóa hàng đợi
+          refreshQueue.length = 0;
+          isRefreshToken = false;
+
           // refresh token thất bại thì logout
           api.dispatch(logoutThunk());
           return;
@@ -71,6 +76,7 @@ export function createBaseQuery(path) {
       }
 
       refreshQueue.length = 0;
+      isRefreshToken = false;
 
       // gọi lại api ban đầu với token mới
       result = await rawBaseQuery(args, api, extraOptions);
