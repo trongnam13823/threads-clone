@@ -1,4 +1,4 @@
-export const API_URL = import.meta.env.VITE_API_URL;
+export const API_URL = 'https://threads.f8team.dev/api'
 
 // Các base path tái sử dụng
 const BASE_PATHS = {
