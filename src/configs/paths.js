@@ -20,6 +20,7 @@ export default {
   login: `${BASE_PATHS.auth}/login`,
   forgotPassword: `${BASE_PATHS.auth}/forgot-password`,
   resetPassword: `${BASE_PATHS.auth}/reset-password`,
+  resetPasswordLegacy: '/reset-password',
 
   // Pages
   home: '/',

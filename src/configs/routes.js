@@ -33,6 +33,7 @@ import PostEmbed from '@/pages/Embed/PostEmbed';
 import RootLayout from '@/layouts/RootLayout';
 import PostDetailLayout from '@/layouts/PostDetailLayout';
 import PostDetail from '@/pages/Post/PostDetail';
+import { redirect } from 'react-router';
 
 export default [
   {
@@ -52,6 +53,10 @@ export default [
           {
             path: paths.resetPassword,
             Component: ResetPassword,
+          },
+          {
+            path: paths.resetPasswordLegacy,
+            loader: ({ request }) => redirect(`${paths.resetPassword}${new URL(request.url).search}`),
           },
         ],
       },
